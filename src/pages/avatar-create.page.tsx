@@ -1,9 +1,10 @@
 import { Link as JoyLink, Stack, Typography } from "@mui/joy";
 import { Link as ReactLink } from "react-router-dom";
+import { MockAvatar } from "../api/mock-avatar";
 import { ArrowRightOutlined } from "../assets/icons/arrow-right";
 import { Layout } from "../components/shared/containers";
 
-export const CreateAvatarPage = () => {
+export const AvatarCreatePage = () => {
   return (
     <Layout>
       <Stack sx={{ alignItems: "center" }}>
@@ -12,14 +13,19 @@ export const CreateAvatarPage = () => {
             <Typography sx={{ fontSize: 48, textAlign: "center" }}>
               Your Strength-Based Avatar is Almost Ready!
             </Typography>
+
             <Typography>Now, let's customize the core features to bring your Avatar to life.</Typography>
           </Stack>
+
           <Stack component="section" sx={{ alignItems: "center" }}>
-            *avatar showcase box*
+            <MockAvatar sx={{ fontSize: 280 }} />
           </Stack>
-          <Stack component="section" sx={{ alignItems: "center" }}>
-            *avatar creation box*
-          </Stack>
+
+          <Stack
+            component="section"
+            sx={{ alignItems: "center", height: 128, bgcolor: "white", borderRadius: 8 }}
+          ></Stack>
+
           <Stack component="section" sx={{ alignItems: "end" }}>
             <JoyLink
               component={ReactLink}
