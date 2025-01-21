@@ -1,10 +1,10 @@
 import { Typography } from "@mui/joy";
-import { Container } from "../components/shared/containers";
+import { Layout } from "../components/shared/containers";
 
 export const TeamPage = () => {
   return (
-    <Container hasSideBar>
+    <Layout hasSideBar>
       <Typography>Team page</Typography>
-    </Container>
+    </Layout>
   );
 };

@@ -21,22 +21,18 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
         px: 4
       }}
     >
-      {hasSubvisualIcon ? <SubvisualLogo sx={{ height: 48, width: 48 }} /> : null}
+      {hasSubvisualIcon && <SubvisualLogo sx={{ fontSize: 48 }} />}
       <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
         <IconButton size="sm">
-          <NotificationsOutlined sx={{ height: 18, width: 18 }} />
+          <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
         <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1.5 }}>
-          <Avatar sx={{ height: 48, width: 48 }} />
+          <Avatar sx={{ fontSize: 48 }} />
           <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
-            <Typography>João</Typography>
+            <Typography>John</Typography>
             <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
               <MenuButton variant="plain" size="sm">
-                {isOpen ? (
-                  <ArrowUpOutlined sx={{ height: 12, width: 12 }} />
-                ) : (
-                  <ArrowDownOutlined sx={{ height: 12, width: 12 }} />
-                )}
+                {isOpen ? <ArrowUpOutlined sx={{ fontSize: 12 }} /> : <ArrowDownOutlined sx={{ fontSize: 12 }} />}
               </MenuButton>
               <Menu>
                 <MenuItem>Test</MenuItem>

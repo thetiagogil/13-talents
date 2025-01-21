@@ -37,10 +37,8 @@ export const Sidebar = () => {
     <Stack sx={{ display: { xs: "none", lg: "flex" }, height: "100vh", flexDirection: "row" }}>
       <Stack
         sx={{
-          maxWidth: 116,
           justifyContent: "space-between",
-          py: 2,
-          px: 4
+          p: 2
         }}
       >
         <Stack
@@ -64,9 +62,7 @@ export const Sidebar = () => {
                   <IconButton variant="plain" size="lg" sx={{ width: "100%", p: 1 }}>
                     <Stack sx={{ alignItems: "center", gap: 1 }}>
                       {isSelected ? item.iconSelected : item.icon}
-                      <Typography sx={{ ...(isSelected ? itemColor(true) : null), fontSize: 12 }}>
-                        {item.name}
-                      </Typography>
+                      <Typography sx={{ ...(isSelected && itemColor(true)), fontSize: 12 }}>{item.name}</Typography>
                     </Stack>
                   </IconButton>
                 </JoyLink>
