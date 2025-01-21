@@ -31,7 +31,7 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
           <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
             <Typography>João</Typography>
             <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-              <MenuButton size="sm">
+              <MenuButton variant="plain" size="sm">
                 {isOpen ? (
                   <ArrowUpOutlined sx={{ height: 12, width: 12 }} />
                 ) : (

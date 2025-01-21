@@ -9,7 +9,7 @@ export const SubvisualLogo = (props: SvgIconProps) => {
         width="238"
         height="238"
         viewBox="0 0 238 238"
-        fill="none"
+        fill="currentColor"
       >
         <g filter="url(#filter0_d_464_12516)">
           <rect x="4" width="230" height="230" rx="115" fill="url(#pattern0_464_12516)" shape-rendering="crispEdges" />
