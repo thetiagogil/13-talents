@@ -7,6 +7,7 @@ declare module "@mui/joy/styles" {
       primaryDark: string;
       purple: string;
       pink: string;
+      grey: string;
     };
     strengths: {
       purple: string;
@@ -25,7 +26,8 @@ export const theme = extendTheme({
           primary: "#065BFB",
           primaryDark: "#2521AB",
           purple: "#FF7B9B",
-          pink: "#FF7B9B"
+          pink: "#FF7B9B",
+          grey: "#858585"
         },
         strengths: {
           purple: "#7B2381", // executing
