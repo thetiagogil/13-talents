@@ -1,13 +1,14 @@
 import { Button, IconButton, Stack, Typography } from "@mui/joy";
 import { Link } from "react-router-dom";
 import { MockAvatar } from "../api/mock-avatar";
+import { mockUser } from "../api/mock-data";
 import { ArrowRotateOutlined } from "../assets/icons/arrow-rotate";
 import { AvatarLoading } from "../components/layout/avatar-loading";
 import { CardTopStrengths } from "../components/layout/card-top-strengths";
 import { Layout } from "../components/shared/containers";
 
 export const AvatarResultsPage = () => {
-  let loading = false; // mock loading
+  const loading = mockUser.isAvatarLoading;
 
   return (
     <Layout>
@@ -35,7 +36,7 @@ export const AvatarResultsPage = () => {
                   <ArrowRotateOutlined sx={{ fontSize: 16 }} />
                 </IconButton>
 
-                <Button component={Link} to="/avatar-results">
+                <Button component={Link} to="/personal">
                   Go to dashboard
                 </Button>
               </Stack>
