@@ -1,6 +1,6 @@
 import { SvgIcon, SvgIconProps } from "@mui/joy";
 
-export const ProfileOutlined = (props: SvgIconProps) => {
+export const PersonalOutlined = (props: SvgIconProps) => {
   return (
     <SvgIcon {...props}>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20" fill="none">
@@ -21,7 +21,7 @@ export const ProfileOutlined = (props: SvgIconProps) => {
   );
 };
 
-export const ProfileFilled = (props: SvgIconProps) => {
+export const PersonalFilled = (props: SvgIconProps) => {
   return (
     <SvgIcon {...props}>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="20" viewBox="0 0 16 20" fill="none">
