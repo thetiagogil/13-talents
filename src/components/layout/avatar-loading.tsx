@@ -1,27 +1,28 @@
 import { CircularProgress, Stack, Typography } from "@mui/joy";
 import { MockAvatar } from "../../api/mock-avatar";
+import { colors } from "../../utils/colors";
 
 export const AvatarLoading = () => {
   return (
-    <Stack
-      sx={{
-        alignItems: "center",
-        py: 10
-      }}
-    >
-      <Stack sx={{ bgcolor: "#038DEF", alignItems: "center", gap: 4, py: 12, px: 28, borderRadius: 32 }}>
-        <Stack component="section">
-          <Typography sx={{ fontSize: 48, color: "neutral.white" }}>Hang on, superhero.</Typography>
+    <Stack alignItems="center" py={10}>
+      <Stack bgcolor={colors.background.avatarLoading} alignItems="center" px={28} py={12} borderRadius={32} gap={4}>
+        <Stack>
+          <Typography level="h1" textColor="neutral.white">
+            Hang on, superhero.
+          </Typography>
         </Stack>
-        <Stack component="section">
+
+        <Stack>
           <CircularProgress variant="soft" />
         </Stack>
-        <Stack component="section">
-          <Typography sx={{ color: "neutral.white" }}>
+
+        <Stack>
+          <Typography level="body-md" textColor="neutral.white">
             We’re putting the final touches on your Avatar’s powers.
           </Typography>
         </Stack>
-        <Stack component="section">
+
+        <Stack>
           <MockAvatar sx={{ fontSize: 160 }} />
         </Stack>
       </Stack>

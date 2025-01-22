@@ -14,22 +14,20 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
 
   return (
     <Stack
-      sx={{
-        flexDirection: "row",
-        justifyContent: hasSubvisualIcon ? "space-between" : "end",
-        alignItems: "center",
-        py: 2,
-        px: 3
-      }}
+      direction="row"
+      justifyContent={hasSubvisualIcon ? "space-between" : "end"}
+      alignItems="center"
+      px={3}
+      py={2}
     >
       {hasSubvisualIcon && <SubvisualLogo sx={{ fontSize: 48 }} />}
-      <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+      <Stack direction="row" alignItems="center" gap={2}>
         <IconButton size="sm">
           <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
-        <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1.5 }}>
+        <Stack direction="row" alignItems="center" gap={1.5}>
           <Avatar sx={{ fontSize: 48, border: "2px solid", borderColor: "subvisual.pink" }} />
-          <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
+          <Stack direction="row" alignItems="center" gap={1}>
             <Typography>John</Typography>
             <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
               <MenuButton variant="plain" size="sm">
