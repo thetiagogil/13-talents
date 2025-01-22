@@ -1,10 +1,10 @@
 import { Typography } from "@mui/joy";
 import { Layout } from "../components/shared/containers";
 
-export const HomePage = () => {
+export const PersonalPage = () => {
   return (
-    <Layout>
-      <Typography>Hello World</Typography>
+    <Layout hasSideBar>
+      <Typography>Personal page</Typography>
     </Layout>
   );
 };
