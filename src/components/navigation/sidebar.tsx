@@ -5,33 +5,32 @@ import { PersonalFilled, PersonalOutlined } from "../../assets/icons/personal-ic
 import { SubvisualLogo } from "../../assets/icons/subvisual-logo";
 import { TeamFilled, TeamOutlined } from "../../assets/icons/team-icon";
 
+const sidebarItemStyle = { fontSize: 28 };
+const sidebarItemColor = (isSelected: boolean) =>
+  isSelected ? { color: "subvisual.primary" } : { color: "subvisual.grey" };
+const sidebarItems = [
+  {
+    name: "Personal",
+    path: "/personal",
+    icon: <PersonalOutlined sx={{ ...sidebarItemStyle, ...sidebarItemColor(false) }} />,
+    iconSelected: <PersonalFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />
+  },
+  {
+    name: "Team",
+    path: "/team",
+    icon: <TeamOutlined sx={{ ...sidebarItemStyle, ...sidebarItemColor(false) }} />,
+    iconSelected: <TeamFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />
+  },
+  {
+    name: "Learn",
+    path: "/learn",
+    icon: <LearnOutlined sx={{ ...sidebarItemStyle, ...sidebarItemColor(false) }} />,
+    iconSelected: <LearnFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />
+  }
+] as const;
+
 export const Sidebar = () => {
   const { pathname } = useLocation();
-
-  const itemStyle = { fontSize: 28 };
-  const itemColor = (isSelected: boolean) =>
-    isSelected ? { color: "subvisual.primary" } : { color: "subvisual.grey" };
-
-  const sidebarItems = [
-    {
-      name: "Personal",
-      path: "/personal",
-      icon: <PersonalOutlined sx={{ ...itemStyle, ...itemColor(false) }} />,
-      iconSelected: <PersonalFilled sx={{ ...itemStyle, ...itemColor(true) }} />
-    },
-    {
-      name: "Team",
-      path: "/team",
-      icon: <TeamOutlined sx={{ ...itemStyle, ...itemColor(false) }} />,
-      iconSelected: <TeamFilled sx={{ ...itemStyle, ...itemColor(true) }} />
-    },
-    {
-      name: "Learn",
-      path: "/learn",
-      icon: <LearnOutlined sx={{ ...itemStyle, ...itemColor(false) }} />,
-      iconSelected: <LearnFilled sx={{ ...itemStyle, ...itemColor(true) }} />
-    }
-  ] as const;
 
   return (
     <Stack sx={{ display: { xs: "none", lg: "flex" }, height: "100vh", flexDirection: "row" }}>
@@ -62,7 +61,9 @@ export const Sidebar = () => {
                   <IconButton variant="plain" size="lg" sx={{ width: "100%", p: 1 }}>
                     <Stack sx={{ alignItems: "center", gap: 1 }}>
                       {isSelected ? item.iconSelected : item.icon}
-                      <Typography sx={{ ...(isSelected && itemColor(true)), fontSize: 12 }}>{item.name}</Typography>
+                      <Typography sx={{ ...(isSelected && sidebarItemColor(true)), fontSize: 12 }}>
+                        {item.name}
+                      </Typography>
                     </Stack>
                   </IconButton>
                 </JoyLink>

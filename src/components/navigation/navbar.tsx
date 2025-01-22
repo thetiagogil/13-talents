@@ -11,6 +11,7 @@ type NavbarProps = {
 
 export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Stack
       sx={{
