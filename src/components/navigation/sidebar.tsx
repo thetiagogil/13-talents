@@ -33,11 +33,11 @@ export const Sidebar = () => {
   const { pathname } = useLocation();
 
   return (
-    <Stack sx={{ display: { xs: "none", lg: "flex" }, height: "100vh", flexDirection: "row" }}>
+    <Stack sx={{ display: { xs: "none", lg: "flex" }, minHeight: "100vh", flexDirection: "row" }}>
       <Stack
         sx={{
           justifyContent: "space-between",
-          p: 2
+          p: 3
         }}
       >
         <Stack
