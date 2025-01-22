@@ -19,7 +19,7 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
         justifyContent: hasSubvisualIcon ? "space-between" : "end",
         alignItems: "center",
         py: 2,
-        px: 4
+        px: 3
       }}
     >
       {hasSubvisualIcon && <SubvisualLogo sx={{ fontSize: 48 }} />}
@@ -28,7 +28,7 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
           <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
         <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1.5 }}>
-          <Avatar sx={{ fontSize: 48 }} />
+          <Avatar sx={{ fontSize: 48, border: "2px solid", borderColor: "subvisual.pink" }} />
           <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
             <Typography>John</Typography>
             <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>

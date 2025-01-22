@@ -66,7 +66,7 @@ const AccordionItem = ({
               boxShadow: "0px 4px 4px 0px #0000001A"
             }}
           >
-            <Typography sx={{ fontSize: 18, color: "white" }}>{number}</Typography>
+            <Typography sx={{ fontSize: 18, color: "neutral.white" }}>{number}</Typography>
           </Box>
           <Typography sx={{ fontSize: 18 }}>{label}</Typography>
         </Stack>
@@ -93,7 +93,7 @@ const AccordionItem = ({
 const StrengthItem = ({ color, label, percentage }: { color: string; label: string; percentage: number }) => (
   <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
     <Box sx={{ bgcolor: color, width: 15, height: 15, borderRadius: "50%" }} />
-    <Typography sx={{ fontSize: 12, color: "subvisual.grey" }}>
+    <Typography sx={{ fontSize: 12 }}>
       {label} <strong>{percentage}%</strong>
     </Typography>
   </Stack>
@@ -101,7 +101,7 @@ const StrengthItem = ({ color, label, percentage }: { color: string; label: stri
 
 export const CardTopStrengths = () => {
   return (
-    <Stack sx={{ maxWidth: 440, bgcolor: "white", mb: 2, p: 4, gap: 4, borderRadius: 20 }}>
+    <Stack sx={{ maxWidth: 440, bgcolor: "neutral.white", mb: 2, p: 4, gap: 4, borderRadius: 20 }}>
       <Typography sx={{ fontSize: 24 }}>Your Top 10 Strengths</Typography>
 
       <AccordionGroup disableDivider sx={{ gap: 0.75 }}>

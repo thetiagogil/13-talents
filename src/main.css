@@ -1,0 +1,11 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: linear-gradient(
+		135deg,
+		var(--joy-palette-neutral-white),
+		var(--joy-palette-neutral-lightest)
+	);
+	min-height: 100vh;
+}

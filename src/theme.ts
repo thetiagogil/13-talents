@@ -1,19 +1,31 @@
 import { extendTheme } from "@mui/joy/styles";
+import { addHexTransparency } from "./utils/add-hex-transparency";
 
 declare module "@mui/joy/styles" {
   interface Palette {
     subvisual: {
-      primary: string;
-      primaryDark: string;
-      purple: string;
-      pink: string;
-      grey: string;
+      primary: `#${string}`;
+      primaryDark: `#${string}`;
+      purple: `#${string}`;
+      pink: `#${string}`;
     };
     strengths: {
-      purple: string;
-      green: string;
-      orange: string;
-      blue: string;
+      purple: `#${string}`;
+      green: `#${string}`;
+      orange: `#${string}`;
+      blue: `#${string}`;
+    };
+    neutral: {
+      white: `#${string}`;
+      lightest: `#${string}`;
+      lighter: `#${string}`;
+      light: `#${string}`;
+      baseLighter: `#${string}`;
+      baseDarker: `#${string}`;
+      dark: `#${string}`;
+      darker: `#${string}`;
+      darkest: `#${string}`;
+      black: `#${string}`;
     };
   }
 }
@@ -26,8 +38,7 @@ export const theme = extendTheme({
           primary: "#065BFB",
           primaryDark: "#2521AB",
           purple: "#FF7B9B",
-          pink: "#FF7B9B",
-          grey: "#858585"
+          pink: "#FF7B9B"
         },
         strengths: {
           purple: "#7B2381", // executing
@@ -35,15 +46,36 @@ export const theme = extendTheme({
           orange: "#E97101", // influencing
           blue: "#0070CD" // relationship building
         },
-        background: {}
+        neutral: {
+          white: "#FFFFFF",
+          lightest: "#EAEAEA",
+          lighter: "#DDDDDF",
+          light: "#B5B6BA",
+          baseLighter: "#8F8F96",
+          baseDarker: "#6A6B73",
+          dark: "#48494F",
+          darker: "#29292D",
+          darkest: "#101113",
+          black: "#000000"
+        }
       }
     }
+  },
+  fontFamily: {
+    body: "'Inter', sans-serif"
   },
   components: {
     JoyTypography: {
       styleOverrides: {
         root: () => ({
-          fontFamily: "'Inter', sans-serif"
+          lineHeight: 1
+        })
+      }
+    },
+    JoyInput: {
+      styleOverrides: {
+        root: () => ({
+          borderRadius: 20
         })
       }
     },
@@ -52,13 +84,13 @@ export const theme = extendTheme({
         root: ({ ownerState, theme }) => {
           const sharedStyles = {
             border: "2px solid",
-            borderRadius: "40px",
+            borderRadius: 20,
             transition: "0.3s"
           };
 
           const solidStyles = {
             backgroundColor: theme.palette.subvisual.primary,
-            color: "white",
+            color: theme.palette.neutral.white,
             borderColor: theme.palette.subvisual.primary,
             "&:hover": {
               backgroundColor: theme.palette.subvisual.primaryDark,
@@ -68,9 +100,9 @@ export const theme = extendTheme({
               borderColor: theme.palette.subvisual.pink
             },
             "&:disabled": {
-              backgroundColor: "lightGrey",
-              borderColor: "lightGrey",
-              color: "white"
+              backgroundColor: theme.palette.neutral.light,
+              borderColor: theme.palette.neutral.light,
+              color: theme.palette.neutral.white
             }
           };
 
@@ -83,12 +115,12 @@ export const theme = extendTheme({
               borderColor: theme.palette.subvisual.primaryDark
             },
             "&:focus": {
-              backgroundColor: "#2521AB1A",
+              backgroundColor: addHexTransparency(theme.palette.subvisual.primaryDark, "10%"),
               borderColor: theme.palette.subvisual.pink
             },
             "&:disabled": {
-              color: "lightGrey",
-              borderColor: "lightGrey"
+              color: theme.palette.neutral.light,
+              borderColor: theme.palette.neutral.light
             }
           };
 
