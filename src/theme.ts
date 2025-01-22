@@ -1,32 +1,12 @@
 import { extendTheme } from "@mui/joy/styles";
 import { addHexTransparency } from "./utils/add-hex-transparency";
+import { colors } from "./utils/colors";
 
 declare module "@mui/joy/styles" {
   interface Palette {
-    subvisual: {
-      primary: `#${string}`;
-      primaryDark: `#${string}`;
-      purple: `#${string}`;
-      pink: `#${string}`;
-    };
-    strengths: {
-      purple: `#${string}`;
-      green: `#${string}`;
-      orange: `#${string}`;
-      blue: `#${string}`;
-    };
-    neutral: {
-      white: `#${string}`;
-      lightest: `#${string}`;
-      lighter: `#${string}`;
-      light: `#${string}`;
-      baseLighter: `#${string}`;
-      baseDarker: `#${string}`;
-      dark: `#${string}`;
-      darker: `#${string}`;
-      darkest: `#${string}`;
-      black: `#${string}`;
-    };
+    subvisual: typeof colors.subvisual;
+    strengths: typeof colors.strengths;
+    neutral: typeof colors.neutral;
   }
 }
 
@@ -34,41 +14,51 @@ export const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
-        subvisual: {
-          primary: "#065BFB",
-          primaryDark: "#2521AB",
-          purple: "#FF7B9B",
-          pink: "#FF7B9B"
-        },
-        strengths: {
-          purple: "#7B2381", // executing
-          green: "#00945C", // strategic thinking
-          orange: "#E97101", // influencing
-          blue: "#0070CD" // relationship building
-        },
-        neutral: {
-          white: "#FFFFFF",
-          lightest: "#EAEAEA",
-          lighter: "#DDDDDF",
-          light: "#B5B6BA",
-          baseLighter: "#8F8F96",
-          baseDarker: "#6A6B73",
-          dark: "#48494F",
-          darker: "#29292D",
-          darkest: "#101113",
-          black: "#000000"
-        }
+        subvisual: colors.subvisual,
+        strengths: colors.strengths,
+        neutral: colors.neutral
       }
     }
   },
   fontFamily: {
-    body: "'Inter', sans-serif"
+    body: "'Inter', sans-serif",
+    display: "'Colfax', sans-serif"
+  },
+  typography: {
+    h1: {
+      fontSize: "48px"
+    },
+    h2: {
+      fontSize: "40px"
+    },
+    h3: {
+      fontSize: "36px"
+    },
+    h4: {
+      fontSize: "24px"
+    },
+    "title-lg": { fontSize: "20px", color: "neutral.black" },
+    "title-md": { fontSize: "16px" },
+    "title-sm": { fontSize: "12px" },
+    "body-lg": { fontSize: "20px" },
+    "body-md": { fontSize: "16px" },
+    "body-sm": { fontSize: "12px", color: "neutral.light" },
+    "body-xs": { fontSize: "10px" }
   },
   components: {
     JoyTypography: {
       styleOverrides: {
         root: () => ({
-          lineHeight: 1
+          lineHeight: 1,
+          fontWeight: 400
+        })
+      }
+    },
+    JoyLink: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          color: theme.palette.neutral.black,
+          textDecorationColor: theme.palette.neutral.black
         })
       }
     },
