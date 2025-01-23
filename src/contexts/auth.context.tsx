@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { getUserByEmail } from "../api/useUserApi";
+import { createUserAvatar, getUserByEmail, getUserById } from "../api/useUserApi";
 import { UserModel } from "../models/user.model";
 
 type AuthContextProps = {
@@ -7,6 +7,7 @@ type AuthContextProps = {
   isAuthenticated: boolean;
   hasAvatar: boolean;
   handleLogin: (email: string) => Promise<void>;
+  handleHasAvatar: () => Promise<void>;
   handleLogout: () => Promise<void>;
 };
 
@@ -51,6 +52,18 @@ export const AuthContextProvider = ({ children }: AuthContextProvider) => {
     }
   };
 
+  const handleHasAvatar = async () => {
+    if (!hasAvatar) {
+      await new Promise(res => setTimeout(res, 3000)); // this line is to prolong the loading state for testing purposes
+      await createUserAvatar(userId);
+      const user = await getUserById(userId);
+      if (user) {
+        setHasAvatar(user.hasAvatar);
+        window.localStorage.setItem("userLocal", JSON.stringify(user));
+      }
+    }
+  };
+
   const handleLogout = async () => {
     setUserId(null);
     setIsAuthenticated(false);
@@ -59,7 +72,7 @@ export const AuthContextProvider = ({ children }: AuthContextProvider) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userId, isAuthenticated, hasAvatar, handleLogin, handleLogout }}>
+    <AuthContext.Provider value={{ userId, isAuthenticated, hasAvatar, handleLogin, handleHasAvatar, handleLogout }}>
       {children}
     </AuthContext.Provider>
   );

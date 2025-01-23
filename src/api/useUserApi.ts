@@ -9,11 +9,34 @@ export const getUserByEmail = async (email: string) => {
       if (error.details === "The result contains 0 rows") {
         showToast("error", "Invalid credential.");
       } else {
-        showToast("error", String(error));
+        showToast("error", "Failed to get user.");
       }
     }
     return data as UserModel;
   } catch (error) {
     console.error("Failed to get user:", error);
+  }
+};
+
+export const getUserById = async (userId: string | null) => {
+  try {
+    const { data, error } = await supabase.from("users").select().eq("id", userId).single();
+    if (error) {
+      showToast("error", "Failed to get user.");
+    }
+    return data as UserModel;
+  } catch (error) {
+    console.error("Failed to get user:", error);
+  }
+};
+
+export const createUserAvatar = async (userId: string | null) => {
+  try {
+    const { error } = await supabase.from("users").update({ hasAvatar: true }).eq("id", userId).single();
+    if (error) {
+      showToast("error", "Failed to create avatar.");
+    }
+  } catch (error) {
+    console.error("Failed to create avatar:", error);
   }
 };

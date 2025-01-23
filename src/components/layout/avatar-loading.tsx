@@ -4,7 +4,7 @@ import { colors } from "../../utils/colors";
 
 export const AvatarLoading = () => {
   return (
-    <Stack alignItems="center" py={10}>
+    <Stack alignItems="center">
       <Stack bgcolor={colors.background.avatarLoading} alignItems="center" px={28} py={12} borderRadius={32} gap={4}>
         <Stack>
           <Typography level="h1" textColor="neutral.white">
