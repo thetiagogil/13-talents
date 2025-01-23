@@ -1,9 +1,3 @@
-export const mockUser = {
-  isAuth: true,
-  hasAvatar: false,
-  isAvatarLoading: false
-};
-
 export const mockTopStrengths = [
   {
     number: 1,

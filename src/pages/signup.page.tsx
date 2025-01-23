@@ -4,7 +4,7 @@ import { AuthContext } from "../contexts/auth.context";
 
 export const SignupPage = () => {
   const { handleLogin } = useContext(AuthContext);
-  const [email, setEmail] = useState<string>("tiago.gil@subvisual.academy");
+  const [email, setEmail] = useState<string>("");
   const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
 
   const handleSubmit = async (e: FormEvent) => {

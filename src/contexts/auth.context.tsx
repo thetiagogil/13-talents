@@ -1,11 +1,13 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { getUserByEmail } from "../api/useUserApi";
+import { getUserByEmail, getUserById, updateUserAvatarState } from "../api/useUserApi";
+import { UserModel } from "../models/user.model";
 
 type AuthContextProps = {
-  userId: string | null;
   isAuthenticated: boolean;
-  hasAvatar: boolean;
+  user: UserModel | null;
+  isLoadingUserData: boolean;
   handleLogin: (email: string) => Promise<void>;
+  handleHasAvatar: () => Promise<void>;
   handleLogout: () => Promise<void>;
 };
 
@@ -16,25 +18,35 @@ type AuthContextProvider = {
 export const AuthContext = createContext({} as AuthContextProps);
 
 export const AuthContextProvider = ({ children }: AuthContextProvider) => {
-  const [userId, setUserId] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [hasAvatar, setHasAvatar] = useState<boolean>(false);
+  const [user, setUser] = useState<UserModel | null>(null);
+  const [isLoadingUserData, setIsLoadingUserData] = useState(true);
 
   useEffect(() => {
-    const userId = window.localStorage.getItem("userId");
-    if (userId) {
-      setUserId(userId);
-      setIsAuthenticated(true);
-    }
+    const loadUser = async () => {
+      const storedUserId = localStorage.getItem("userId");
+      if (storedUserId) {
+        try {
+          const user = await getUserById(storedUserId);
+          setUser(user);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error("Failed to get user:", error);
+          handleLogout();
+        }
+      }
+      setIsLoadingUserData(false);
+    };
+
+    loadUser();
   }, []);
 
   const handleLogin = async (email: string) => {
     try {
       const user = await getUserByEmail(email);
       if (user) {
-        setUserId(user.id);
-        setHasAvatar(user.hasAvatar);
         window.localStorage.setItem("userId", user.id);
+        setUser(user);
         setIsAuthenticated(true);
       }
     } catch (error) {
@@ -42,15 +54,37 @@ export const AuthContextProvider = ({ children }: AuthContextProvider) => {
     }
   };
 
+  const handleHasAvatar = async () => {
+    if (user && !user.hasAvatar) {
+      try {
+        await new Promise(res => setTimeout(res, 3000)); // this line is to prolong the loading state for testing purposes
+        const updatedUser = await updateUserAvatarState(user.id);
+        if (updatedUser) {
+          setUser(updatedUser);
+        }
+      } catch (error) {
+        console.error("Failed to create avatar:", error);
+      }
+    }
+  };
+
   const handleLogout = async () => {
     setIsAuthenticated(false);
-    setUserId(null);
-    setHasAvatar(false);
+    setUser(null);
     window.localStorage.removeItem("userId");
   };
 
   return (
-    <AuthContext.Provider value={{ userId, isAuthenticated, hasAvatar, handleLogin, handleLogout }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        isLoadingUserData,
+        handleLogin,
+        handleHasAvatar,
+        handleLogout
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

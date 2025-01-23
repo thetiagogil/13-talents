@@ -11,7 +11,7 @@ type NavbarProps = {
 };
 
 export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
-  const { handleLogout } = useContext(AuthContext);
+  const { handleLogout, user } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -30,7 +30,7 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
         <Stack direction="row" alignItems="center" gap={1.5}>
           <Avatar sx={{ fontSize: 48, border: "2px solid", borderColor: "subvisual.pink" }} />
           <Stack direction="row" alignItems="center" gap={1}>
-            <Typography>John</Typography>
+            <Typography level="body-md">{user?.name}</Typography>
             <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
               <MenuButton variant="plain" size="sm">
                 {isOpen ? <ArrowUpOutlined sx={{ fontSize: 12 }} /> : <ArrowDownOutlined sx={{ fontSize: 12 }} />}
