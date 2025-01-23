@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { mockUser } from "../api/mock-data";
+import { AuthContext } from "../contexts/auth.context";
 import { AvatarCreatePage } from "../pages/avatar-create.page";
 import { AvatarResultsPage } from "../pages/avatar-results.page";
 import { LearnPage } from "../pages/learn.page";
@@ -8,9 +10,11 @@ import { SignupPage } from "../pages/signup.page";
 import { TeamPage } from "../pages/team.page";
 
 export const App = () => {
+  const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <Routes>
-      {!mockUser.isAuth ? (
+      {!isAuthenticated ? (
         <>
           <Route path="/signup" element={<SignupPage />} />
           <Route path="*" element={<Navigate to="/signup" replace />} />

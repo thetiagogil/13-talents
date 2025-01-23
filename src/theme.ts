@@ -1,5 +1,4 @@
 import { extendTheme } from "@mui/joy/styles";
-import { addHexTransparency } from "./utils/add-hex-transparency";
 import { colors } from "./utils/colors";
 
 declare module "@mui/joy/styles" {
@@ -14,6 +13,9 @@ export const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
+        primary: {
+          500: colors.subvisual.primary
+        },
         subvisual: colors.subvisual,
         strengths: colors.strengths,
         neutral: colors.neutral
@@ -71,55 +73,13 @@ export const theme = extendTheme({
     },
     JoyButton: {
       styleOverrides: {
-        root: ({ ownerState, theme }) => {
-          const sharedStyles = {
-            border: "2px solid",
-            borderRadius: 20,
-            transition: "0.3s"
-          };
-
-          const solidStyles = {
-            backgroundColor: theme.palette.subvisual.primary,
-            color: theme.palette.neutral.white,
-            borderColor: theme.palette.subvisual.primary,
-            "&:hover": {
-              backgroundColor: theme.palette.subvisual.primaryDark,
-              borderColor: theme.palette.subvisual.primaryDark
-            },
-            "&:focus": {
-              borderColor: theme.palette.subvisual.pink
-            },
-            "&:disabled": {
-              backgroundColor: theme.palette.neutral.light,
-              borderColor: theme.palette.neutral.light,
-              color: theme.palette.neutral.white
-            }
-          };
-
-          const outlinedStyles = {
-            backgroundColor: "transparent",
-            color: theme.palette.subvisual.primary,
-            borderColor: theme.palette.subvisual.primary,
-            "&:hover": {
-              color: theme.palette.subvisual.primaryDark,
-              borderColor: theme.palette.subvisual.primaryDark
-            },
-            "&:focus": {
-              backgroundColor: addHexTransparency(theme.palette.subvisual.primaryDark, "10%"),
-              borderColor: theme.palette.subvisual.pink
-            },
-            "&:disabled": {
-              color: theme.palette.neutral.light,
-              borderColor: theme.palette.neutral.light
-            }
-          };
-
-          return {
-            ...sharedStyles,
-            ...(ownerState.variant === "solid" ? solidStyles : {}),
-            ...(ownerState.variant === "outlined" ? outlinedStyles : {})
-          };
-        }
+        root: ({ theme }) => ({
+          borderRadius: 20,
+          transition: "0.3s",
+          "&:focus": {
+            borderColor: theme.palette.subvisual.pink
+          }
+        })
       }
     }
   }
