@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { mockUser } from "../api/mock-data";
 import { AuthContext } from "../contexts/auth.context";
 import { AvatarCreatePage } from "../pages/avatar-create.page";
 import { AvatarResultsPage } from "../pages/avatar-results.page";
@@ -10,7 +9,7 @@ import { SignupPage } from "../pages/signup.page";
 import { TeamPage } from "../pages/team.page";
 
 export const App = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, hasAvatar } = useContext(AuthContext);
 
   return (
     <Routes>
@@ -21,7 +20,7 @@ export const App = () => {
         </>
       ) : (
         <>
-          {!mockUser.hasAvatar ? (
+          {!hasAvatar ? (
             <>
               <Route path="/avatar-create" element={<AvatarCreatePage />} />
               <Route path="*" element={<Navigate to="/avatar-create" replace />} />
