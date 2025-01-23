@@ -1,6 +1,19 @@
 import { Box, Button, Input, Link, Stack, Typography } from "@mui/joy";
+import { FormEvent, useContext, useState } from "react";
+import { AuthContext } from "../contexts/auth.context";
 
 export const SignupPage = () => {
+  const { handleLogin } = useContext(AuthContext);
+  const [email, setEmail] = useState<string>("tiago.gil@subvisual.academy");
+  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoadingSubmit(true);
+    await handleLogin(email);
+    setIsLoadingSubmit(false);
+  };
+
   return (
     <Stack
       minHeight="100vh"
@@ -35,15 +48,21 @@ export const SignupPage = () => {
               </Typography>
             </Stack>
 
-            <Stack gap={1.5}>
-              <Input placeholder="Type your email here to enter..."></Input>
-              <Button>Continue</Button>
+            <Stack component="form" onSubmit={handleSubmit} gap={1.5}>
+              <Input
+                placeholder="Type your email here to enter..."
+                value={email}
+                onChange={e => setEmail?.(e.target.value)}
+              />
+              <Button type="submit" loading={isLoadingSubmit} disabled={email.length === 0}>
+                Continue
+              </Button>
             </Stack>
           </Stack>
 
           <Typography level="body-md" textColor="neutral.baseLighter">
             By signing up you're agreeing to our{" "}
-            <Box display={{ xs: "inline", lg: "block" }}>
+            <Box component="span" display={{ xs: "inline", lg: "block" }}>
               <Link underline="always">Terms of service</Link> & <Link underline="always">Privacy Policy</Link>.
             </Box>
           </Typography>

@@ -1,15 +1,17 @@
 import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ArrowDownOutlined } from "../../assets/icons/arrow-down";
 import { ArrowUpOutlined } from "../../assets/icons/arrow-up";
 import { NotificationsOutlined } from "../../assets/icons/notifications-icon";
 import { SubvisualLogo } from "../../assets/icons/subvisual-logo";
+import { AuthContext } from "../../contexts/auth.context";
 
 type NavbarProps = {
   hasSubvisualIcon?: boolean;
 };
 
 export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
+  const { handleLogout } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -34,9 +36,7 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
                 {isOpen ? <ArrowUpOutlined sx={{ fontSize: 12 }} /> : <ArrowDownOutlined sx={{ fontSize: 12 }} />}
               </MenuButton>
               <Menu>
-                <MenuItem>Test</MenuItem>
-                <MenuItem>Test</MenuItem>
-                <MenuItem>Test</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </Dropdown>
           </Stack>

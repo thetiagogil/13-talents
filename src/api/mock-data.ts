@@ -1,6 +1,6 @@
 export const mockUser = {
   isAuth: true,
-  hasAvatar: true,
+  hasAvatar: false,
   isAvatarLoading: false
 };
 
