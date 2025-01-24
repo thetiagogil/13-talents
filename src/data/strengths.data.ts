@@ -1,3 +1,5 @@
+import { StrengthModel } from "../models/strength.model";
+
 export const strengthsData = [
   {
     id: 1,
@@ -203,4 +205,4 @@ export const strengthsData = [
     details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   }
-];
+] as StrengthModel[];
