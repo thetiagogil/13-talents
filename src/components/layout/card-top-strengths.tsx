@@ -8,23 +8,28 @@ import {
   Stack,
   Typography
 } from "@mui/joy";
-import { useState } from "react";
-import { mockTopStrengths } from "../../api/mock-data";
+import { useContext, useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
+import { AuthContext } from "../../contexts/auth.context";
+import { strengthsData } from "../../data/strengths.data";
+import { StrengthModel } from "../../models/strength.model";
 import { addHexTransparency } from "../../utils/add-hex-transparency";
-import { colors } from "../../utils/colors";
+import { colors, strengthsColor } from "../../utils/colors";
 
-const AccordionItem = ({
-  number,
-  label,
-  bgColor,
-  details
-}: {
-  number: number;
+type AccordionItemProps = {
+  rank: number;
   label: string;
-  bgColor: string;
   details: string;
-}) => {
+  category: string;
+};
+
+type StrengthItemProps = {
+  color: string;
+  label: string;
+  percentage: number;
+};
+
+const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <Accordion expanded={isExpanded} onChange={() => setIsExpanded(prev => !prev)} sx={{ gap: 0.75 }}>
@@ -53,7 +58,7 @@ const AccordionItem = ({
       >
         <Stack direction="row" alignItems="center" gap={2}>
           <Box
-            bgcolor={bgColor}
+            bgcolor={() => strengthsColor(category)}
             width={36}
             textAlign="center"
             py={0.5}
@@ -61,7 +66,7 @@ const AccordionItem = ({
             boxShadow={`0px 4px 4px 0px ${addHexTransparency(colors.neutral.black, "10%")}`}
           >
             <Typography level="body-md" textColor="neutral.white">
-              {number}
+              {rank}
             </Typography>
           </Box>
           <Typography level="body-md">{label}</Typography>
@@ -87,7 +92,7 @@ const AccordionItem = ({
   );
 };
 
-const StrengthItem = ({ color, label, percentage }: { color: string; label: string; percentage: number }) => (
+const StrengthItem = ({ color, label, percentage }: StrengthItemProps) => (
   <Stack direction="row" alignItems="center" gap={1}>
     <Box bgcolor={color} height={16} width={16} borderRadius="50%" />
     <Typography level="body-sm">
@@ -96,20 +101,34 @@ const StrengthItem = ({ color, label, percentage }: { color: string; label: stri
   </Stack>
 );
 
+const userTopStrengthsArray = (userStrengths: number[] | undefined, strengths: StrengthModel[]) => {
+  let newArray = [] as StrengthModel[];
+
+  strengths.forEach(strengthOjb => {
+    userStrengths?.forEach(userStrength => {
+      userStrength === strengthOjb.id && newArray.push(strengthOjb);
+    });
+  });
+
+  return newArray;
+};
+
 export const CardTopStrengths = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <Stack bgcolor="neutral.white" maxWidth={440} mb={2} p={4} gap={4} borderRadius={20}>
       <Typography level="h4">Your Top 10 Strengths</Typography>
 
       <AccordionGroup disableDivider>
         <Stack gap={0.75}>
-          {mockTopStrengths.map((item, index) => (
+          {userTopStrengthsArray(user?.strengths, strengthsData).map((item, index) => (
             <AccordionItem
               key={index}
-              number={item.number}
+              rank={index + 1}
               label={item.label}
-              bgColor={item.bgColor}
               details={item.details}
+              category={item.category}
             />
           ))}
         </Stack>

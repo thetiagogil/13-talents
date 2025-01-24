@@ -27,3 +27,10 @@ export const colors = {
     avatarLoading: "#038DEF"
   }
 };
+
+export const strengthsColor = (strength: string) => {
+  if (strength.toLocaleLowerCase() === "executing") return "strengths.purple";
+  if (strength.toLocaleLowerCase() === "strategic thinking") return "strengths.green";
+  if (strength.toLocaleLowerCase() === "influencing") return "strengths.orange";
+  if (strength.toLocaleLowerCase() === "relationship building") return "strengths.blue";
+};

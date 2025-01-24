@@ -1,206 +1,206 @@
 export const strengthsData = [
   {
     id: 1,
-    name: "Achiever",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Achiever",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 2,
-    name: "Activator",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Activator",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 3,
-    name: "Adaptability",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Adaptability",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 4,
-    name: "Analytical",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Analytical",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 5,
-    name: "Arranger",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Arranger",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 6,
-    name: "Belief",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Belief",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 7,
-    name: "Command",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Command",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 8,
-    name: "Communication",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Communication",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 9,
-    name: "Competition",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Competition",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 10,
-    name: "Connectedness",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Connectedness",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 11,
-    name: "Consistency",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Consistency",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 12,
-    name: "Context",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Context",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 13,
-    name: "Deliberative",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Deliberative",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 14,
-    name: "Developer",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Developer",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 15,
-    name: "Discipline",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Discipline",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 16,
-    name: "Empathy",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Empathy",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 17,
-    name: "Focus",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Focus",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 18,
-    name: "Futuristic",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Futuristic",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 19,
-    name: "Harmony",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Harmony",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 20,
-    name: "Ideation",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Ideation",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 21,
-    name: "Includer",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Includer",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 22,
-    name: "Individualization",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Individualization",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 23,
-    name: "Input",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Input",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 24,
-    name: "Intellection",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Intellection",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 25,
-    name: "Learner",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Learner",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 26,
-    name: "Maximizer",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Maximizer",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 27,
-    name: "Positivity",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Positivity",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 28,
-    name: "Relator",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Relationship building"
+    label: "Relator",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Relationship Building"
   },
   {
     id: 29,
-    name: "Responsibility",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Responsibility",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 30,
-    name: "Restorative",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Restorative",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Executing"
   },
   {
     id: 31,
-    name: "Self-Assurance",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Self-Assurance",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 32,
-    name: "Significance",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Significance",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   },
   {
     id: 33,
-    name: "Strategic",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    category: "Strategic thinking"
+    label: "Strategic",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    category: "Strategic Thinking"
   },
   {
     id: 34,
-    name: "Woo",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    label: "Woo",
+    details: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     category: "Influencing"
   }
 ];
