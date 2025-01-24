@@ -81,6 +81,34 @@ export const theme = extendTheme({
           }
         })
       }
+    },
+    JoyTabs: {
+      styleOverrides: {
+        root: () => ({
+          backgroundColor: "transparent",
+          width: "100%"
+        })
+      }
+    },
+    JoyTab: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          backgroundColor: "transparent",
+          "&.Mui-selected": {
+            backgroundColor: "transparent",
+            color: theme.palette.subvisual.primary
+          },
+          "&::after": {
+            color: theme.palette.subvisual.primary
+          },
+          "&.MuiTab-root": {
+            "&:hover": {
+              backgroundColor: "transparent",
+              color: theme.palette.subvisual.primary
+            }
+          }
+        })
+      }
     }
   }
 });

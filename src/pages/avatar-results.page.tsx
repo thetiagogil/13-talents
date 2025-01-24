@@ -2,8 +2,8 @@ import { Button, IconButton, Stack, Typography } from "@mui/joy";
 import { Link } from "react-router-dom";
 import { MockAvatar } from "../api/mock-avatar";
 import { ArrowRotateOutlined } from "../assets/icons/arrow-rotate";
-import { CardTopStrengths } from "../components/layout/card-top-strengths";
-import { Layout } from "../components/shared/containers";
+import { CardTopStrengths } from "../components/shared/card-top-strengths";
+import { Layout } from "../components/shared/layout";
 
 export const AvatarResultsPage = () => {
   return (

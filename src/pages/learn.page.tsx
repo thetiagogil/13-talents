@@ -1,5 +1,5 @@
 import { Typography } from "@mui/joy";
-import { Layout } from "../components/shared/containers";
+import { Layout } from "../components/shared/layout";
 
 export const LearnPage = () => {
   return (
