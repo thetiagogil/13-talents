@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { getUserByEmail, getUserById, updateUserAvatarState } from "../api/useUserApi";
+import { getUserByEmail, getUserById, updateUserAvatarState } from "../api/use-user.api";
 import { UserModel } from "../models/user.model";
 
 type AuthContextProps = {
