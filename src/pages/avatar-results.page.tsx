@@ -23,7 +23,7 @@ export const AvatarResultsPage = () => {
 
             <Stack alignItems="center" gap={4}>
               <MockAvatar sx={{ fontSize: 280 }} />
-              <IconButton>
+              <IconButton disabled>
                 <ArrowRotateOutlined sx={{ fontSize: 16 }} />
               </IconButton>
               <Button component={Link} to="/personal">

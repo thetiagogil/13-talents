@@ -156,7 +156,7 @@ export const CardTopStrengths = () => {
         ))}
       </Grid>
 
-      <Button variant="outlined" size="sm">
+      <Button variant="outlined" size="sm" disabled>
         See full report
       </Button>
     </Stack>

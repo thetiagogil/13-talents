@@ -29,7 +29,7 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
         </JoyLink>
       )}
       <Stack direction="row" alignItems="center" gap={1}>
-        <IconButton size="sm">
+        <IconButton size="sm" disabled>
           <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
 

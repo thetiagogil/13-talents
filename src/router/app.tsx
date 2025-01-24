@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "../contexts/auth.context";
 import { AvatarCreatePage } from "../pages/avatar-create.page";
 import { AvatarResultsPage } from "../pages/avatar-results.page";
-import { LearnPage } from "../pages/learn.page";
 import { LoadingPage } from "../pages/loading.page";
 import { PersonalPage } from "../pages/personal.page";
 import { SignupPage } from "../pages/signup.page";
@@ -35,7 +34,7 @@ export const App = () => {
                   <Route path="/avatar-results" element={<AvatarResultsPage />} />
                   <Route path="/personal" element={<PersonalPage />} />
                   <Route path="/team" element={<TeamPage />} />
-                  <Route path="/learn" element={<LearnPage />} />
+                  {/*  <Route path="/learn" element={<LearnPage />} /> */}
                   <Route path="*" element={<Navigate to="/avatar-results" replace />} />
                 </>
               )}
