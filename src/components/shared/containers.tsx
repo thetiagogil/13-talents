@@ -12,7 +12,7 @@ type LayoutProps = {
 export const Layout = ({ children, hasSideBar = false, alignCenter = false }: LayoutProps) => {
   const LayoutChildren = () => (
     <Stack sx={{ flex: 1 }}>
-      <Navbar hasSubvisualIcon />
+      <Navbar hasSubvisualIcon={hasSideBar ? false : true} />
       <Stack sx={{ ...(alignCenter && { alignItems: "center" }) }}>{children}</Stack>
     </Stack>
   );

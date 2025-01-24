@@ -51,7 +51,6 @@ export const theme = extendTheme({
       styleOverrides: {
         root: ({ ownerState, theme }) => {
           const sharedStyles = {
-            padding: "10px 20px",
             border: "2px solid",
             borderRadius: "40px",
             transition: "0.3s"
