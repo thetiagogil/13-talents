@@ -7,6 +7,9 @@ declare module "@mui/joy/styles" {
     strengths: typeof colors.strengths;
     neutral: typeof colors.neutral;
   }
+  interface StackProps {
+    fullWidth?: boolean;
+  }
 }
 
 export const theme = extendTheme({
@@ -107,6 +110,13 @@ export const theme = extendTheme({
               color: theme.palette.subvisual.primary
             }
           }
+        })
+      }
+    },
+    JoyStack: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...((ownerState as any).fullWidth && { width: "100%" }) // Cast to `any` to avoid TS error
         })
       }
     }

@@ -33,7 +33,7 @@ export const TabsContainer = ({ tabs, hasPadding }: TabsContainerProps) => {
         ))}
       </TabList>
       {tabs.map((obj, index) => (
-        <TabPanel key={index} value={index} sx={{ px: hasPadding ? { xs: 2, lg: 3 } : 0 }}>
+        <TabPanel key={index} value={index} sx={{ p: hasPadding ? { xs: 2, lg: 3 } : 0 }}>
           {obj.panel}
         </TabPanel>
       ))}

@@ -1,3 +1,4 @@
+import { ManualModel } from "./manual.model";
 import { StrengthModel } from "./strength.model";
 
 export type UserModel = {
@@ -7,4 +8,5 @@ export type UserModel = {
   title: string;
   hasAvatar: boolean;
   strengths: StrengthModel["id"][];
+  manual: ManualModel;
 };
