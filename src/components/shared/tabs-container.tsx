@@ -14,7 +14,7 @@ type TabsContainerProps = {
 export const TabsContainer = ({ tabs, hasPadding }: TabsContainerProps) => {
   return (
     <Tabs defaultValue={0}>
-      <TabList sx={{ pl: hasPadding ? 3 : 0, gap: 3 }}>
+      <TabList sx={{ justifyContent: { xs: "center", lg: "start" }, pl: hasPadding ? { xs: 0, lg: 3 } : 0, gap: 3 }}>
         {tabs.map((obj, index) => (
           <Tab
             key={index}
@@ -22,7 +22,8 @@ export const TabsContainer = ({ tabs, hasPadding }: TabsContainerProps) => {
             slotProps={{
               root: {
                 sx: {
-                  p: 0
+                  p: 0,
+                  fontSize: { xs: 14, sm: 16 }
                 }
               }
             }}
@@ -32,7 +33,7 @@ export const TabsContainer = ({ tabs, hasPadding }: TabsContainerProps) => {
         ))}
       </TabList>
       {tabs.map((obj, index) => (
-        <TabPanel key={index} value={index} sx={{ px: hasPadding ? 3 : 0 }}>
+        <TabPanel key={index} value={index} sx={{ px: hasPadding ? { xs: 2, lg: 3 } : 0 }}>
           {obj.panel}
         </TabPanel>
       ))}

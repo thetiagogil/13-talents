@@ -1,4 +1,4 @@
-import { Divider, IconButton, Link as JoyLink, Stack, Typography } from "@mui/joy";
+import { IconButton, Link as JoyLink, Stack, Typography } from "@mui/joy";
 import { Link as ReactLink, useLocation } from "react-router-dom";
 import { LearnFilled, LearnOutlined } from "../../assets/icons/learn-icon";
 import { PersonalFilled, PersonalOutlined } from "../../assets/icons/personal-icon";
@@ -36,43 +36,48 @@ export const Sidebar = () => {
   const { pathname } = useLocation();
 
   return (
-    <Stack minHeight="100vh" display={{ xs: "none", lg: "flex" }} direction="row">
-      <Stack justifyContent="space-between" p={2}>
-        <Stack alignItems="center" gap={10}>
-          <JoyLink component={ReactLink} to="/">
-            <SubvisualLogo sx={{ fontSize: 40 }} />
-          </JoyLink>
-
-          <Stack alignItems="center" gap={2}>
-            {sidebarItems.map(item => {
-              const isSelected = pathname === item.path;
-              return (
-                <JoyLink
-                  key={item.name}
-                  underline="none"
-                  disabled={item.disabled}
-                  component={ReactLink}
-                  to={item.path}
-                  width="100%"
-                  alignItems="center"
-                  gap={1}
-                >
-                  <IconButton variant="plain" size="lg" sx={{ width: "100%", p: 1 }}>
-                    <Stack alignItems="center" gap={1}>
-                      {isSelected ? item.iconSelected : item.icon}
-                      <Typography level="body-sm" sx={{ ...(isSelected && sidebarItemColor(true)) }}>
-                        {item.name}
-                      </Typography>
-                    </Stack>
-                  </IconButton>
-                </JoyLink>
-              );
-            })}
-          </Stack>
-        </Stack>
+    <Stack alignItems="center" gap={{ xs: 0, lg: 8 }}>
+      <Stack height={80} width="100%" justifyContent="center" alignItems="center">
+        <JoyLink component={ReactLink} to="/">
+          <SubvisualLogo sx={{ fontSize: 40 }} />
+        </JoyLink>
       </Stack>
 
-      <Divider orientation="vertical" />
+      <Stack width="100%" p={2} gap={2}>
+        {sidebarItems.map(item => {
+          const isSelected = pathname === item.path;
+          return (
+            <JoyLink
+              key={item.name}
+              underline="none"
+              disabled={item.disabled}
+              component={ReactLink}
+              to={item.path}
+              width="100%"
+              gap={1}
+            >
+              <IconButton
+                variant="plain"
+                size="lg"
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: { xs: "row", lg: "column " },
+                  justifyContent: "start",
+                  alignItems: "center",
+                  p: 1,
+                  gap: 1
+                }}
+              >
+                {isSelected ? item.iconSelected : item.icon}
+                <Typography level="body-sm" sx={{ ...(isSelected && sidebarItemColor(true)) }}>
+                  {item.name}
+                </Typography>
+              </IconButton>
+            </JoyLink>
+          );
+        })}
+      </Stack>
     </Stack>
   );
 };
