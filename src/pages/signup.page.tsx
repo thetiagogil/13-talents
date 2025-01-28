@@ -2,9 +2,11 @@ import { Box, Button, Input, Link, Stack, Typography } from "@mui/joy";
 import { FormEvent, useContext, useState } from "react";
 import { useGetUserByEmail } from "../api/use-user.api";
 import { AuthContext } from "../contexts/auth.context";
+import { SnackbarContext } from "../contexts/snackbar.context";
 
 export const SignupPage = () => {
   const { handleLogin } = useContext(AuthContext);
+  const { showSnackbar } = useContext(SnackbarContext);
   const [email, setEmail] = useState<string>("");
 
   const { isFetching, refetch } = useGetUserByEmail(email);
@@ -14,12 +16,12 @@ export const SignupPage = () => {
     try {
       const { data: user, error } = await refetch();
       if (error || !user) {
-        console.error("User not found.");
+        showSnackbar("danger", "Invalid credentials.");
       } else {
-        handleLogin(user);
+        await handleLogin(user);
       }
     } catch (error) {
-      console.error("Error fetching user:", error);
+      console.error(error);
     }
   };
 
