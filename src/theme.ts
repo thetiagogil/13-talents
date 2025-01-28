@@ -116,7 +116,7 @@ export const theme = extendTheme({
     JoyStack: {
       styleOverrides: {
         root: ({ ownerState }) => ({
-          ...((ownerState as any).fullWidth && { width: "100%" }) // Cast to `any` to avoid TS error
+          ...((ownerState as any).fullWidth && { width: "100%" })
         })
       }
     }

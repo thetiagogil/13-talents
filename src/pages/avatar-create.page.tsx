@@ -1,29 +1,28 @@
 import { Link as JoyLink, Stack, Typography } from "@mui/joy";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { MockAvatar } from "../api/mock-avatar";
+import { useUpdateUserAvatarState } from "../api/use-user.api";
 import { ArrowRightOutlined } from "../assets/icons/arrow-right";
 import { AvatarLoading } from "../components/layout/avatar-loading";
 import { Layout } from "../components/shared/layout";
 import { AuthContext } from "../contexts/auth.context";
 
 export const AvatarCreatePage = () => {
-  const { handleHasAvatar } = useContext(AuthContext);
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState<boolean>(false);
+  const { user, refetchUser } = useContext(AuthContext);
+  const { mutateAsync: updateUserAvatarState, isPending: isLoading, isError } = useUpdateUserAvatarState();
 
   const handleCreateAvatar = async () => {
-    setIsLoadingAvatar(true);
-    try {
-      await handleHasAvatar();
-    } catch (error) {
-      console.error("Failed to create avatar:", error);
-    } finally {
-      setIsLoadingAvatar(false);
+    if (isError) {
+      console.error("Failed creating avatar.");
+    } else {
+      await updateUserAvatarState(user.id);
+      await refetchUser();
     }
   };
 
   return (
     <Layout alignCenter sx={{ p: 2 }}>
-      {isLoadingAvatar ? (
+      {isLoading ? (
         <AvatarLoading />
       ) : (
         <Stack maxWidth={1120} gap={4}>

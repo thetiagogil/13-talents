@@ -1,17 +1,26 @@
 import { Box, Button, Input, Link, Stack, Typography } from "@mui/joy";
 import { FormEvent, useContext, useState } from "react";
+import { useGetUserByEmail } from "../api/use-user.api";
 import { AuthContext } from "../contexts/auth.context";
 
 export const SignupPage = () => {
   const { handleLogin } = useContext(AuthContext);
   const [email, setEmail] = useState<string>("");
-  const [isLoadingSubmit, setIsLoadingSubmit] = useState<boolean>(false);
+
+  const { isFetching, refetch } = useGetUserByEmail(email);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setIsLoadingSubmit(true);
-    await handleLogin(email);
-    setIsLoadingSubmit(false);
+    try {
+      const { data: user, error } = await refetch();
+      if (error || !user) {
+        console.error("User not found.");
+      } else {
+        handleLogin(user);
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   };
 
   return (
@@ -60,8 +69,8 @@ export const SignupPage = () => {
             </Stack>
 
             <Stack component="form" onSubmit={handleSubmit} gap={1.5}>
-              <Input placeholder="Type your email here..." value={email} onChange={e => setEmail?.(e.target.value)} />
-              <Button type="submit" loading={isLoadingSubmit} disabled={email.length === 0}>
+              <Input placeholder="Type your email here..." value={email} onChange={e => setEmail(e.target.value)} />
+              <Button type="submit" loading={isFetching} disabled={!email}>
                 Continue
               </Button>
             </Stack>
