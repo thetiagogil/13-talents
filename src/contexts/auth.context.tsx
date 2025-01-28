@@ -8,17 +8,17 @@ type AuthContextProps = {
   user: UserModel;
   isLoadingUserData: boolean;
   refetchUser: () => Promise<QueryObserverResult<void>>;
-  handleLogin: (user: UserModel | undefined) => void;
-  handleLogout: () => void;
+  handleLogin: (user: UserModel | undefined) => Promise<void>;
+  handleLogout: () => Promise<void>;
 };
 
-type AuthContextProvider = {
+type AuthContextProviderProps = {
   children: ReactNode;
 };
 
 export const AuthContext = createContext({} as AuthContextProps);
 
-export const AuthContextProvider = ({ children }: AuthContextProvider) => {
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(localStorage.getItem("userId") as string);
   const { data: user, isLoading: isLoadingUserData, isError, refetch: refetchUser } = useGetUserById(userId);
@@ -31,7 +31,7 @@ export const AuthContextProvider = ({ children }: AuthContextProvider) => {
     }
   }, [user, isError]);
 
-  const handleLogin = (data: UserModel | undefined) => {
+  const handleLogin = async (data: UserModel | undefined) => {
     if (data) {
       window.localStorage.setItem("userId", data.id);
       setUserId(data.id);
@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }: AuthContextProvider) => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsAuthenticated(false);
     setUserId("");
     window.localStorage.removeItem("userId");
