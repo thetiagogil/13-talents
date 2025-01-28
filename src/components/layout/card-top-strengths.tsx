@@ -11,6 +11,8 @@ import {
 import { useState } from "react";
 import { mockTopStrengths } from "../../api/mock-data";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
+import { addHexTransparency } from "../../utils/add-hex-transparency";
+import { colors } from "../../utils/colors";
 
 const AccordionItem = ({
   number,
@@ -40,43 +42,38 @@ const AccordionItem = ({
           button: {
             sx: {
               width: "100%",
-              bgcolor: "#F1F1F1",
-              py: 0.75,
-              pl: 0.75,
+              bgcolor: "neutral.lightest",
+              py: 0.5,
+              pl: 1,
               pr: 2.5,
               borderRadius: 20
             }
           }
         }}
       >
-        <Stack
-          sx={{
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 2
-          }}
-        >
+        <Stack direction="row" alignItems="center" gap={2}>
           <Box
-            sx={{
-              bgcolor: bgColor,
-              textAlign: "center",
-              width: 40,
-              py: 0.25,
-              borderRadius: 20,
-              boxShadow: "0px 4px 4px 0px #0000001A"
-            }}
+            bgcolor={bgColor}
+            width={36}
+            textAlign="center"
+            py={0.5}
+            borderRadius={20}
+            boxShadow={`0px 4px 4px 0px ${addHexTransparency(colors.neutral.black, "10%")}`}
           >
-            <Typography sx={{ fontSize: 18, color: "white" }}>{number}</Typography>
+            <Typography level="body-md" textColor="neutral.white">
+              {number}
+            </Typography>
           </Box>
-          <Typography sx={{ fontSize: 18 }}>{label}</Typography>
+          <Typography level="body-md">{label}</Typography>
         </Stack>
       </AccordionSummary>
+
       <AccordionDetails
         slotProps={{
           content: {
             sx: {
+              bgcolor: "neutral.lightest",
               width: "100%",
-              bgcolor: "#F1F1F1",
               py: 2,
               px: 3,
               borderRadius: 20
@@ -84,16 +81,16 @@ const AccordionItem = ({
           }
         }}
       >
-        <Typography sx={{ fontSize: 12 }}>{details}</Typography>
+        <Typography level="body-sm">{details}</Typography>
       </AccordionDetails>
     </Accordion>
   );
 };
 
 const StrengthItem = ({ color, label, percentage }: { color: string; label: string; percentage: number }) => (
-  <Stack sx={{ flexDirection: "row", alignItems: "center", gap: 1 }}>
-    <Box sx={{ bgcolor: color, width: 15, height: 15, borderRadius: "50%" }} />
-    <Typography sx={{ fontSize: 12, color: "subvisual.grey" }}>
+  <Stack direction="row" alignItems="center" gap={1}>
+    <Box bgcolor={color} height={16} width={16} borderRadius="50%" />
+    <Typography level="body-sm">
       {label} <strong>{percentage}%</strong>
     </Typography>
   </Stack>
@@ -101,28 +98,30 @@ const StrengthItem = ({ color, label, percentage }: { color: string; label: stri
 
 export const CardTopStrengths = () => {
   return (
-    <Stack sx={{ maxWidth: 440, bgcolor: "white", mb: 2, p: 4, gap: 4, borderRadius: 20 }}>
-      <Typography sx={{ fontSize: 24 }}>Your Top 10 Strengths</Typography>
+    <Stack bgcolor="neutral.white" maxWidth={440} mb={2} p={4} gap={4} borderRadius={20}>
+      <Typography level="h4">Your Top 10 Strengths</Typography>
 
-      <AccordionGroup disableDivider sx={{ gap: 0.75 }}>
-        {mockTopStrengths.map((item, index) => (
-          <AccordionItem
-            key={index}
-            number={item.number}
-            label={item.label}
-            bgColor={item.bgColor}
-            details={item.details}
-          />
-        ))}
+      <AccordionGroup disableDivider>
+        <Stack gap={0.75}>
+          {mockTopStrengths.map((item, index) => (
+            <AccordionItem
+              key={index}
+              number={item.number}
+              label={item.label}
+              bgColor={item.bgColor}
+              details={item.details}
+            />
+          ))}
+        </Stack>
       </AccordionGroup>
 
-      <Stack sx={{ width: "100%", flexDirection: "row", gap: 2.5 }}>
-        <Stack sx={{ width: "50%", gap: 1.5 }}>
+      <Stack width="100%" direction="row" gap={2.5}>
+        <Stack width="50%" gap={1.5}>
           <StrengthItem color="strengths.blue" label="Relationship Building" percentage={39} />
           <StrengthItem color="strengths.purple" label="Executing" percentage={23} />
         </Stack>
 
-        <Stack sx={{ width: "50%", gap: 1.5 }}>
+        <Stack width="50%" gap={1.5}>
           <StrengthItem color="strengths.orange" label="Influencing" percentage={27} />
           <StrengthItem color="strengths.green" label="Strategic Thinking" percentage={11} />
         </Stack>
