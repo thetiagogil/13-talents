@@ -13,19 +13,22 @@ const sidebarItems = [
     name: "Personal",
     path: "/personal",
     icon: <PersonalOutlined sx={{ ...sidebarItemStyle, ...sidebarItemColor(false) }} />,
-    iconSelected: <PersonalFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />
+    iconSelected: <PersonalFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />,
+    disabled: false
   },
   {
     name: "Team",
     path: "/team",
     icon: <TeamOutlined sx={{ ...sidebarItemStyle, ...sidebarItemColor(false) }} />,
-    iconSelected: <TeamFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />
+    iconSelected: <TeamFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />,
+    disabled: false
   },
   {
     name: "Learn",
     path: "/learn",
     icon: <LearnOutlined sx={{ ...sidebarItemStyle, ...sidebarItemColor(false) }} />,
-    iconSelected: <LearnFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />
+    iconSelected: <LearnFilled sx={{ ...sidebarItemStyle, ...sidebarItemColor(true) }} />,
+    disabled: true
   }
 ] as const;
 
@@ -47,6 +50,7 @@ export const Sidebar = () => {
                 <JoyLink
                   key={item.name}
                   underline="none"
+                  disabled={item.disabled}
                   component={ReactLink}
                   to={item.path}
                   width="100%"

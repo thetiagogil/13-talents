@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { MockAvatar } from "../api/mock-avatar";
 import { ArrowRightOutlined } from "../assets/icons/arrow-right";
 import { AvatarLoading } from "../components/layout/avatar-loading";
-import { Layout } from "../components/shared/containers";
+import { Layout } from "../components/shared/layout";
 import { AuthContext } from "../contexts/auth.context";
 
 export const AvatarCreatePage = () => {
