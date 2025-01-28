@@ -1,3 +1,5 @@
+import { STRENGTH_CATEGORIES } from "../lib/constants";
+
 export const colors = {
   subvisual: {
     primary: "#065BFB",
@@ -7,9 +9,9 @@ export const colors = {
   },
   strengths: {
     purple: "#7B2381", // executing
-    green: "#00945C", // strategic thinking
     orange: "#E97101", // influencing
-    blue: "#0070CD" // relationship building
+    blue: "#0070CD", // relationship building
+    green: "#00945C" // strategic thinking
   },
   neutral: {
     white: "#FFFFFF",
@@ -27,3 +29,13 @@ export const colors = {
     avatarLoading: "#038DEF"
   }
 };
+
+export const strengthsColor = STRENGTH_CATEGORIES.map((category, index) => ({
+  category,
+  color: {
+    0: "strengths.purple",
+    1: "strengths.orange",
+    2: "strengths.blue",
+    3: "strengths.green"
+  }[index]
+}));

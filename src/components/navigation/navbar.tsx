@@ -1,5 +1,6 @@
-import { Avatar, Dropdown, IconButton, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
+import { Avatar, Dropdown, IconButton, Link as JoyLink, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
 import { useContext, useState } from "react";
+import { Link as ReactLink } from "react-router-dom";
 import { ArrowDownOutlined } from "../../assets/icons/arrow-down";
 import { ArrowUpOutlined } from "../../assets/icons/arrow-up";
 import { NotificationsOutlined } from "../../assets/icons/notifications-icon";
@@ -19,28 +20,32 @@ export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
       direction="row"
       justifyContent={hasSubvisualIcon ? "space-between" : "end"}
       alignItems="center"
-      px={3}
-      py={2}
+      p={2}
+      pl={3.5}
     >
-      {hasSubvisualIcon && <SubvisualLogo sx={{ fontSize: 48 }} />}
-      <Stack direction="row" alignItems="center" gap={2}>
+      {hasSubvisualIcon && (
+        <JoyLink component={ReactLink} to="/">
+          <SubvisualLogo sx={{ fontSize: 40 }} />
+        </JoyLink>
+      )}
+      <Stack direction="row" alignItems="center" gap={1}>
         <IconButton size="sm">
           <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
-        <Stack direction="row" alignItems="center" gap={1.5}>
-          <Avatar sx={{ fontSize: 48, border: "2px solid", borderColor: "subvisual.pink" }} />
-          <Stack direction="row" alignItems="center" gap={1}>
-            <Typography level="body-md">{user?.name}</Typography>
-            <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-              <MenuButton variant="plain" size="sm">
-                {isOpen ? <ArrowUpOutlined sx={{ fontSize: 12 }} /> : <ArrowDownOutlined sx={{ fontSize: 12 }} />}
-              </MenuButton>
-              <Menu>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
-            </Dropdown>
-          </Stack>
-        </Stack>
+
+        <Avatar sx={{ fontSize: 48, border: "2px solid", borderColor: "subvisual.pink" }} />
+
+        <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+          <MenuButton variant="plain" size="sm">
+            <Stack direction="row" alignItems="center" gap={1.5}>
+              <Typography level="body-md">{user?.name}</Typography>
+              {isOpen ? <ArrowUpOutlined sx={{ fontSize: 12 }} /> : <ArrowDownOutlined sx={{ fontSize: 12 }} />}
+            </Stack>
+          </MenuButton>
+          <Menu>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+          </Menu>
+        </Dropdown>
       </Stack>
     </Stack>
   );

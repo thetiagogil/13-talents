@@ -33,21 +33,14 @@ export const Sidebar = () => {
   const { pathname } = useLocation();
 
   return (
-    <Stack sx={{ display: { xs: "none", lg: "flex" }, minHeight: "100vh", flexDirection: "row" }}>
-      <Stack
-        sx={{
-          justifyContent: "space-between",
-          p: 3
-        }}
-      >
-        <Stack
-          sx={{
-            alignItems: "center",
-            gap: 10
-          }}
-        >
-          <SubvisualLogo sx={{ fontSize: 48 }} />
-          <Stack sx={{ alignItems: "center", gap: 2 }}>
+    <Stack minHeight="100vh" display={{ xs: "none", lg: "flex" }} direction="row">
+      <Stack justifyContent="space-between" p={2}>
+        <Stack alignItems="center" gap={10}>
+          <JoyLink component={ReactLink} to="/">
+            <SubvisualLogo sx={{ fontSize: 40 }} />
+          </JoyLink>
+
+          <Stack alignItems="center" gap={2}>
             {sidebarItems.map(item => {
               const isSelected = pathname === item.path;
               return (
@@ -56,12 +49,14 @@ export const Sidebar = () => {
                   underline="none"
                   component={ReactLink}
                   to={item.path}
-                  sx={{ width: "100%", alignItems: "center", gap: 1 }}
+                  width="100%"
+                  alignItems="center"
+                  gap={1}
                 >
                   <IconButton variant="plain" size="lg" sx={{ width: "100%", p: 1 }}>
-                    <Stack sx={{ alignItems: "center", gap: 1 }}>
+                    <Stack alignItems="center" gap={1}>
                       {isSelected ? item.iconSelected : item.icon}
-                      <Typography sx={{ ...(isSelected && sidebarItemColor(true)), fontSize: 12 }}>
+                      <Typography level="body-sm" sx={{ ...(isSelected && sidebarItemColor(true)) }}>
                         {item.name}
                       </Typography>
                     </Stack>
@@ -72,6 +67,7 @@ export const Sidebar = () => {
           </Stack>
         </Stack>
       </Stack>
+
       <Divider orientation="vertical" />
     </Stack>
   );
