@@ -1,10 +1,10 @@
 import { Typography } from "@mui/joy";
-import { Layout } from "../components/shared/layout";
+import { MainContainer } from "../components/shared/main-container";
 
 export const LearnPage = () => {
   return (
-    <Layout hasSideBar>
+    <MainContainer hasSideBar>
       <Typography>Learn page</Typography>
-    </Layout>
+    </MainContainer>
   );
 };
