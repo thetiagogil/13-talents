@@ -12,7 +12,6 @@ import {
 import { useContext, useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { AuthContext } from "../../contexts/auth.context";
-import { strengthsData } from "../../data/strengths.data";
 import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { addHexTransparency } from "../../utils/add-hex-transparency";
@@ -103,7 +102,7 @@ const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => 
 const userTopStrengths = (userStrengths: number[] | undefined, strengths: StrengthModel[]) => {
   // Handle top 10 strengths array
   const topStrengths = userStrengths
-    ?.map(userStrength => strengths.find(strength => strength.id === userStrength))
+    ?.map((userStrength: number) => strengths.find(strength => strength.id === userStrength))
     .slice(0, 10) as StrengthModel[];
 
   // Handle top 10 strengths categories percentages object
@@ -124,8 +123,8 @@ const userTopStrengths = (userStrengths: number[] | undefined, strengths: Streng
 };
 
 export const StrengthsCard = () => {
-  const { user } = useContext(AuthContext);
-  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengthsData);
+  const { user, strengths } = useContext(AuthContext);
+  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths);
 
   return (
     <Stack bgcolor="neutral.white" maxWidth={440} p={4} gap={4} borderRadius={20}>
