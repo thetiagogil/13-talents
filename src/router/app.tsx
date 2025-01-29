@@ -9,11 +9,11 @@ import { SignupPage } from "../pages/signup.page";
 import { TeamPage } from "../pages/team.page";
 
 export const App = () => {
-  const { isAuthenticated, user, isLoadingUserData } = useContext(AuthContext);
+  const { isAuthenticated, user, isLoadingContext } = useContext(AuthContext);
 
   return (
     <>
-      {isLoadingUserData ? (
+      {isLoadingContext ? (
         <LoadingPage />
       ) : (
         <Routes>
