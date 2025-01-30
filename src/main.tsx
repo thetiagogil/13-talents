@@ -7,7 +7,7 @@ import { AuthContextProvider } from "./contexts/auth.context";
 import { SnackbarContextProvider } from "./contexts/snackbar.context";
 import "./main.css";
 import { App } from "./router/app";
-import { theme } from "./theme";
+import { theme } from "./theme/theme";
 
 const queryClient = new QueryClient();
 

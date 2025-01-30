@@ -6,6 +6,6 @@ type ColoredCircleProps = {
   size: number;
 };
 
-export const ColoredCircle = ({ color, size }: ColoredCircleProps) => {
-  return <Box bgcolor={getColorHex(color)} height={size} width={size} borderRadius="50%" />;
-};
+export const ColoredCircle = ({ color, size }: ColoredCircleProps) => (
+  <Box component="span" bgcolor={getColorHex(color)} height={size} width={size} borderRadius="50%" />
+);
