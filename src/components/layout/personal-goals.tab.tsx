@@ -5,6 +5,7 @@ import { AuthContext } from "../../contexts/auth.context";
 import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { KanbanSection } from "../shared/kanban-section";
+import { TabContainer } from "../shared/tabs-container";
 import { UserInfo } from "../shared/user-info";
 
 export const PersonalGoalsTab = () => {
@@ -16,7 +17,7 @@ export const PersonalGoalsTab = () => {
   };
 
   return (
-    <Stack alignItems={{ xs: "center", lg: "start" }} gap={4}>
+    <TabContainer>
       <UserInfo />
 
       <Stack width="100%" gap={4}>
@@ -32,7 +33,7 @@ export const PersonalGoalsTab = () => {
 
         <Divider />
 
-        <Stack direction="row" gap={2.5}>
+        <Stack direction="row" justifyContent={{ xs: "center", lg: "start" }} flexWrap="wrap" gap={{ xs: 6, lg: 3 }}>
           {GOALS_PROGRESS.map((progress, index) => (
             <KanbanSection
               key={index}
@@ -43,6 +44,6 @@ export const PersonalGoalsTab = () => {
           ))}
         </Stack>
       </Stack>
-    </Stack>
+    </TabContainer>
   );
 };

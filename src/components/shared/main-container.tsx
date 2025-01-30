@@ -26,19 +26,15 @@ export const MainContainer = ({ children, hasSideBar = false, alignCenter = fals
     </Stack>
   );
 
-  return (
-    <>
-      {hasSideBar ? (
-        <Stack direction="row">
-          <Stack minHeight="100vh" display={{ xs: "none", lg: "flex" }} direction="row">
-            <Sidebar />
-            <Divider orientation="vertical" />
-          </Stack>
-          <Children />
-        </Stack>
-      ) : (
-        <Children />
-      )}
-    </>
+  return hasSideBar ? (
+    <Stack direction="row">
+      <Stack minHeight="100vh" display={{ xs: "none", lg: "flex" }} direction="row">
+        <Sidebar />
+        <Divider orientation="vertical" />
+      </Stack>
+      <Children />
+    </Stack>
+  ) : (
+    <Children />
   );
 };

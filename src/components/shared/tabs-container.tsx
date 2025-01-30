@@ -1,9 +1,11 @@
-import { Tab, TabList, TabPanel, Tabs } from "@mui/joy";
+import { Stack, Tab, TabList, TabPanel, Tabs } from "@mui/joy";
+import { SxProps } from "@mui/joy/styles/types";
 import { ReactNode } from "react";
 
 type TabItem = {
   tab: string;
   panel: ReactNode;
+  disabled?: boolean;
 };
 
 type TabsContainerProps = {
@@ -11,6 +13,11 @@ type TabsContainerProps = {
   hasPadding?: boolean;
   activeTab: string | number | null;
   setActiveTab: (value: string | number | null) => void;
+};
+
+type TabContainerProps = {
+  children: ReactNode;
+  sx?: SxProps;
 };
 
 export const TabsContainer = ({ tabs, hasPadding, activeTab, setActiveTab }: TabsContainerProps) => {
@@ -29,6 +36,7 @@ export const TabsContainer = ({ tabs, hasPadding, activeTab, setActiveTab }: Tab
                 }
               }
             }}
+            disabled={obj.disabled}
           >
             {obj.tab}
           </Tab>
@@ -42,3 +50,9 @@ export const TabsContainer = ({ tabs, hasPadding, activeTab, setActiveTab }: Tab
     </Tabs>
   );
 };
+
+export const TabContainer = ({ children, sx }: TabContainerProps) => (
+  <Stack width={{ xs: "100%", xl: 1200 }} alignItems={{ xs: "center", lg: "start" }} gap={4} sx={{ ...sx }}>
+    {children}
+  </Stack>
+);

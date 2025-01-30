@@ -104,14 +104,14 @@ export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: Cr
   return (
     <Modal component="form" open={open} onClose={onClose} onSubmit={handleSave}>
       <ModalDialog>
-        <Stack width={450} gap={2.5}>
+        <Stack width={{ xs: "100%", sm: 450 }} gap={2.5}>
           <ModalClose variant="plain" sx={{ m: 1 }} onClick={onClose} />
 
           <Typography level="title-lg" fontWeight={700} textColor="neutral.dark">
             {currentGoal ? "Edit Goal" : "Create Goal"}
           </Typography>
 
-          <Stack direction="row" width="100%" gap={1}>
+          <Stack direction={{ xs: "column", sm: "row" }} width="100%" gap={1}>
             <StrengthsCategorySelect
               value={goal.strength_id}
               onChange={newSelection => setGoal(prev => ({ ...prev, strength_id: newSelection }))}
