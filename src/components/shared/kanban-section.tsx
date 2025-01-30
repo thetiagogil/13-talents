@@ -1,4 +1,4 @@
-import { Box, Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
+import { Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
 import { useContext, useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { ThreeDots } from "../../assets/icons/three-dots";
@@ -7,6 +7,7 @@ import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
 import { CreateEditGoalModal } from "../modals/create-edit-goal.modal";
+import { ColoredCircle } from "./colored-circle";
 
 type KanbanSectionProps = {
   progress: GoalProgress;
@@ -47,7 +48,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
           <Stack direction="row" alignItems="center" gap={1}>
             <Chip
               variant="outlined"
-              startDecorator={<Box bgcolor={getColorHex(progress)} height={12} width={12} borderRadius="50%" />}
+              startDecorator={<ColoredCircle color={progress} size={12} />}
               sx={{
                 bgcolor: getColorTransparency(getColorHex(progress), "20%"),
                 color: getColorHex(progress),
@@ -103,7 +104,6 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
             ))
           : goals.map(goal => {
               const strength = strengths.find(strength => strength.id === goal.strength_id);
-              const strengthColor = getColorHex(strength?.category || "");
               return (
                 <Card
                   key={goal.id}
@@ -131,8 +131,8 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
                       <Chip
                         variant="plain"
                         sx={{
-                          bgcolor: getColorTransparency(strengthColor, "20%"),
-                          color: strengthColor
+                          bgcolor: getColorTransparency(getColorHex(strength?.category || ""), "20%"),
+                          color: getColorHex(strength?.category || "")
                         }}
                       >
                         {strength?.label}
