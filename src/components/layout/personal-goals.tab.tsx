@@ -18,7 +18,7 @@ export const PersonalGoalsTab = () => {
     <Stack alignItems={{ xs: "center", lg: "start" }} gap={4}>
       <UserInfo />
 
-      <Stack gap={4}>
+      <Stack width="100%" gap={4}>
         <Stack gap={1.5}>
           <Typography level="body-md" textColor="neutral.baseDarker">
             Connect your <strong>actionable goals</strong> with the <strong>strengths</strong> you want to reinforce,
