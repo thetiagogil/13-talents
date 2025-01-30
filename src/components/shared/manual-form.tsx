@@ -41,7 +41,7 @@ export const ManualForm = ({ field, title }: EditableFormProps) => {
   const isButtonDisabled = isLoading || !tempValue.trim() || tempValue === value;
 
   return (
-    <Stack key={field} component="form" onSubmit={handleUpdateUserManual} gap={2.5}>
+    <Stack key={field} component="form" onSubmit={handleUpdateUserManual} gap={1}>
       <Stack direction="row" justifyContent="space-between" alignItems="start" gap={1}>
         <Typography level="body-md" textColor="neutral.dark" fontWeight={700}>
           {title}

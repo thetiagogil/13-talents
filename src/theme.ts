@@ -56,7 +56,7 @@ export const theme = extendTheme({
     JoyTypography: {
       styleOverrides: {
         root: () => ({
-          lineHeight: 1,
+          lineHeight: 1.2,
           fontWeight: 400
         })
       }

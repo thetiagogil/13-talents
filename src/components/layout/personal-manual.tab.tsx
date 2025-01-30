@@ -1,5 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/joy";
 import { ManualForm } from "../shared/manual-form";
+import { TabContainer } from "../shared/tabs-container";
 import { UserInfo } from "../shared/user-info";
 
 const manualInfo = [
@@ -12,7 +13,7 @@ const manualInfo = [
 
 export const PersonalManualTab = () => {
   return (
-    <Stack alignItems={{ xs: "center", lg: "start" }} gap={4}>
+    <TabContainer>
       <UserInfo />
 
       <Stack gap={4}>
@@ -27,6 +28,6 @@ export const PersonalManualTab = () => {
           <ManualForm key={field} field={field} title={title} />
         ))}
       </Stack>
-    </Stack>
+    </TabContainer>
   );
 };

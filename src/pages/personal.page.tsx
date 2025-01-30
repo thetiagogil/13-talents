@@ -16,7 +16,7 @@ export const PersonalPage = () => {
           { tab: "My profile", panel: <PersonalProfileTab /> },
           { tab: "Manual of me", panel: <PersonalManualTab /> },
           { tab: "Personal goals", panel: <PersonalGoalsTab /> },
-          { tab: "Activity", panel: <PersonalActivityTab /> }
+          { tab: "Activity", panel: <PersonalActivityTab />, disabled: true }
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}

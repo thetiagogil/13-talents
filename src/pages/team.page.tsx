@@ -12,7 +12,7 @@ export const TeamPage = () => {
         hasPadding
         tabs={[
           { tab: "Team overview", panel: <TeamOverviewTab /> },
-          { tab: "Activity", panel: <TeamActivityTab /> }
+          { tab: "Activity", panel: <TeamActivityTab />, disabled: true }
         ]}
         activeTab={activeTab}
         setActiveTab={setActiveTab}

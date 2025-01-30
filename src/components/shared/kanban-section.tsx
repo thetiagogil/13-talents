@@ -27,7 +27,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
       variant="soft"
       sx={{
         bgcolor: "neutral.lightest",
-        width: 320,
+        width: { xs: "100%", sm: 320 },
         boxShadow: `0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), "10%")}`
       }}
     >
@@ -61,7 +61,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
               {isLoading ? <Skeleton variant="text" level="body-md" width={16} /> : goals.length}
             </Typography>
           </Stack>
-          <IconButton>
+          <IconButton disabled>
             <ThreeDots sx={{ fontSize: 20 }} />
           </IconButton>
         </Stack>
@@ -95,7 +95,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
 
         {isLoading
           ? [1, 2, 3].map(index => (
-              <Card key={index} variant="soft" sx={{ bgcolor: "neutral.white" }}>
+              <Card key={index} variant="soft" sx={{ bgcolor: "neutral.white", borderColor: "neutral.white" }}>
                 <Stack gap={2}>
                   <Skeleton variant="text" level="body-md" />
                   <Skeleton variant="rectangular" height={24} width="50%" sx={{ borderRadius: 8 }} />
