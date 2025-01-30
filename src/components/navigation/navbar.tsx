@@ -73,7 +73,7 @@ export const Navbar = ({ hasSideBar }: NavbarProps) => {
             </Stack>
           </MenuButton>
 
-          <Menu>
+          <Menu placement="bottom-end">
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Dropdown>
