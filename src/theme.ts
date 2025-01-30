@@ -5,6 +5,7 @@ declare module "@mui/joy/styles" {
   interface Palette {
     subvisual: typeof colors.subvisual;
     strengths: typeof colors.strengths;
+    goals: typeof colors.goals;
     neutral: typeof colors.neutral;
   }
   interface StackProps {
@@ -21,6 +22,7 @@ export const theme = extendTheme({
         },
         subvisual: colors.subvisual,
         strengths: colors.strengths,
+        goals: colors.goals,
         neutral: colors.neutral
       }
     }
@@ -110,6 +112,15 @@ export const theme = extendTheme({
               color: theme.palette.subvisual.primary
             }
           }
+        })
+      }
+    },
+    JoyChip: {
+      styleOverrides: {
+        root: () => ({
+          fontSize: 16,
+          paddingLeft: 12,
+          paddingRight: 12
         })
       }
     },
