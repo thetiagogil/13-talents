@@ -5,6 +5,8 @@ import { AuthContext } from "../../contexts/auth.context";
 import { SnackbarContext } from "../../contexts/snackbar.context";
 import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
+import { ColoredCircle } from "../shared/colored-circle";
+import { StrengthsCategorySelect } from "../shared/strengths-category-select";
 
 type CreateEditGoalModalProps = {
   currentGoal: GoalModel | null;
@@ -14,7 +16,7 @@ type CreateEditGoalModalProps = {
 };
 
 export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: CreateEditGoalModalProps) => {
-  const { user, strengths } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { showSnackbar } = useContext(SnackbarContext);
   const [goal, setGoal] = useState<{ strength_id: number; details: string; progress: GoalProgress }>(() => ({
     strength_id: currentGoal?.strength_id || 0,
@@ -110,19 +112,11 @@ export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: Cr
           </Typography>
 
           <Stack direction="row" width="100%" gap={1}>
-            <Select
-              name="category"
+            <StrengthsCategorySelect
               value={goal.strength_id}
-              onChange={(_, newValue) => setGoal(prev => ({ ...prev, strength_id: newValue as number }))}
-              placeholder="Select a strength"
+              onChange={newSelection => setGoal(prev => ({ ...prev, strength_id: newSelection }))}
               sx={{ width: "100%" }}
-            >
-              {strengths.map(strength => (
-                <Option key={strength.id} value={strength.id}>
-                  {strength.label}
-                </Option>
-              ))}
-            </Select>
+            />
 
             <Select
               name="progress"
@@ -132,8 +126,14 @@ export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: Cr
               sx={{ width: "100%" }}
             >
               {GOALS_PROGRESS.map(progress => (
-                <Option key={progress} value={progress}>
-                  {progress}
+                <Option
+                  key={progress}
+                  value={progress}
+                  label={
+                    <Typography startDecorator={<ColoredCircle color={progress} size={12} />}>{progress}</Typography>
+                  }
+                >
+                  <Typography startDecorator={<ColoredCircle color={progress} size={12} />}>{progress}</Typography>
                 </Option>
               ))}
             </Select>

@@ -2,6 +2,7 @@ import { Divider, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { useGetGoalsByUserId } from "../../api/use-goals.api";
 import { AuthContext } from "../../contexts/auth.context";
+import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { KanbanSection } from "../shared/kanban-section";
 import { UserInfo } from "../shared/user-info";
@@ -32,9 +33,14 @@ export const PersonalGoalsTab = () => {
         <Divider />
 
         <Stack direction="row" gap={2.5}>
-          <KanbanSection progress={"To do"} goals={userGoalsBasedOnProgress("To do")} isLoading={isLoading} />
-          <KanbanSection progress={"Doing"} goals={userGoalsBasedOnProgress("Doing")} isLoading={isLoading} />
-          <KanbanSection progress={"Done"} goals={userGoalsBasedOnProgress("Done")} isLoading={isLoading} />
+          {GOALS_PROGRESS.map((progress, index) => (
+            <KanbanSection
+              key={index}
+              progress={progress as GoalProgress}
+              goals={userGoalsBasedOnProgress(progress as GoalProgress)}
+              isLoading={isLoading}
+            />
+          ))}
         </Stack>
       </Stack>
     </Stack>

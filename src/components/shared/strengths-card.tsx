@@ -16,6 +16,7 @@ import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
+import { ColoredCircle } from "./colored-circle";
 
 type AccordionItemProps = {
   rank: number;
@@ -89,7 +90,7 @@ const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) =
 const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => {
   return (
     <Stack direction="row" alignItems="center" gap={1}>
-      <Box bgcolor={getColorHex(category)} height={16} width={16} borderRadius="50%" />
+      <ColoredCircle color={category} size={16} />
       <Typography level="body-sm">
         {category} <strong>{percentage}%</strong>
       </Typography>
