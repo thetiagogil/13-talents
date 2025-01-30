@@ -1,11 +1,12 @@
-import { Box, Button, Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
-import { useContext } from "react";
+import { Box, Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
+import { useContext, useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { ThreeDots } from "../../assets/icons/three-dots";
 import { AuthContext } from "../../contexts/auth.context";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
+import { CreateEditGoalModal } from "../modals/create-edit-goal.modal";
 
 type KanbanSectionProps = {
   progress: GoalProgress;
@@ -13,11 +14,34 @@ type KanbanSectionProps = {
   isLoading: boolean;
 };
 
+export type ModalAction = "Create" | "Edit";
+
 export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps) => {
   const { strengths } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [currentGoal, setCurrentGoal] = useState<GoalModel | null>(null);
 
   return (
-    <Card variant="soft" sx={{ bgcolor: "neutral.lightest", width: 320 }}>
+    <Card
+      variant="soft"
+      sx={{
+        bgcolor: "neutral.lightest",
+        width: 320,
+        boxShadow: `0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), "10%")}`
+      }}
+    >
+      {isModalOpen && (
+        <CreateEditGoalModal
+          currentGoal={currentGoal}
+          open={isModalOpen}
+          onClose={() => {
+            setCurrentGoal(null);
+            setIsModalOpen(false);
+          }}
+          progress={progress}
+        />
+      )}
+
       <Stack gap={1.5}>
         <Stack direction="row" justifyContent="space-between">
           <Stack direction="row" alignItems="center" gap={1}>
@@ -37,27 +61,35 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
             </Typography>
           </Stack>
           <IconButton>
-            <ThreeDots sx={{ fontSize: 24 }} />
+            <ThreeDots sx={{ fontSize: 20 }} />
           </IconButton>
         </Stack>
 
         <Card
           variant="soft"
-          component={Button}
+          onClick={() => {
+            setCurrentGoal(null);
+            setIsModalOpen(true);
+          }}
           sx={{
+            cursor: "pointer",
             bgcolor: "neutral.white",
-            "&:hover": { bgcolor: getColorTransparency(getColorHex("primary"), "10%") }
+            border: "1px solid",
+            borderColor: "neutral.white",
+            alignItems: "center",
+            "&:hover": {
+              border: "1px solid",
+              borderColor: "subvisual.primary"
+            }
           }}
         >
-          <Stack alignItems="center">
-            <Typography
-              level="body-md"
-              textColor="subvisual.primary"
-              startDecorator={<PlusSignOutlined sx={{ color: "subvisual.primary", fontSize: 16 }} />}
-            >
-              Add New Task
-            </Typography>
-          </Stack>
+          <Typography
+            level="body-md"
+            textColor="subvisual.primary"
+            startDecorator={<PlusSignOutlined sx={{ color: "subvisual.primary", fontSize: 16 }} />}
+          >
+            Add New Task
+          </Typography>
         </Card>
 
         {isLoading
@@ -72,12 +104,29 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
           : goals.map(goal => {
               const strength = strengths.find(strength => strength.id === goal.strength_id);
               const strengthColor = getColorHex(strength?.category || "");
-
               return (
-                <Card key={goal.id} variant="soft" sx={{ bgcolor: "neutral.white" }}>
+                <Card
+                  key={goal.id}
+                  variant="soft"
+                  onClick={() => {
+                    if (!goal.approved) {
+                      setCurrentGoal(goal);
+                      setIsModalOpen(true);
+                    }
+                  }}
+                  sx={{
+                    cursor: "pointer",
+                    bgcolor: "neutral.white",
+                    border: "1px solid",
+                    borderColor: "neutral.white",
+                    "&:hover": {
+                      border: "1px solid",
+                      borderColor: "neutral.baseLighter"
+                    }
+                  }}
+                >
                   <Stack gap={2}>
                     <Typography level="body-md">{goal.details}</Typography>
-
                     <Stack direction="row" gap={1}>
                       <Chip
                         variant="plain"
@@ -88,7 +137,6 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
                       >
                         {strength?.label}
                       </Chip>
-
                       {goal.progress === "Done" && (
                         <Chip
                           variant="plain"

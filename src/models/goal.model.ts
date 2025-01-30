@@ -4,11 +4,12 @@ import { UserModel } from "./user.model";
 export type GoalProgress = "To do" | "Doing" | "Done";
 
 export type GoalModel = {
-  id: string;
+  id?: number;
   user_id: UserModel["id"];
   strength_id: StrengthModel["id"];
-  title: string;
   details: string;
   progress: GoalProgress;
-  approved: boolean;
+  approved?: boolean;
+  created_at?: Date;
+  updated_at?: Date;
 };
