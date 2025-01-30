@@ -1,8 +1,8 @@
-import { STRENGTH_CATEGORIES } from "../lib/constants";
+export type StrengthCategories = "Executing" | "Influencing" | "Relationship Building" | "Strategic Thinking";
 
 export type StrengthModel = {
   id: number;
   label: string;
   details: string;
-  category: (typeof STRENGTH_CATEGORIES)[number];
+  category: StrengthCategories;
 };
