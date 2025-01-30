@@ -27,8 +27,8 @@ type NavbarProps = {
 
 export const Navbar = ({ hasSideBar }: NavbarProps) => {
   const { handleLogout, user } = useContext(AuthContext);
-  const [isSidebarDrawerOpen, setisSidebarDrawerOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const [isSidebarDrawerOpen, setisSidebarDrawerOpen] = useState<boolean>(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
 
   return (
     <Grid container height={80} p={2} pl={{ xs: "auto", lg: 3.5 }}>

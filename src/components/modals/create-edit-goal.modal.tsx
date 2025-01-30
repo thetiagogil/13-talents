@@ -1,28 +1,36 @@
 import { Button, Modal, ModalClose, ModalDialog, Option, Select, Stack, Textarea, Typography } from "@mui/joy";
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useCreateGoal, useDeleteGoal, useUpdateGoal } from "../../api/use-goals.api";
-import { AuthContext } from "../../contexts/auth.context";
 import { SnackbarContext } from "../../contexts/snackbar.context";
 import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
+import { StrengthModel } from "../../models/strength.model";
 import { ColoredCircle } from "../shared/colored-circle";
 import { StrengthsCategorySelect } from "../shared/strengths-category-select";
 
 type CreateEditGoalModalProps = {
+  userId: string;
+  strengths: StrengthModel[];
   currentGoal: GoalModel | null;
   open: boolean;
   onClose: () => void;
   progress: GoalProgress;
 };
 
-export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: CreateEditGoalModalProps) => {
-  const { user } = useContext(AuthContext);
+export const CreateEditGoalModal = ({
+  userId,
+  strengths,
+  currentGoal,
+  open,
+  onClose,
+  progress
+}: CreateEditGoalModalProps) => {
   const { showSnackbar } = useContext(SnackbarContext);
-  const [goal, setGoal] = useState<{ strength_id: number; details: string; progress: GoalProgress }>(() => ({
+  const [goal, setGoal] = useState<{ strength_id: number; details: string; progress: GoalProgress }>({
     strength_id: currentGoal?.strength_id || 0,
     details: currentGoal?.details || "",
     progress: currentGoal?.progress || progress
-  }));
+  });
   const { mutate: createGoal, isPending: isCreating } = useCreateGoal();
   const { mutate: updateGoal, isPending: isUpdating } = useUpdateGoal();
   const { mutate: deleteGoal, isPending: isDeleting } = useDeleteGoal();
@@ -55,7 +63,7 @@ export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: Cr
       }
 
       updateGoal(
-        { ...goal, id: currentGoal.id, user_id: user.id },
+        { ...goal, id: currentGoal.id, user_id: userId },
         {
           onSuccess: () => {
             showSnackbar("success", "Goal updated.");
@@ -70,7 +78,7 @@ export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: Cr
       createGoal(
         {
           ...goal,
-          user_id: user.id,
+          user_id: userId,
           approved: false
         },
         {
@@ -113,6 +121,7 @@ export const CreateEditGoalModal = ({ currentGoal, open, onClose, progress }: Cr
 
           <Stack direction={{ xs: "column", sm: "row" }} width="100%" gap={1}>
             <StrengthsCategorySelect
+              strengths={strengths}
               value={goal.strength_id}
               onChange={newSelection => setGoal(prev => ({ ...prev, strength_id: newSelection }))}
               sx={{ width: "100%" }}

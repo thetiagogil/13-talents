@@ -1,4 +1,4 @@
-import { colors } from "./colors";
+import { colors } from "../theme/colors";
 
 export const getColorHex = (input: string) => {
   const word = input.toLowerCase().replace(" ", "");

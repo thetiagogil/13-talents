@@ -1,6 +1,6 @@
 import { CircularProgress, Stack, Typography } from "@mui/joy";
 import { MockAvatar } from "../../api/mock-avatar";
-import { colors } from "../../utils/colors";
+import { colors } from "../../theme/colors";
 
 export const AvatarLoading = () => {
   return (

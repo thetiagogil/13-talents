@@ -9,10 +9,8 @@ import {
   Stack,
   Typography
 } from "@mui/joy";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
-import { AuthContext } from "../../contexts/auth.context";
-import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
@@ -30,8 +28,14 @@ type StrengthsCategoryProps = {
   percentage: number;
 };
 
+type StrengthsCardProps = {
+  userTopStrengthsArray: StrengthModel[];
+  userTopStrengthsPercentages: { [k: string]: number };
+};
+
 const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   return (
     <Accordion
       expanded={isExpanded}
@@ -87,78 +91,48 @@ const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) =
   );
 };
 
-const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => {
-  return (
-    <Stack direction="row" alignItems="center" gap={1}>
-      <ColoredCircle color={category} size={16} />
-      <Typography level="body-sm">
-        {category} <strong>{percentage}%</strong>
-      </Typography>
-    </Stack>
-  );
-};
+const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => (
+  <Stack direction="row" alignItems="center" gap={1}>
+    <ColoredCircle color={category} size={16} />
+    <Typography level="body-sm">
+      {category} <strong>{percentage}%</strong>
+    </Typography>
+  </Stack>
+);
 
-const userTopStrengths = (userStrengths: number[] | undefined, strengths: StrengthModel[]) => {
-  // Handle top 10 strengths array
-  const topStrengths = userStrengths
-    ?.map((userStrength: number) => strengths.find(strength => strength.id === userStrength))
-    .slice(0, 10) as StrengthModel[];
+export const StrengthsCard = ({ userTopStrengthsArray, userTopStrengthsPercentages }: StrengthsCardProps) => (
+  <Stack bgcolor="neutral.white" maxWidth={440} p={4} gap={4} borderRadius={20}>
+    <Typography level="h4" textAlign={{ xs: "center", lg: "start" }}>
+      Your Top 10 Strengths
+    </Typography>
 
-  // Handle top 10 strengths categories percentages object
-  const length = topStrengths.length;
-  let topPercentagesInitial = Object.fromEntries(STRENGTH_CATEGORIES.map(cat => [cat, 0]));
-
-  const topPercentages = topStrengths.reduce((accumulator, strengths) => {
-    accumulator[strengths.category] = (accumulator[strengths.category] || 0) + 1;
-    return accumulator;
-  }, topPercentagesInitial);
-
-  Object.keys(topPercentages).forEach(cat => {
-    const category = cat as StrengthModel["category"];
-    topPercentages[category] = length ? Math.round((topPercentages[category] / length) * 100) : 0;
-  });
-
-  return { userTopStrengthsArray: topStrengths, userTopStrengthsPercentages: topPercentages };
-};
-
-export const StrengthsCard = () => {
-  const { user, strengths } = useContext(AuthContext);
-  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths);
-
-  return (
-    <Stack bgcolor="neutral.white" maxWidth={440} p={4} gap={4} borderRadius={20}>
-      <Typography level="h4" textAlign={{ xs: "center", lg: "start" }}>
-        Your Top 10 Strengths
-      </Typography>
-
-      <AccordionGroup disableDivider>
-        <Stack gap={1}>
-          {userTopStrengthsArray.map((item, index) => (
-            <AccordionItem
-              key={index}
-              rank={index + 1}
-              label={item.label}
-              details={item.details}
-              category={item.category}
-            />
-          ))}
-        </Stack>
-      </AccordionGroup>
-
-      <Grid container spacing={1}>
-        {Object.keys(userTopStrengthsPercentages).map((category, index) => (
-          <Grid key={index} xs={6}>
-            <StrengthsCategory
-              category={category as StrengthModel["category"]}
-              percentage={userTopStrengthsPercentages[category as StrengthModel["category"]]}
-            />
-          </Grid>
+    <AccordionGroup disableDivider>
+      <Stack gap={1}>
+        {userTopStrengthsArray.map((item, index) => (
+          <AccordionItem
+            key={index}
+            rank={index + 1}
+            label={item.label}
+            details={item.details}
+            category={item.category}
+          />
         ))}
-      </Grid>
+      </Stack>
+    </AccordionGroup>
 
-      <Button variant="outlined" size="sm" disabled>
-        See full report
-      </Button>
-    </Stack>
-  );
-};
+    <Grid container spacing={1}>
+      {Object.keys(userTopStrengthsPercentages).map((category, index) => (
+        <Grid key={index} xs={6}>
+          <StrengthsCategory
+            category={category as StrengthModel["category"]}
+            percentage={userTopStrengthsPercentages[category as StrengthModel["category"]]}
+          />
+        </Grid>
+      ))}
+    </Grid>
+
+    <Button variant="outlined" size="sm" disabled>
+      See full report
+    </Button>
+  </Stack>
+);
