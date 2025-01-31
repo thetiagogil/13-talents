@@ -1,11 +1,12 @@
-import { Autocomplete, Avatar, Button, Card, Stack, Typography } from "@mui/joy";
+import { Autocomplete, Button, Card, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { UserModel } from "../../models/user.model";
+import { UserInfo } from "../shared/user-info";
 
 type UserCardProps = {
   user: UserModel;
-  isCurrentUser?: boolean;
+  hasMe?: boolean;
 };
 
 type TeamSearchProps = {
@@ -13,19 +14,9 @@ type TeamSearchProps = {
   users: UserModel[];
 };
 
-const UserCard = ({ user, isCurrentUser }: UserCardProps) => (
+const UserCard = ({ user, hasMe }: UserCardProps) => (
   <Card variant="plain" sx={{ bgcolor: "neutral.white", p: 1.5 }}>
-    <Stack direction="row" alignItems="center" gap={1}>
-      <Avatar size="lg" />
-      <Stack gap={0.5}>
-        <Typography level="body-sm" fontSize={14} fontWeight={700}>
-          {user.name} {isCurrentUser && "(me)"}
-        </Typography>
-        <Typography level="body-sm" fontSize={14}>
-          {user.title}
-        </Typography>
-      </Stack>
-    </Stack>
+    <UserInfo user={user} fontSize={14} withAvatar hasMe={hasMe} isRow />
   </Card>
 );
 
@@ -57,7 +48,7 @@ export const TeamSearch = ({ currentUser, users }: TeamSearchProps) => {
           />
           <Button>Compare</Button>
           <Stack maxHeight={400} overflow="auto" gap={2}>
-            {!search && <UserCard user={currentUser} isCurrentUser />}
+            {!search && <UserCard user={currentUser} hasMe />}
 
             {filteredUsers.map(user => {
               return <UserCard key={user.id} user={user} />;

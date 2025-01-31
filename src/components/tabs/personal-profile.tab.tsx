@@ -12,7 +12,7 @@ export const PersonalProfileTab = () => {
   const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths);
   return (
     <TabContainer>
-      <UserInfo user={user} />
+      <UserInfo user={user} fontSize={20} />
 
       <Stack width="100%" direction={{ xs: "column", lg: "row" }} alignItems={{ xs: "center", lg: "start" }} gap={10}>
         <Stack width={{ xs: "100%", md: 600 }} alignItems="center">

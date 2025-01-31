@@ -5,6 +5,7 @@ import { useGetUsersStrengths } from "../../api/use-users-strengths.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { TeamDomains } from "../layout/team-domains";
 import { TeamSearch } from "../layout/team-search";
+import { TeamStrengths } from "../layout/team-strengths";
 import { TabContainer } from "../shared/tabs-container";
 
 export const TeamOverviewTab = () => {
@@ -16,8 +17,9 @@ export const TeamOverviewTab = () => {
     <TabContainer>
       <Stack direction="row" gap={8} width="100%">
         <TeamSearch currentUser={user || {}} users={users || []} />
-        <Stack width="100%">
+        <Stack width="100%" gap={8}>
           <TeamDomains strengths={strengths || []} usersStrengths={usersStrengths || []} />
+          <TeamStrengths users={users || []} strengths={strengths || []} usersStrengths={usersStrengths || []} />
         </Stack>
       </Stack>
     </TabContainer>

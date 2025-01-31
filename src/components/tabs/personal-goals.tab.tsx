@@ -18,7 +18,7 @@ export const PersonalGoalsTab = () => {
 
   return (
     <TabContainer>
-      <UserInfo user={user} />
+      <UserInfo user={user} fontSize={20} />
 
       <Stack width="100%" gap={4}>
         <Stack gap={1.5}>

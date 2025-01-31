@@ -19,7 +19,7 @@ export const PersonalManualTab = () => {
   const { mutateAsync: updateUserManual, isPending: isLoading } = useUpdateUserManual();
   return (
     <TabContainer>
-      <UserInfo user={user} />
+      <UserInfo user={user} fontSize={20} />
 
       <Stack gap={4}>
         <Typography level="body-md" textColor="neutral.baseDarker">
