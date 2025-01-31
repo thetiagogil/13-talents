@@ -4,7 +4,7 @@ import { useGetGoalsByUserId } from "../../api/use-goals.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
-import { KanbanSection } from "../shared/kanban-section";
+import { KanbanSection } from "../layout/kanban-section";
 import { TabContainer } from "../shared/tabs-container";
 import { UserInfo } from "../shared/user-info";
 
