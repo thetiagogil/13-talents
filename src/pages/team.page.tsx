@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { TeamActivityTab } from "../components/layout/team-activity.tab";
-import { TeamOverviewTab } from "../components/layout/team-overview.tab";
 import { MainContainer } from "../components/shared/main-container";
 import { TabsContainer } from "../components/shared/tabs-container";
+import { TeamActivityTab } from "../components/tabs/team-activity.tab";
+import { TeamOverviewTab } from "../components/tabs/team-overview.tab";
 
 export const TeamPage = () => {
   const [activeTab, setActiveTab] = useState<string | number | null>(0);
