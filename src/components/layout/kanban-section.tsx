@@ -7,7 +7,7 @@ import { StrengthModel } from "../../models/strength.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
 import { CreateEditGoalModal } from "../modals/create-edit-goal.modal";
-import { ColoredCircle } from "./colored-circle";
+import { ColoredCircle } from "../shared/colored-circle";
 
 type KanbanSectionProps = {
   userId: string;
