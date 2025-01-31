@@ -1,7 +1,8 @@
-import { Autocomplete, Button, Card, Stack, Typography } from "@mui/joy";
+import { Autocomplete, Button, Card, Skeleton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { UserModel } from "../../models/user.model";
+import { IsLoading } from "../shared/is-loading";
 import { UserInfo } from "../shared/user-info";
 
 type UserCardProps = {
@@ -12,6 +13,7 @@ type UserCardProps = {
 type TeamSearchProps = {
   currentUser: UserModel;
   users: UserModel[];
+  isloading: boolean;
 };
 
 const UserCard = ({ user, hasMe }: UserCardProps) => (
@@ -20,7 +22,7 @@ const UserCard = ({ user, hasMe }: UserCardProps) => (
   </Card>
 );
 
-export const TeamSearch = ({ currentUser, users }: TeamSearchProps) => {
+export const TeamSearch = ({ currentUser, users, isloading }: TeamSearchProps) => {
   const [search, setSearch] = useState<string>("");
 
   const filteredUsers = users
@@ -34,7 +36,7 @@ export const TeamSearch = ({ currentUser, users }: TeamSearchProps) => {
           <Typography level="title-lg" fontWeight={700}>
             Subvisual Team
           </Typography>
-          <Typography>{users.length} members</Typography>
+          {isloading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
         </Stack>
 
         <Stack gap={2}>
@@ -47,13 +49,17 @@ export const TeamSearch = ({ currentUser, users }: TeamSearchProps) => {
             sx={{ borderRadius: 20, pl: 2 }}
           />
           <Button>Compare</Button>
-          <Stack maxHeight={400} overflow="auto" gap={2}>
-            {!search && <UserCard user={currentUser} hasMe />}
 
-            {filteredUsers.map(user => {
-              return <UserCard key={user.id} user={user} />;
-            })}
-          </Stack>
+          {isloading ? (
+            <IsLoading />
+          ) : (
+            <Stack maxHeight={400} overflow="auto" gap={2}>
+              {!search && <UserCard user={currentUser} hasMe />}
+              {filteredUsers.map(user => {
+                return <UserCard key={user.id} user={user} />;
+              })}
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Card>

@@ -10,16 +10,22 @@ import { TabContainer } from "../shared/tabs-container";
 
 export const TeamOverviewTab = () => {
   const { user, strengths } = useContext(AuthContext);
-  const { data: users } = useGetUsers();
-  const { data: usersStrengths } = useGetUsersStrengths();
+  const { data: users, isFetching: isFetchingUsers } = useGetUsers();
+  const { data: usersStrengths, isFetching: isFetchingUsersStrengths } = useGetUsersStrengths();
+  const isLoading = isFetchingUsers || isFetchingUsersStrengths;
 
   return (
     <TabContainer>
-      <Stack direction="row" gap={8} width="100%">
-        <TeamSearch currentUser={user || {}} users={users || []} />
+      <Stack direction="row" gap={8} width="100%" alignItems="flex-start">
+        <TeamSearch currentUser={user || {}} users={users || []} isloading={isLoading} />
         <Stack width="100%" gap={8}>
-          <TeamDomains strengths={strengths || []} usersStrengths={usersStrengths || []} />
-          <TeamStrengths users={users || []} strengths={strengths || []} usersStrengths={usersStrengths || []} />
+          <TeamDomains strengths={strengths || []} usersStrengths={usersStrengths || []} isLoading={isLoading} />
+          <TeamStrengths
+            users={users || []}
+            strengths={strengths || []}
+            usersStrengths={usersStrengths || []}
+            isLoading={isLoading}
+          />
         </Stack>
       </Stack>
     </TabContainer>
