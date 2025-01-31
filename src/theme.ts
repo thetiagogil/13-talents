@@ -39,12 +39,12 @@ export const theme = extendTheme({
     h4: {
       fontSize: "24px"
     },
-    "title-lg": { fontSize: "20px", color: "neutral.black" },
+    "title-lg": { fontSize: "20px" },
     "title-md": { fontSize: "16px" },
     "title-sm": { fontSize: "12px" },
     "body-lg": { fontSize: "20px" },
     "body-md": { fontSize: "16px" },
-    "body-sm": { fontSize: "12px", color: "neutral.light" },
+    "body-sm": { fontSize: "12px" },
     "body-xs": { fontSize: "10px" }
   },
   components: {

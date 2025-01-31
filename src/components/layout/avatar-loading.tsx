@@ -4,28 +4,25 @@ import { colors } from "../../utils/colors";
 
 export const AvatarLoading = () => {
   return (
-    <Stack alignItems="center">
-      <Stack bgcolor={colors.background.avatarLoading} alignItems="center" px={28} py={12} borderRadius={32} gap={4}>
-        <Stack>
-          <Typography level="h1" textColor="neutral.white">
-            Hang on, superhero.
-          </Typography>
-        </Stack>
+    <Stack
+      bgcolor={colors.background.avatarLoading}
+      alignItems="center"
+      px={{ xs: 4, lg: 28 }}
+      py={{ xs: 8, lg: 12 }}
+      borderRadius={32}
+      gap={4}
+    >
+      <Typography level="h1" textColor="neutral.white" textAlign="center">
+        Hang on, superhero.
+      </Typography>
 
-        <Stack>
-          <CircularProgress variant="soft" />
-        </Stack>
+      <CircularProgress variant="soft" />
 
-        <Stack>
-          <Typography level="body-md" textColor="neutral.white">
-            We’re putting the final touches on your Avatar’s powers.
-          </Typography>
-        </Stack>
+      <Typography level="body-md" textColor="neutral.white" textAlign="center">
+        We’re putting the final touches on your Avatar’s powers.
+      </Typography>
 
-        <Stack>
-          <MockAvatar sx={{ fontSize: 160 }} />
-        </Stack>
-      </Stack>
+      <MockAvatar sx={{ fontSize: 160 }} />
     </Stack>
   );
 };

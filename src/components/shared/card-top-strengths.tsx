@@ -128,8 +128,10 @@ export const CardTopStrengths = () => {
   const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengthsData);
 
   return (
-    <Stack bgcolor="neutral.white" maxWidth={440} mb={2} p={4} gap={4} borderRadius={20}>
-      <Typography level="h4">Your Top 10 Strengths</Typography>
+    <Stack bgcolor="neutral.white" maxWidth={440} p={4} gap={4} borderRadius={20}>
+      <Typography level="h4" textAlign={{ xs: "center", lg: "start" }}>
+        Your Top 10 Strengths
+      </Typography>
 
       <AccordionGroup disableDivider>
         <Stack gap={1}>

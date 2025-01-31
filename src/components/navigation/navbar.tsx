@@ -1,4 +1,17 @@
-import { Avatar, Dropdown, IconButton, Link as JoyLink, Menu, MenuButton, MenuItem, Stack, Typography } from "@mui/joy";
+import {
+  Avatar,
+  Box,
+  Drawer,
+  Dropdown,
+  Grid,
+  IconButton,
+  Link as JoyLink,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Stack,
+  Typography
+} from "@mui/joy";
 import { useContext, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
 import { ArrowDownOutlined } from "../../assets/icons/arrow-down";
@@ -6,47 +19,65 @@ import { ArrowUpOutlined } from "../../assets/icons/arrow-up";
 import { NotificationsOutlined } from "../../assets/icons/notifications-icon";
 import { SubvisualLogo } from "../../assets/icons/subvisual-logo";
 import { AuthContext } from "../../contexts/auth.context";
+import { Sidebar } from "./sidebar";
 
 type NavbarProps = {
-  hasSubvisualIcon?: boolean;
+  hasSideBar?: boolean;
 };
 
-export const Navbar = ({ hasSubvisualIcon }: NavbarProps) => {
+export const Navbar = ({ hasSideBar }: NavbarProps) => {
   const { handleLogout, user } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isSidebarDrawerOpen, setisSidebarDrawerOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   return (
-    <Stack
-      direction="row"
-      justifyContent={hasSubvisualIcon ? "space-between" : "end"}
-      alignItems="center"
-      p={2}
-      pl={3.5}
-    >
-      {hasSubvisualIcon && (
-        <JoyLink component={ReactLink} to="/">
-          <SubvisualLogo sx={{ fontSize: 40 }} />
-        </JoyLink>
-      )}
-      <Stack direction="row" alignItems="center" gap={1}>
+    <Grid container height={80} p={2} pl={{ xs: "auto", lg: 3.5 }}>
+      <Grid xs={6} display="flex" alignItems="center" justifyContent="start">
+        {hasSideBar && (
+          <Box display={{ xs: "flex", lg: "none" }} alignItems="center">
+            <IconButton size="sm" onClick={() => setisSidebarDrawerOpen(true)}>
+              MENU
+            </IconButton>
+            <Drawer open={isSidebarDrawerOpen} onClose={() => setisSidebarDrawerOpen(false)}>
+              <Sidebar />
+            </Drawer>
+          </Box>
+        )}
+
+        {!hasSideBar && (
+          <Box display={{ xs: "none", lg: "flex" }} alignItems="center">
+            <JoyLink component={ReactLink} to="/">
+              <SubvisualLogo sx={{ fontSize: 40 }} />
+            </JoyLink>
+          </Box>
+        )}
+      </Grid>
+
+      <Grid xs={6} display="flex" alignItems="center" justifyContent="end" gap={1}>
         <IconButton size="sm" disabled>
           <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
 
-        <Avatar sx={{ fontSize: 48, border: "2px solid", borderColor: "subvisual.pink" }} />
-
-        <Dropdown open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+        <Dropdown open={isProfileMenuOpen} onOpenChange={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
           <MenuButton variant="plain" size="sm">
             <Stack direction="row" alignItems="center" gap={1.5}>
-              <Typography level="body-md">{user?.name}</Typography>
-              {isOpen ? <ArrowUpOutlined sx={{ fontSize: 12 }} /> : <ArrowDownOutlined sx={{ fontSize: 12 }} />}
+              <Avatar sx={{ fontSize: 40, border: "2px solid", borderColor: "subvisual.pink" }} />
+              <Typography level="body-md" display={{ xs: "none", lg: "inline" }}>
+                {user?.name}
+              </Typography>
+              {isProfileMenuOpen ? (
+                <ArrowUpOutlined sx={{ fontSize: 12 }} />
+              ) : (
+                <ArrowDownOutlined sx={{ fontSize: 12 }} />
+              )}
             </Stack>
           </MenuButton>
+
           <Menu>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </Dropdown>
-      </Stack>
-    </Stack>
+      </Grid>
+    </Grid>
   );
 };
