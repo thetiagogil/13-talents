@@ -8,9 +8,10 @@ import { pluralize } from "../../utils/pluralize";
 type TeamSearchProps = {
   strengths: StrengthModel[];
   usersStrengths: UsersStrengthsModel[];
+  isLoading: boolean;
 };
 
-export const TeamDomains = ({ strengths, usersStrengths }: TeamSearchProps) => (
+export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearchProps) => (
   <Stack gap={2.5}>
     <Typography level="title-lg" fontWeight={700}>
       Team's Domains
