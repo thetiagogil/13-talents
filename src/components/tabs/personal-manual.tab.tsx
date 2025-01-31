@@ -2,7 +2,7 @@ import { Divider, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { useUpdateUserManual } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
-import { ManualForm } from "../shared/manual-form";
+import { ManualForm } from "../layout/manual-form";
 import { TabContainer } from "../shared/tabs-container";
 import { UserInfo } from "../shared/user-info";
 

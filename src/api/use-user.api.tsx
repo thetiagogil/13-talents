@@ -5,6 +5,16 @@ import { supabase } from "../lib/supabase";
 import { ManualModel } from "../models/manual.model";
 import { UserModel } from "../models/user.model";
 
+export const useGetUsers = () => {
+  return useQuery({
+    queryKey: ["useGetUsers"],
+    queryFn: async () => {
+      const { data } = await supabase.from("users").select("*");
+      return data as UserModel[];
+    }
+  });
+};
+
 export const useGetUserByEmail = (email?: string) => {
   return useQuery({
     queryKey: ["useGetUserByEmail", email],
