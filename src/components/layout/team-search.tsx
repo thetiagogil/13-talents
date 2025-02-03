@@ -3,7 +3,7 @@ import { useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { UserModel } from "../../models/user.model";
 import { IsLoading } from "../shared/is-loading";
-import { UserInfo } from "../shared/user-info";
+import { UserAvatarInfo } from "../shared/user-info";
 
 type UserCardProps = {
   user: UserModel;
@@ -18,7 +18,7 @@ type TeamSearchProps = {
 
 const UserCard = ({ user, hasMe }: UserCardProps) => (
   <Card variant="plain" sx={{ bgcolor: "neutral.white", p: 1.5 }}>
-    <UserInfo user={user} fontSize={14} withAvatar hasMe={hasMe} isRow />
+    <UserAvatarInfo user={user} fontSize={14} hasMe={hasMe} isRow />
   </Card>
 );
 

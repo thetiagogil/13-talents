@@ -6,7 +6,7 @@ import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { KanbanSection } from "../layout/kanban-section";
 import { TabContainer } from "../shared/tabs-container";
-import { UserInfo } from "../shared/user-info";
+import { UserProfileInfo } from "../shared/user-info";
 
 export const PersonalGoalsTab = () => {
   const { user, strengths } = useContext(AuthContext);
@@ -18,7 +18,7 @@ export const PersonalGoalsTab = () => {
 
   return (
     <TabContainer>
-      <UserInfo user={user} fontSize={20} />
+      <UserProfileInfo user={user} />
 
       <Stack width="100%" gap={4}>
         <Stack gap={1.5}>
