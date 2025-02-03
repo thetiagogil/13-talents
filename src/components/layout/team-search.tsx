@@ -1,33 +1,70 @@
-import { Autocomplete, Button, Card, Skeleton, Stack, Typography } from "@mui/joy";
+import { Button, Card, IconButton, Input, Skeleton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
+import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { UserModel } from "../../models/user.model";
 import { IsLoading } from "../shared/is-loading";
 import { UserAvatarInfo } from "../shared/user-info";
 
 type UserCardProps = {
   user: UserModel;
+  selectedUser: UserModel | null;
+  setSelectedUser: (user: UserModel | null) => void;
+  setActiveTab: (activeTab: string | number | null) => void;
   hasMe?: boolean;
 };
 
 type TeamSearchProps = {
   currentUser: UserModel;
   users: UserModel[];
+  selectedUser: UserModel | null;
+  setSelectedUser: (user: UserModel | null) => void;
+  setActiveTab: (activeTab: string | number | null) => void;
   isloading: boolean;
 };
 
-const UserCard = ({ user, hasMe }: UserCardProps) => (
-  <Card variant="plain" sx={{ bgcolor: "neutral.white", p: 1.5 }}>
+const UserCard = ({ user, selectedUser, setSelectedUser, setActiveTab, hasMe }: UserCardProps) => (
+  <Card
+    variant="plain"
+    onClick={() => {
+      selectedUser?.id === user.id ? setSelectedUser(null) : setSelectedUser(user);
+      setActiveTab(0);
+    }}
+    sx={{
+      cursor: "pointer",
+      bgcolor: "neutral.white",
+      border: "1px solid",
+      borderColor: selectedUser?.id === user.id ? "subvisual.primary" : "neutral.white",
+      p: 1.5,
+      "&:hover": {
+        border: "1px solid",
+        borderColor: selectedUser?.id === user.id ? "danger.500" : "subvisual.primary"
+      }
+    }}
+  >
     <UserAvatarInfo user={user} fontSize={14} hasMe={hasMe} isRow />
   </Card>
 );
 
-export const TeamSearch = ({ currentUser, users, isloading }: TeamSearchProps) => {
+export const TeamSearch = ({
+  currentUser,
+  users,
+  selectedUser,
+  setSelectedUser,
+  setActiveTab,
+  isloading
+}: TeamSearchProps) => {
   const [search, setSearch] = useState<string>("");
 
   const filteredUsers = users
-    .filter(user => user.id !== currentUser.id)
-    .filter(user => user.name.toLowerCase().includes(search.toLowerCase()));
+    .filter(user => user.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const sortedUsers = search
+    ? filteredUsers
+    : selectedUser
+      ? [selectedUser, ...filteredUsers.filter(user => user.id !== selectedUser.id)]
+      : filteredUsers;
 
   return (
     <Card variant="plain" sx={{ bgcolor: "neutral.lightest", maxWidth: 256 }}>
@@ -40,23 +77,43 @@ export const TeamSearch = ({ currentUser, users, isloading }: TeamSearchProps) =
         </Stack>
 
         <Stack gap={2}>
-          <Autocomplete
+          <Input
             placeholder="Search"
-            options={filteredUsers.map(user => user.name)}
-            onInputChange={(_, newValue) => setSearch(newValue || "")}
-            freeSolo
-            startDecorator={<MagnifyingGlass sx={{ fontSize: 16 }} />}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            startDecorator={<MagnifyingGlass sx={{ fontSize: 14 }} />}
+            endDecorator={
+              search && (
+                <IconButton
+                  variant="plain"
+                  onClick={() => setSearch("")}
+                  sx={{ transform: "rotate(45deg)", borderRadius: 20 }}
+                >
+                  <PlusSignOutlined sx={{ fontSize: 14 }} />
+                </IconButton>
+              )
+            }
             sx={{ borderRadius: 20, pl: 2 }}
           />
-          <Button>Compare</Button>
+          <Button variant="outlined" disabled>
+            Compare
+          </Button>
 
           {isloading ? (
             <IsLoading />
           ) : (
             <Stack maxHeight={400} overflow="auto" gap={2}>
-              {!search && <UserCard user={currentUser} hasMe />}
-              {filteredUsers.map(user => {
-                return <UserCard key={user.id} user={user} />;
+              {sortedUsers.map(user => {
+                return (
+                  <UserCard
+                    key={user.id}
+                    user={user}
+                    selectedUser={selectedUser}
+                    setSelectedUser={setSelectedUser}
+                    setActiveTab={setActiveTab}
+                    hasMe={currentUser.id === user.id}
+                  />
+                );
               })}
             </Stack>
           )}
