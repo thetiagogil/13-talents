@@ -15,7 +15,7 @@ import { StrengthModel } from "../../models/strength.model";
 import { UserModel } from "../../models/user.model";
 import { UsersStrengthsModel } from "../../models/users-strengths.model";
 import { getColorHex } from "../../utils/get-color-hex";
-import { UserInfo } from "../shared/user-info";
+import { UserAvatarInfo } from "../shared/user-info";
 
 type AccordionItemProps = {
   item: { strength_id: number; user_ids: string[] };
@@ -94,7 +94,7 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
             <Grid container spacing={4}>
               {usersWithStrength.map(user => (
                 <Grid key={user.id} xs={3}>
-                  <UserInfo user={user} fontSize={12} withAvatar />
+                  <UserAvatarInfo user={user} fontSize={12} />
                 </Grid>
               ))}
             </Grid>
