@@ -4,7 +4,7 @@ import { useUpdateUserManual } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { ManualForm } from "../layout/manual-form";
 import { TabContainer } from "../shared/tabs-container";
-import { UserInfo } from "../shared/user-info";
+import { UserProfileInfo } from "../shared/user-info";
 
 const manualInfo = [
   { field: "about", title: "The basics you should know about me are..." },
@@ -19,7 +19,7 @@ export const PersonalManualTab = () => {
   const { mutateAsync: updateUserManual, isPending: isLoading } = useUpdateUserManual();
   return (
     <TabContainer>
-      <UserInfo user={user} fontSize={20} />
+      <UserProfileInfo user={user} />
 
       <Stack gap={4}>
         <Typography level="body-md" textColor="neutral.baseDarker">
