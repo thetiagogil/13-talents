@@ -42,7 +42,7 @@ export const TabsContainer = ({ tabs, hasPadding, activeTab, setActiveTab }: Tab
       ))}
     </TabList>
     {tabs.map((obj, index) => (
-      <TabPanel key={index} value={index} sx={{ p: hasPadding ? { xs: 2, lg: 3 } : 0 }}>
+      <TabPanel key={index} value={index} sx={{ p: hasPadding ? { xs: 2, lg: 3 } : 0, pt: 2 }}>
         {obj.panel}
       </TabPanel>
     ))}
