@@ -1,8 +1,8 @@
 import { Box, Button, Stack, Typography } from "@mui/joy";
 import { Link } from "react-router-dom";
 import { MockAvatar } from "../api/mock-avatar";
-import { CardTopStrengths } from "../components/shared/card-top-strengths";
-import { Layout } from "../components/shared/layout";
+import { MainContainer } from "../components/shared/main-container";
+import { StrengthsCard } from "../components/shared/strengths-card";
 
 const DashboardButton = () => (
   <Button component={Link} to="/personal" sx={{ width: { xs: "100%", lg: "auto" } }}>
@@ -11,7 +11,7 @@ const DashboardButton = () => (
 );
 export const AvatarResultsPage = () => {
   return (
-    <Layout alignCenter sx={{ p: 2 }}>
+    <MainContainer alignCenter sx={{ p: 2 }}>
       <Stack direction={{ xs: "column", lg: "row" }} justifyContent="center" gap={{ xs: 4, lg: 14 }}>
         <Stack maxWidth={440} gap={8} alignItems="center">
           <Stack alignItems="center" gap={3}>
@@ -31,12 +31,12 @@ export const AvatarResultsPage = () => {
           </Box>
         </Stack>
 
-        <CardTopStrengths />
+        <StrengthsCard />
 
         <Box display={{ xs: "block", lg: "none" }}>
           <DashboardButton />
         </Box>
       </Stack>
-    </Layout>
+    </MainContainer>
   );
 };

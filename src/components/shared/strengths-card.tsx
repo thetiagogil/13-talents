@@ -123,7 +123,7 @@ const userTopStrengths = (userStrengths: number[] | undefined, strengths: Streng
   return { userTopStrengthsArray: topStrengths, userTopStrengthsPercentages: topPercentages };
 };
 
-export const CardTopStrengths = () => {
+export const StrengthsCard = () => {
   const { user } = useContext(AuthContext);
   const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengthsData);
 

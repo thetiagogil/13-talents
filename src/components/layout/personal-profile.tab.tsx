@@ -1,6 +1,6 @@
 import { Stack } from "@mui/joy";
 import { MockAvatar } from "../../api/mock-avatar";
-import { CardTopStrengths } from "../shared/card-top-strengths";
+import { StrengthsCard } from "../shared/strengths-card";
 import { UserInfo } from "../shared/user-info";
 
 export const PersonalProfileTab = () => {
@@ -20,7 +20,7 @@ export const PersonalProfileTab = () => {
         </Stack>
 
         <Stack>
-          <CardTopStrengths />
+          <StrengthsCard />
         </Stack>
       </Stack>
     </Stack>

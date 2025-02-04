@@ -11,8 +11,8 @@ type LayoutProps = {
   sx?: SxProps;
 };
 
-export const Layout = ({ children, hasSideBar = false, alignCenter = false, sx }: LayoutProps) => {
-  const LayoutChildren = () => (
+export const MainContainer = ({ children, hasSideBar = false, alignCenter = false, sx }: LayoutProps) => {
+  const Children = () => (
     <Stack flex={1}>
       <Navbar hasSideBar={hasSideBar} />
       <Stack
@@ -34,10 +34,10 @@ export const Layout = ({ children, hasSideBar = false, alignCenter = false, sx }
             <Sidebar />
             <Divider orientation="vertical" />
           </Stack>
-          <LayoutChildren />
+          <Children />
         </Stack>
       ) : (
-        <LayoutChildren />
+        <Children />
       )}
     </>
   );

@@ -2,6 +2,7 @@ import { Box, Button, Link, Stack, Textarea, Typography } from "@mui/joy";
 import { FormEvent, useContext, useState } from "react";
 import { useUpdateUserManual } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
+import { SnackbarContext } from "../../contexts/snackbar.context";
 import { ManualModel } from "../../models/manual.model";
 
 type EditableFormProps = {
@@ -11,11 +12,11 @@ type EditableFormProps = {
 
 export const ManualForm = ({ field, title }: EditableFormProps) => {
   const { user, refetchUser } = useContext(AuthContext);
+  const { showSnackbar } = useContext(SnackbarContext);
   const value = user?.manual?.[field] || "";
   const [tempValue, setTempValue] = useState<string>(value);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const { mutateAsync: updateUserManual, isPending: isLoading } = useUpdateUserManual();
+  const { mutateAsync: updateUserManual, isPending: isLoading, isError } = useUpdateUserManual();
 
   const handleUpdateUserManual = async (e: FormEvent) => {
     e.preventDefault();
@@ -23,10 +24,15 @@ export const ManualForm = ({ field, title }: EditableFormProps) => {
 
     try {
       const updatedManual = { ...user?.manual, [field]: tempValue };
-      await updateUserManual({ userId: user.id, manual: updatedManual });
-      await refetchUser();
+      if (isError || !updatedManual) {
+        showSnackbar("danger", "Field was not updated.");
+      } else {
+        await updateUserManual({ userId: user.id, manual: updatedManual });
+        await refetchUser();
+        showSnackbar("success", "Field updated with success!");
+      }
     } catch (error) {
-      console.error("Failed to update manual:", error);
+      console.error(error);
     } finally {
       setIsEditing(false);
     }
