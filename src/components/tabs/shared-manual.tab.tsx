@@ -1,6 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
-import { useUpdateUserManual } from "../../api/use-user.api";
+import { useGetUserById, useUpdateUserManual } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
 import { ManualForm } from "../layout/manual-form";
@@ -21,7 +21,8 @@ const manualInfo = [
 ] as const;
 
 export const SharedManualTab = ({ user, isTeamView }: SharedManualTabProps) => {
-  const { user: currentUser } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
+  const { data: currentUser } = useGetUserById(userId);
   const displayUser = user || currentUser;
   const { mutateAsync: updateUserManual, isPending: isLoading } = useUpdateUserManual();
 

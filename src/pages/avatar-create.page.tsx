@@ -1,14 +1,15 @@
 import { Link as JoyLink, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { MockAvatar } from "../api/mock-avatar";
-import { useUpdateUserAvatarState } from "../api/use-user.api";
+import { useGetUserById, useUpdateUserAvatarState } from "../api/use-user.api";
 import { ArrowRightOutlined } from "../assets/icons/arrow-right";
 import { AvatarLoading } from "../components/layout/avatar-loading";
 import { MainContainer } from "../components/shared/main-container";
 import { AuthContext } from "../contexts/auth.context";
 
 export const AvatarCreatePage = () => {
-  const { user } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
+  const { data: user } = useGetUserById(userId);
   const { mutateAsync: updateUserAvatarState, isPending: isLoading } = useUpdateUserAvatarState();
 
   const handleCreateAvatar = async () => {

@@ -14,6 +14,7 @@ import {
 } from "@mui/joy";
 import { useContext, useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
+import { useGetUserById } from "../../api/use-user.api";
 import { ArrowDownOutlined } from "../../assets/icons/arrow-down";
 import { ArrowUpOutlined } from "../../assets/icons/arrow-up";
 import { NotificationsOutlined } from "../../assets/icons/notifications-icon";
@@ -26,9 +27,10 @@ type NavbarProps = {
 };
 
 export const Navbar = ({ hasSideBar }: NavbarProps) => {
-  const { handleLogout, user } = useContext(AuthContext);
+  const { handleLogout, userId } = useContext(AuthContext);
   const [isSidebarDrawerOpen, setisSidebarDrawerOpen] = useState<boolean>(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState<boolean>(false);
+  const { data: user } = useGetUserById(userId);
 
   return (
     <Grid container height={80} p={2} pl={{ xs: "auto", lg: 3.5 }}>

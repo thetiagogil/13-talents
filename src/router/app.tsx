@@ -1,5 +1,7 @@
 import { Fragment, useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useGetStrengths } from "../api/use-strengths.api";
+import { useGetUserById } from "../api/use-user.api";
 import { AuthContext } from "../contexts/auth.context";
 import { AvatarCreatePage } from "../pages/avatar-create.page";
 import { AvatarResultsPage } from "../pages/avatar-results.page";
@@ -9,11 +11,14 @@ import { SignupPage } from "../pages/signup.page";
 import { TeamPage } from "../pages/team.page";
 
 export const App = () => {
-  const { isAuthenticated, user, isLoadingContext } = useContext(AuthContext);
+  const { isAuthenticated, userId } = useContext(AuthContext);
+  const { data: user, isPending: isPendingUser } = useGetUserById(userId);
+  const { isPending: isPendingStrengths } = useGetStrengths();
+  const isLoading = isPendingUser || isPendingStrengths;
 
   return (
     <>
-      {isLoadingContext ? (
+      {isLoading ? (
         <LoadingPage />
       ) : (
         <Routes>

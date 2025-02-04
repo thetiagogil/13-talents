@@ -1,6 +1,7 @@
 import { Stack } from "@mui/joy";
 import { useContext, useState } from "react";
-import { useGetUsers } from "../../api/use-user.api";
+import { useGetStrengths } from "../../api/use-strengths.api";
+import { useGetUserById, useGetUsers } from "../../api/use-user.api";
 import { useGetUsersStrengths } from "../../api/use-users-strengths.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
@@ -13,9 +14,11 @@ import { SharedManualTab } from "./shared-manual.tab";
 import { SharedProfileTab } from "./shared-profile.tab";
 
 export const TeamOverviewTab = () => {
-  const { user, strengths } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
   const [selectedUser, setSelectedUser] = useState<UserModel | null>(null);
   const [activeTab, setActiveTab] = useState<string | number | null>(0);
+  const { data: user } = useGetUserById(userId);
+  const { data: strengths } = useGetStrengths();
   const { data: users, isPending: isPendingUsers } = useGetUsers();
   const { data: usersStrengths, isPending: isPendingUsersStrengths } = useGetUsersStrengths();
   const isLoading = isPendingUsers || isPendingUsersStrengths;

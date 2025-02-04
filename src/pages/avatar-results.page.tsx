@@ -2,6 +2,8 @@ import { Box, Button, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MockAvatar } from "../api/mock-avatar";
+import { useGetStrengths } from "../api/use-strengths.api";
+import { useGetUserById } from "../api/use-user.api";
 import { MainContainer } from "../components/shared/main-container";
 import { StrengthsCard } from "../components/shared/strengths-card";
 import { AuthContext } from "../contexts/auth.context";
@@ -13,8 +15,10 @@ const DashboardButton = () => (
   </Button>
 );
 export const AvatarResultsPage = () => {
-  const { user, strengths } = useContext(AuthContext);
-  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths);
+  const { userId } = useContext(AuthContext);
+  const { data: user } = useGetUserById(userId);
+  const { data: strengths } = useGetStrengths();
+  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths || []);
 
   return (
     <MainContainer alignCenter sx={{ p: 2 }}>

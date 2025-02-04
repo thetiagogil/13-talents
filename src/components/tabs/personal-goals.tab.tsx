@@ -1,6 +1,8 @@
 import { Divider, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { useGetGoalsByUserId } from "../../api/use-goals.api";
+import { useGetStrengths } from "../../api/use-strengths.api";
+import { useGetUserById } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
@@ -9,11 +11,13 @@ import { TabContainer } from "../shared/tabs-container";
 import { UserProfileInfo } from "../shared/user-info";
 
 export const PersonalGoalsTab = () => {
-  const { user, strengths } = useContext(AuthContext);
-  const { data: userGoals = [], isLoading } = useGetGoalsByUserId(user.id);
+  const { userId } = useContext(AuthContext);
+  const { data: user } = useGetUserById(userId);
+  const { data: strengths } = useGetStrengths();
+  const { data: userGoals, isLoading } = useGetGoalsByUserId(user.id);
 
   const userGoalsBasedOnProgress = (progress: GoalProgress): GoalModel[] => {
-    return userGoals?.filter((goal: GoalModel) => goal?.progress === progress);
+    return userGoals?.filter((goal: GoalModel) => goal?.progress === progress) || [];
   };
 
   return (
@@ -42,8 +46,8 @@ export const PersonalGoalsTab = () => {
           {GOALS_PROGRESS.map((progress, index) => (
             <KanbanSection
               key={index}
-              userId={user.id}
-              strengths={strengths}
+              userId={userId}
+              strengths={strengths || []}
               progress={progress as GoalProgress}
               goals={userGoalsBasedOnProgress(progress as GoalProgress)}
               isLoading={isLoading}

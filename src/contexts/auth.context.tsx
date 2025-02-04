@@ -1,14 +1,9 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { useGetStrengths } from "../api/use-strengths.api";
-import { useGetUserById } from "../api/use-user.api";
-import { StrengthModel } from "../models/strength.model";
 import { UserModel } from "../models/user.model";
 
 type AuthContextProps = {
   isAuthenticated: boolean;
-  user: UserModel;
-  strengths: StrengthModel[];
-  isLoadingContext: boolean;
+  userId: string;
   handleLogin: (user: UserModel | undefined) => Promise<void>;
   handleLogout: () => Promise<void>;
 };
@@ -22,16 +17,14 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(localStorage.getItem("userId") as string);
-  const { data: user, isLoading: isLoadingUserData, isError } = useGetUserById(userId);
-  const { data: strengths = [], isLoading: isLoadingStrengthsData } = useGetStrengths();
 
   useEffect(() => {
-    if (user) {
+    if (userId) {
       setIsAuthenticated(true);
-    } else if (isError) {
+    } else if (!userId) {
       handleLogout();
     }
-  }, [user, isError]);
+  }, [userId]);
 
   const handleLogin = async (data: UserModel | undefined) => {
     if (data) {
@@ -51,9 +44,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        user,
-        strengths,
-        isLoadingContext: isLoadingUserData || isLoadingStrengthsData,
+        userId,
         handleLogin,
         handleLogout
       }}
