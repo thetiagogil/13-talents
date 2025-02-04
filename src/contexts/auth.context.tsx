@@ -22,8 +22,8 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(localStorage.getItem("userId") as string);
-  const { data: user, isLoading: isLoadingUserData, isError } = useGetUserById(userId);
-  const { data: strengths = [], isLoading: isLoadingStrengthsData } = useGetStrengths();
+  const { data: user, isPending: isPendingUserData, isError } = useGetUserById(userId);
+  const { data: strengths = [], isPending: isPendingStrengthsData } = useGetStrengths();
 
   useEffect(() => {
     if (user) {
@@ -53,7 +53,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
         isAuthenticated,
         user,
         strengths,
-        isLoadingContext: isLoadingUserData || isLoadingStrengthsData,
+        isLoadingContext: isPendingUserData || isPendingStrengthsData,
         handleLogin,
         handleLogout
       }}
