@@ -72,7 +72,7 @@ const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) =
             textAlign="center"
             py={0.6}
             borderRadius={20}
-            boxShadow={`0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), "10%")}`}
+            boxShadow={`0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), 10)}`}
           >
             <Typography level="body-md" textColor="neutral.white">
               {rank}

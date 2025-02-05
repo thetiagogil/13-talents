@@ -106,8 +106,9 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
 };
 
 export const TeamStrengths = ({ users, strengths, usersStrengths, isLoading }: TeamStrengthsProps) => {
+  const usersStrengthsBasedOnUsers = usersStrengths.filter(element => users.some(user => element.user_id === user.id));
   const usersStrengthsGrouped = Object.entries(
-    usersStrengths.reduce(
+    usersStrengthsBasedOnUsers.reduce(
       (acc, { strength_id, user_id }) => {
         (acc[strength_id] ||= []).push(user_id);
         return acc;

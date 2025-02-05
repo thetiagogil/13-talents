@@ -26,7 +26,7 @@ export const UserProfileInfo = ({ user }: UserProfileInfoprops) => (
 export const UserAvatarInfo = ({ user, fontSize, isRow = false, hasMe = false }: UserInfoProps) => (
   <Stack direction={isRow ? "row" : "column"} alignItems="center" gap={1}>
     <Avatar size="lg" alt={user.name} />
-    <Stack alignItems={isRow ? "start" : "center"} textAlign="center" gap={0.5}>
+    <Stack alignItems={isRow ? "start" : "center"} textAlign={isRow ? "start" : "center"} gap={0.5}>
       <Typography fontSize={fontSize} fontWeight={700}>
         {user.name} {hasMe && "(me)"}
       </Typography>

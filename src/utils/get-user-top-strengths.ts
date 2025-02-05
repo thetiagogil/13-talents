@@ -1,7 +1,7 @@
 import { STRENGTH_CATEGORIES } from "../lib/constants";
 import { StrengthModel } from "../models/strength.model";
 
-export const userTopStrengths = (userStrengths: number[] | undefined, strengths: StrengthModel[]) => {
+export const userTopStrengths = (userStrengths: number[] | [], strengths: StrengthModel[]) => {
   // Handle top 10 strengths array
   const topStrengths = userStrengths
     ?.map((userStrength: number) => strengths.find(strength => strength.id === userStrength))
