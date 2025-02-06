@@ -25,7 +25,7 @@ export const TeamOverviewTab = () => {
 
   return (
     <TabContainer>
-      <Stack direction="row" gap={8} width="100%" alignItems="flex-start">
+      <Stack direction={{ xs: "column", lg: "row" }} width="100%" alignItems="flex-start" gap={{ xs: 4, lg: 8 }}>
         <TeamSearch
           currentUser={user}
           users={users}
@@ -40,7 +40,7 @@ export const TeamOverviewTab = () => {
         />
 
         {isComparing ? (
-          <Stack width="100%" gap={8}>
+          <Stack width="100%" gap={{ xs: 4, lg: 8 }}>
             <TeamComparison
               strengths={strengths}
               selectedUsersArray={selectedUsersArray}
@@ -56,7 +56,7 @@ export const TeamOverviewTab = () => {
             )}
           </Stack>
         ) : selectedUser ? (
-          <Stack gap={4}>
+          <Stack width="100%" gap={4}>
             <UserProfileInfo user={selectedUser} />
             <TabsContainer
               tabs={[
@@ -72,7 +72,7 @@ export const TeamOverviewTab = () => {
             />
           </Stack>
         ) : (
-          <Stack width="100%" gap={8}>
+          <Stack width="100%" gap={{ xs: 4, lg: 8 }}>
             <TeamDomains strengths={strengths} usersStrengths={usersStrengths} isLoading={isLoading} />
             <TeamStrengths users={users} strengths={strengths} usersStrengths={usersStrengths} isLoading={isLoading} />
           </Stack>

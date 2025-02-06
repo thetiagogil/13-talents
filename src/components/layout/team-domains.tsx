@@ -17,8 +17,8 @@ export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearch
       Team's Domains
     </Typography>
 
-    <Stack direction="row">
-      {STRENGTH_CATEGORIES.map((category, index) => {
+    <Stack direction={{ xs: "column", sm: "row" }} borderRadius={8} overflow="hidden">
+      {STRENGTH_CATEGORIES.map(category => {
         const filterStrengthsByCategory = strengths.filter(strength => strength.category === category);
         const filterUsersStrengthsByCategory = usersStrengths.filter(item =>
           filterStrengthsByCategory.some(strength => item.strength_id === strength.id)
@@ -33,12 +33,10 @@ export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearch
             sx={{
               bgcolor: getColorHex(category),
               flex: 1,
-              borderRadius: 0,
-              ...(index === 0 && { borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }),
-              ...(index === 3 && { borderTopRightRadius: 8, borderBottomRightRadius: 8 })
+              borderRadius: 0
             }}
           >
-            <Stack gap={1}>
+            <Stack alignItems={{ xs: "center", sm: "start" }} gap={1}>
               <Typography level="body-md" textColor="neutral.white" fontWeight={700}>
                 {category}
               </Typography>
