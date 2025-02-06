@@ -1,9 +1,9 @@
 import { Box, Button, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { MockAvatar } from "../api/mock-avatar";
 import { MainContainer } from "../components/shared/main-container";
 import { StrengthsCard } from "../components/shared/strengths-card";
+import { UserAvatar } from "../components/shared/user-avatar";
 import { AuthContext } from "../contexts/auth.context";
 import { userTopStrengths } from "../utils/get-user-top-strengths";
 
@@ -30,7 +30,7 @@ export const AvatarResultsPage = () => {
             </Typography>
           </Stack>
 
-          <MockAvatar sx={{ fontSize: 280 }} />
+          <UserAvatar avatar={user.avatar} />
 
           <Box display={{ xs: "none", lg: "block" }}>
             <DashboardButton />

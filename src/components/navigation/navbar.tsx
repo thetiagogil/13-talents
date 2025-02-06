@@ -61,7 +61,11 @@ export const Navbar = ({ hasSideBar }: NavbarProps) => {
         <Dropdown open={isProfileMenuOpen} onOpenChange={() => setIsProfileMenuOpen(!isProfileMenuOpen)}>
           <MenuButton variant="plain" size="sm">
             <Stack direction="row" alignItems="center" gap={1.5}>
-              <Avatar alt={user.name} sx={{ border: "2px solid", borderColor: "subvisual.pink" }} />
+              <Avatar
+                alt={user.name}
+                src={user.avatar || undefined}
+                sx={{ border: "2px solid", borderColor: "subvisual.primary" }}
+              />
               <Typography level="body-md" display={{ xs: "none", lg: "inline" }}>
                 {user?.name}
               </Typography>

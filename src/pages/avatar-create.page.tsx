@@ -1,19 +1,25 @@
-import { Link as JoyLink, Stack, Typography } from "@mui/joy";
-import { useContext } from "react";
-import { MockAvatar } from "../api/mock-avatar";
+import { Link as JoyLink, List, ListItem, ListItemButton, Stack, Typography } from "@mui/joy";
+import { useContext, useState } from "react";
 import { useUpdateUserAvatarState } from "../api/use-user.api";
 import { ArrowRightOutlined } from "../assets/icons/arrow-right";
 import { AvatarLoading } from "../components/layout/avatar-loading";
 import { MainContainer } from "../components/shared/main-container";
+import { UserAvatar } from "../components/shared/user-avatar";
 import { AuthContext } from "../contexts/auth.context";
+import { SnackbarContext } from "../contexts/snackbar.context";
+
+const memojis = Array.from({ length: 35 }, (_, i) => `/src/assets/memojis/memo_${i + 1}.png`);
 
 export const AvatarCreatePage = () => {
   const { user } = useContext(AuthContext);
-  const { mutateAsync: updateUserAvatarState, isPending: isLoading } = useUpdateUserAvatarState();
+  const { showSnackbar } = useContext(SnackbarContext);
+  const [selectedMemoji, setSelectedMemoji] = useState<string>("");
+  const { mutateAsync: updateUserAvatarState, isSuccess: isLoading } = useUpdateUserAvatarState();
 
   const handleCreateAvatar = async () => {
     try {
-      await updateUserAvatarState(user.id);
+      if (!selectedMemoji) return showSnackbar("danger", "You need to select an avatar.");
+      await updateUserAvatarState({ userId: user.id, avatar: selectedMemoji });
     } catch (error) {
       console.error(error);
     }
@@ -22,7 +28,7 @@ export const AvatarCreatePage = () => {
   return (
     <MainContainer alignCenter sx={{ p: 2 }}>
       {isLoading ? (
-        <AvatarLoading />
+        <AvatarLoading avatar={selectedMemoji} />
       ) : (
         <Stack maxWidth={1120} gap={4}>
           <Stack maxWidth={720} alignItems="center" alignSelf="center" gap={4}>
@@ -35,11 +41,30 @@ export const AvatarCreatePage = () => {
             </Typography>
           </Stack>
 
-          <Stack alignItems="center">
-            <MockAvatar sx={{ fontSize: 280 }} />
-          </Stack>
+          <UserAvatar avatar={selectedMemoji} />
 
-          <Stack bgcolor="neutral.white" height={120} alignItems="center" borderRadius={8}></Stack>
+          <Stack bgcolor="neutral.white" overflow="auto">
+            <List orientation="horizontal" sx={{ p: 2 }}>
+              {memojis.map((emojiSrc, index) => (
+                <ListItem key={index}>
+                  <ListItemButton
+                    onClick={() => setSelectedMemoji(emojiSrc)}
+                    sx={{
+                      bgcolor: "neutral.lightest",
+                      width: 120,
+                      border: "2px solid",
+                      borderColor: selectedMemoji === emojiSrc ? "subvisual.primary" : "neutral.lightest",
+                      borderRadius: 8,
+                      mr: 0.5,
+                      overflow: "auto"
+                    }}
+                  >
+                    <img src={emojiSrc} alt={`Memoji ${index + 1}`} style={{ height: "auto", width: "100%" }} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Stack>
 
           <Stack alignItems="end">
             <JoyLink

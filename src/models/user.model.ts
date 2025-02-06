@@ -5,8 +5,8 @@ export type UserModel = {
   id: string;
   name: string;
   email: string;
-  title: string;
-  hasAvatar: boolean;
+  title: string | null;
+  avatar: string | null;
   strengths: StrengthModel["id"][];
   manual: ManualModel;
 };
