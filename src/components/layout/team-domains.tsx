@@ -3,6 +3,7 @@ import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { UsersStrengthsModel } from "../../models/users-strengths.model";
 import { getColorHex } from "../../utils/get-color-hex";
+import { pluralize } from "../../utils/pluralize";
 
 type TeamSearchProps = {
   strengths: StrengthModel[];
@@ -41,10 +42,10 @@ export const TeamDomains = ({ strengths, usersStrengths }: TeamSearchProps) => (
                 {category}
               </Typography>
               <Typography level="body-md" textColor="neutral.white">
-                {numberOfUsers} people
+                {pluralize(numberOfUsers, "person", "people")}
               </Typography>
               <Typography level="body-md" textColor="neutral.white">
-                {numberOfStrengths} strengths
+                {pluralize(numberOfStrengths, "strength", "strengths")}
               </Typography>
             </Stack>
           </Card>
