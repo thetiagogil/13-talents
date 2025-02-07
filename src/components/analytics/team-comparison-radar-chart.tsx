@@ -1,17 +1,29 @@
+import { Chip, Stack } from "@mui/joy";
 import { Chart as ChartJS, Filler, Legend, LineElement, PointElement, RadialLinearScale, Tooltip } from "chart.js";
 import { Radar } from "react-chartjs-2";
+import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { StrengthModel } from "../../models/strength.model";
 import { UserModel } from "../../models/user.model";
 import { radarChartBgColors, radarChartBorderColors } from "../../utils/get-radar-chart-colors";
+import { ColoredCircle } from "../shared/colored-circle";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 type ProfileComparisonChartProps = {
   strengths: StrengthModel[];
   selectedUsersArray: UserModel[];
+  setSelectedUsersArray: (users: UserModel[]) => void;
 };
 
-export const ProfileComparisonChart = ({ strengths, selectedUsersArray }: ProfileComparisonChartProps) => {
+export const TeamComparisonRadarChart = ({
+  strengths,
+  selectedUsersArray,
+  setSelectedUsersArray
+}: ProfileComparisonChartProps) => {
+  const removeUser = (userId: string) => {
+    setSelectedUsersArray(selectedUsersArray.filter(user => user.id !== userId));
+  };
+
   const usersToCompare = selectedUsersArray.slice(0, 5);
   const labels = strengths.map(str => str.label);
 
@@ -58,7 +70,13 @@ export const ProfileComparisonChart = ({ strengths, selectedUsersArray }: Profil
     },
     plugins: {
       legend: { display: false },
-      title: { display: false }
+      title: { display: false },
+      tooltip: {
+        filter: (tooltipItem: any) => tooltipItem.raw !== 0,
+        callbacks: {
+          label: (context: any) => `${context.dataset.label}: ${context.raw}`
+        }
+      }
     }
   };
 
@@ -92,5 +110,42 @@ export const ProfileComparisonChart = ({ strengths, selectedUsersArray }: Profil
     };
   }
 
-  return <Radar data={data} options={options} />;
+  return (
+    <>
+      {selectedUsersArray.length > 0 && (
+        <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap={2}>
+          <Stack direction="row" flexWrap="wrap" gap={2}>
+            {selectedUsersArray.map((user, index) => {
+              const colorIndex = index % radarChartBgColors.length;
+              return (
+                <Chip
+                  key={user.id}
+                  variant="outlined"
+                  onClick={() => removeUser(user.id)}
+                  startDecorator={<ColoredCircle color={radarChartBorderColors[colorIndex]} size={12} />}
+                  sx={{
+                    color: radarChartBorderColors[colorIndex],
+                    fontSize: 14
+                  }}
+                >
+                  {user.name}
+                </Chip>
+              );
+            })}
+          </Stack>
+          <Chip
+            variant="outlined"
+            onClick={() => setSelectedUsersArray([])}
+            endDecorator={<PlusSignOutlined sx={{ fontSize: 12, transform: "rotate(45deg)" }} />}
+            sx={{ fontSize: 14 }}
+          >
+            Clear all
+          </Chip>
+        </Stack>
+      )}
+      <Stack position="relative" width="100%" height="100%">
+        <Radar data={data} options={options} />
+      </Stack>
+    </>
+  );
 };
