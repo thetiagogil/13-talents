@@ -9,7 +9,7 @@ import {
   Stack,
   Typography
 } from "@mui/joy";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { StrengthModel } from "../../models/strength.model";
 import { UserModel } from "../../models/user.model";
@@ -106,21 +106,26 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
 };
 
 export const TeamStrengths = ({ users, strengths, usersStrengths, isLoading }: TeamStrengthsProps) => {
-  const usersStrengthsBasedOnUsers = usersStrengths.filter(element => users.some(user => element.user_id === user.id));
-  const usersStrengthsGrouped = Object.entries(
-    usersStrengthsBasedOnUsers.reduce(
-      (acc, { strength_id, user_id }) => {
-        (acc[strength_id] ||= []).push(user_id);
-        return acc;
-      },
-      {} as Record<number, string[]>
+  const columns = useMemo(() => {
+    const usersStrengthsBasedOnUsers = usersStrengths.filter(element =>
+      users.some(user => element.user_id === user.id)
+    );
+    const usersStrengthsGrouped = Object.entries(
+      usersStrengthsBasedOnUsers.reduce(
+        (acc, { strength_id, user_id }) => {
+          (acc[strength_id] ||= []).push(user_id);
+          return acc;
+        },
+        {} as Record<number, string[]>
+      )
     )
-  )
-    .sort(([, a], [, b]) => b.length - a.length)
-    .map(([strength_id, user_ids]) => ({ strength_id: Number(strength_id), user_ids }));
+      .sort(([, a], [, b]) => b.length - a.length)
+      .map(([strength_id, user_ids]) => ({ strength_id: Number(strength_id), user_ids }));
 
-  const midpoint = Math.ceil(usersStrengthsGrouped.length / 2);
-  const columns = [usersStrengthsGrouped.slice(0, midpoint), usersStrengthsGrouped.slice(midpoint)];
+    const midpoint = Math.ceil(usersStrengthsGrouped.length / 2);
+    const columns = [usersStrengthsGrouped.slice(0, midpoint), usersStrengthsGrouped.slice(midpoint)];
+    return columns;
+  }, [users, usersStrengths]);
 
   return (
     <Stack gap={2.5}>
