@@ -46,14 +46,6 @@ export const TeamOverviewTab = () => {
               selectedUsersArray={selectedUsersArray}
               setSelectedUsersArray={setSelectedUsersArray}
             />
-            {selectedUsersArray.length > 0 && (
-              <TeamStrengths
-                users={selectedUsersArray}
-                strengths={strengths}
-                usersStrengths={usersStrengths}
-                isLoading={isLoading}
-              />
-            )}
           </Stack>
         ) : selectedUser ? (
           <Stack width="100%" gap={4}>
