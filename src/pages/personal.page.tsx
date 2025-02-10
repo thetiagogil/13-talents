@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { PersonalActivityTab } from "../components/layout/personal-activity.tab";
-import { PersonalGoalsTab } from "../components/layout/personal-goals.tab";
-import { PersonalManualTab } from "../components/layout/personal-manual.tab";
-import { PersonalProfileTab } from "../components/layout/personal-profile.tab";
 import { MainContainer } from "../components/shared/main-container";
 import { TabsContainer } from "../components/shared/tabs-container";
+import { PersonalActivityTab } from "../components/tabs/personal-activity.tab";
+import { PersonalGoalsTab } from "../components/tabs/personal-goals.tab";
+import { PersonalManualTab } from "../components/tabs/personal-manual.tab";
+import { PersonalProfileTab } from "../components/tabs/personal-profile.tab";
 
 export const PersonalPage = () => {
   const [activeTab, setActiveTab] = useState<string | number | null>(0);
