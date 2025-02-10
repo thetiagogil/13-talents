@@ -1,12 +1,15 @@
 import { QueryObserverResult } from "@tanstack/react-query";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { useGetStrengths } from "../api/use-strengths.api";
 import { useGetUserById } from "../api/use-user.api";
+import { StrengthModel } from "../models/strength.model";
 import { UserModel } from "../models/user.model";
 
 type AuthContextProps = {
   isAuthenticated: boolean;
   user: UserModel;
-  isLoadingUserData: boolean;
+  strengths: StrengthModel[];
+  isLoadingContext: boolean;
   refetchUser: () => Promise<QueryObserverResult<void>>;
   handleLogin: (user: UserModel | undefined) => Promise<void>;
   handleLogout: () => Promise<void>;
@@ -21,7 +24,8 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(localStorage.getItem("userId") as string);
-  const { data: user, isLoading: isLoadingUserData, isError, refetch: refetchUser } = useGetUserById(userId);
+  const { data: user = {}, isLoading: isLoadingUserData, isError, refetch: refetchUser } = useGetUserById(userId);
+  const { data: strengths = [], isLoading: isLoadingStrengthsData } = useGetStrengths();
 
   useEffect(() => {
     if (user) {
@@ -50,7 +54,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       value={{
         isAuthenticated,
         user,
-        isLoadingUserData,
+        strengths,
+        isLoadingContext: isLoadingUserData || isLoadingStrengthsData,
         refetchUser,
         handleLogin,
         handleLogout
