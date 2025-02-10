@@ -1,7 +1,7 @@
 import { colors } from "./colors";
 
 export const getColorHex = (input: string) => {
-  const word = input.toLowerCase().split(" ").join("");
+  const word = input.toLowerCase().replace(" ", "");
   for (const category of Object.keys(colors)) {
     const colorGroup = colors[category as keyof typeof colors];
     for (const key of Object.keys(colorGroup)) {
