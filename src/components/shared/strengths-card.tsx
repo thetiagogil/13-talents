@@ -14,8 +14,9 @@ import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { AuthContext } from "../../contexts/auth.context";
 import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
-import { addHexTransparency } from "../../utils/add-hex-transparency";
-import { colors, strengthsColor } from "../../utils/colors";
+import { getColorHex } from "../../utils/get-color-hex";
+import { getColorTransparency } from "../../utils/get-color-transparency";
+import { ColoredCircle } from "./colored-circle";
 
 type AccordionItemProps = {
   rank: number;
@@ -62,12 +63,12 @@ const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) =
       >
         <Stack direction="row" alignItems="center" gap={2}>
           <Box
-            bgcolor={strengthsColor.find(item => item.category === category)?.color}
+            bgcolor={getColorHex(category)}
             width={36}
             textAlign="center"
-            py={0.5}
+            py={0.6}
             borderRadius={20}
-            boxShadow={`0px 4px 4px 0px ${addHexTransparency(colors.neutral.black, "10%")}`}
+            boxShadow={`0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), "10%")}`}
           >
             <Typography level="body-md" textColor="neutral.white">
               {rank}
@@ -87,11 +88,9 @@ const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) =
 };
 
 const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => {
-  const color = strengthsColor.find(item => item.category === category)?.color;
-
   return (
     <Stack direction="row" alignItems="center" gap={1}>
-      <Box bgcolor={color} height={16} width={16} borderRadius="50%" />
+      <ColoredCircle color={category} size={16} />
       <Typography level="body-sm">
         {category} <strong>{percentage}%</strong>
       </Typography>

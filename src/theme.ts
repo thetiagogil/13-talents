@@ -5,6 +5,7 @@ declare module "@mui/joy/styles" {
   interface Palette {
     subvisual: typeof colors.subvisual;
     strengths: typeof colors.strengths;
+    goals: typeof colors.goals;
     neutral: typeof colors.neutral;
   }
   interface StackProps {
@@ -21,6 +22,7 @@ export const theme = extendTheme({
         },
         subvisual: colors.subvisual,
         strengths: colors.strengths,
+        goals: colors.goals,
         neutral: colors.neutral
       }
     }
@@ -63,7 +65,8 @@ export const theme = extendTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           color: theme.palette.neutral.black,
-          textDecorationColor: theme.palette.neutral.black
+          textDecorationColor: theme.palette.neutral.black,
+          transition: "0.3s"
         })
       }
     },
@@ -76,12 +79,9 @@ export const theme = extendTheme({
     },
     JoyButton: {
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: () => ({
           borderRadius: 20,
-          transition: "0.3s",
-          "&:focus": {
-            borderColor: theme.palette.subvisual.pink
-          }
+          transition: "0.3s"
         })
       }
     },
@@ -97,6 +97,7 @@ export const theme = extendTheme({
       styleOverrides: {
         root: ({ theme }) => ({
           backgroundColor: "transparent",
+          transition: "0.3s",
           "&.Mui-selected": {
             backgroundColor: "transparent",
             color: theme.palette.subvisual.primary
@@ -110,6 +111,22 @@ export const theme = extendTheme({
               color: theme.palette.subvisual.primary
             }
           }
+        })
+      }
+    },
+    JoyChip: {
+      styleOverrides: {
+        root: () => ({
+          fontSize: 16,
+          paddingLeft: 12,
+          paddingRight: 12
+        })
+      }
+    },
+    JoyCard: {
+      styleOverrides: {
+        root: () => ({
+          transition: "0.3s"
         })
       }
     },
