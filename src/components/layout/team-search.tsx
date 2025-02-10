@@ -1,40 +1,70 @@
-import { Autocomplete, Avatar, Button, Card, Stack, Typography } from "@mui/joy";
+import { Button, Card, IconButton, Input, Skeleton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
+import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { UserModel } from "../../models/user.model";
+import { IsLoading } from "../shared/is-loading";
+import { UserAvatarInfo } from "../shared/user-info";
 
 type UserCardProps = {
   user: UserModel;
-  isCurrentUser?: boolean;
+  selectedUser: UserModel | null;
+  setSelectedUser: (user: UserModel | null) => void;
+  setActiveTab: (activeTab: string | number | null) => void;
+  hasMe?: boolean;
 };
 
 type TeamSearchProps = {
   currentUser: UserModel;
   users: UserModel[];
+  selectedUser: UserModel | null;
+  setSelectedUser: (user: UserModel | null) => void;
+  setActiveTab: (activeTab: string | number | null) => void;
+  isloading: boolean;
 };
 
-const UserCard = ({ user, isCurrentUser }: UserCardProps) => (
-  <Card variant="plain" sx={{ bgcolor: "neutral.white", p: 1.5 }}>
-    <Stack direction="row" alignItems="center" gap={1}>
-      <Avatar size="lg" />
-      <Stack gap={0.5}>
-        <Typography level="body-sm" fontSize={14} fontWeight={700}>
-          {user.name} {isCurrentUser && "(me)"}
-        </Typography>
-        <Typography level="body-sm" fontSize={14}>
-          {user.title}
-        </Typography>
-      </Stack>
-    </Stack>
+const UserCard = ({ user, selectedUser, setSelectedUser, setActiveTab, hasMe }: UserCardProps) => (
+  <Card
+    variant="plain"
+    onClick={() => {
+      selectedUser?.id === user.id ? setSelectedUser(null) : setSelectedUser(user);
+      setActiveTab(0);
+    }}
+    sx={{
+      cursor: "pointer",
+      bgcolor: "neutral.white",
+      border: "1px solid",
+      borderColor: selectedUser?.id === user.id ? "subvisual.primary" : "neutral.white",
+      p: 1.5,
+      "&:hover": {
+        border: "1px solid",
+        borderColor: selectedUser?.id === user.id ? "danger.500" : "subvisual.primary"
+      }
+    }}
+  >
+    <UserAvatarInfo user={user} fontSize={14} hasMe={hasMe} isRow />
   </Card>
 );
 
-export const TeamSearch = ({ currentUser, users }: TeamSearchProps) => {
+export const TeamSearch = ({
+  currentUser,
+  users,
+  selectedUser,
+  setSelectedUser,
+  setActiveTab,
+  isloading
+}: TeamSearchProps) => {
   const [search, setSearch] = useState<string>("");
 
   const filteredUsers = users
-    .filter(user => user.id !== currentUser.id)
-    .filter(user => user.name.toLowerCase().includes(search.toLowerCase()));
+    .filter(user => user.name.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const sortedUsers = search
+    ? filteredUsers
+    : selectedUser
+      ? [selectedUser, ...filteredUsers.filter(user => user.id !== selectedUser.id)]
+      : filteredUsers;
 
   return (
     <Card variant="plain" sx={{ bgcolor: "neutral.lightest", maxWidth: 256 }}>
@@ -43,26 +73,50 @@ export const TeamSearch = ({ currentUser, users }: TeamSearchProps) => {
           <Typography level="title-lg" fontWeight={700}>
             Subvisual Team
           </Typography>
-          <Typography>{users.length} members</Typography>
+          {isloading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
         </Stack>
 
         <Stack gap={2}>
-          <Autocomplete
+          <Input
             placeholder="Search"
-            options={filteredUsers.map(user => user.name)}
-            onInputChange={(_, newValue) => setSearch(newValue || "")}
-            freeSolo
-            startDecorator={<MagnifyingGlass sx={{ fontSize: 16 }} />}
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            startDecorator={<MagnifyingGlass sx={{ fontSize: 14 }} />}
+            endDecorator={
+              search && (
+                <IconButton
+                  variant="plain"
+                  onClick={() => setSearch("")}
+                  sx={{ transform: "rotate(45deg)", borderRadius: 20 }}
+                >
+                  <PlusSignOutlined sx={{ fontSize: 14 }} />
+                </IconButton>
+              )
+            }
             sx={{ borderRadius: 20, pl: 2 }}
           />
-          <Button>Compare</Button>
-          <Stack maxHeight={400} overflow="auto" gap={2}>
-            {!search && <UserCard user={currentUser} isCurrentUser />}
+          <Button variant="outlined" disabled>
+            Compare
+          </Button>
 
-            {filteredUsers.map(user => {
-              return <UserCard key={user.id} user={user} />;
-            })}
-          </Stack>
+          {isloading ? (
+            <IsLoading />
+          ) : (
+            <Stack maxHeight={400} overflow="auto" gap={2}>
+              {sortedUsers.map(user => {
+                return (
+                  <UserCard
+                    key={user.id}
+                    user={user}
+                    selectedUser={selectedUser}
+                    setSelectedUser={setSelectedUser}
+                    setActiveTab={setActiveTab}
+                    hasMe={currentUser.id === user.id}
+                  />
+                );
+              })}
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Card>

@@ -1,4 +1,4 @@
-import { Card, Stack, Typography } from "@mui/joy";
+import { Card, Skeleton, Stack, Typography } from "@mui/joy";
 import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { UsersStrengthsModel } from "../../models/users-strengths.model";
@@ -8,9 +8,10 @@ import { pluralize } from "../../utils/pluralize";
 type TeamSearchProps = {
   strengths: StrengthModel[];
   usersStrengths: UsersStrengthsModel[];
+  isLoading: boolean;
 };
 
-export const TeamDomains = ({ strengths, usersStrengths }: TeamSearchProps) => (
+export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearchProps) => (
   <Stack gap={2.5}>
     <Typography level="title-lg" fontWeight={700}>
       Team's Domains
@@ -41,12 +42,20 @@ export const TeamDomains = ({ strengths, usersStrengths }: TeamSearchProps) => (
               <Typography level="body-md" textColor="neutral.white" fontWeight={700}>
                 {category}
               </Typography>
-              <Typography level="body-md" textColor="neutral.white">
-                {pluralize(numberOfUsers, "person", "people")}
-              </Typography>
-              <Typography level="body-md" textColor="neutral.white">
-                {pluralize(numberOfStrengths, "strength", "strengths")}
-              </Typography>
+              {isLoading ? (
+                <Skeleton variant="text" />
+              ) : (
+                <Typography level="body-md" textColor="neutral.white">
+                  {pluralize(numberOfUsers, "person", "people")}
+                </Typography>
+              )}
+              {isLoading ? (
+                <Skeleton variant="text" />
+              ) : (
+                <Typography level="body-md" textColor="neutral.white">
+                  {pluralize(numberOfStrengths, "strength", "strengths")}
+                </Typography>
+              )}
             </Stack>
           </Card>
         );

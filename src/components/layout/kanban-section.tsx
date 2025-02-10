@@ -46,7 +46,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
 
       <Stack gap={1.5}>
         <Stack direction="row" justifyContent="space-between">
-          <Stack direction="row" alignItems="center" gap={1}>
+          <Stack flex={1} direction="row" alignItems="center" gap={1}>
             <Chip
               variant="outlined"
               startDecorator={<ColoredCircle color={progress} size={12} />}
@@ -58,9 +58,13 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
             >
               {progress}
             </Chip>
-            <Typography level="body-md" textColor="neutral.baseLighter">
-              {isLoading ? <Skeleton variant="text" level="body-md" width={16} /> : goals.length}
-            </Typography>
+            {isLoading ? (
+              <Skeleton variant="text" level="body-md" />
+            ) : (
+              <Typography level="body-md" textColor="neutral.baseLighter">
+                {goals.length}
+              </Typography>
+            )}
           </Stack>
           <IconButton disabled>
             <ThreeDots sx={{ fontSize: 20 }} />
@@ -95,7 +99,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
         </Card>
 
         {isLoading
-          ? [1, 2, 3].map(index => (
+          ? Array.from({ length: 3 }).map((_, index) => (
               <Card key={index} variant="soft" sx={{ bgcolor: "neutral.white", borderColor: "neutral.white" }}>
                 <Stack gap={2}>
                   <Skeleton variant="text" level="body-md" />

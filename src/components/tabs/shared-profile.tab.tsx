@@ -2,17 +2,25 @@ import { Stack } from "@mui/joy";
 import { useContext } from "react";
 import { MockAvatar } from "../../api/mock-avatar";
 import { AuthContext } from "../../contexts/auth.context";
+import { UserModel } from "../../models/user.model";
 import { userTopStrengths } from "../../utils/get-user-top-strengths";
 import { StrengthsCard } from "../shared/strengths-card";
 import { TabContainer } from "../shared/tabs-container";
-import { UserInfo } from "../shared/user-info";
+import { UserProfileInfo } from "../shared/user-info";
 
-export const PersonalProfileTab = () => {
-  const { user, strengths } = useContext(AuthContext);
-  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths);
+type SharedProfileTabProps = {
+  user?: UserModel;
+  isTeamView?: boolean;
+};
+
+export const SharedProfileTab = ({ user, isTeamView }: SharedProfileTabProps) => {
+  const { user: currentUser, strengths } = useContext(AuthContext);
+  const displayUser = user || currentUser;
+  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(displayUser?.strengths, strengths);
+
   return (
     <TabContainer>
-      <UserInfo user={user} />
+      {!isTeamView && <UserProfileInfo user={currentUser} />}
 
       <Stack width="100%" direction={{ xs: "column", lg: "row" }} alignItems={{ xs: "center", lg: "start" }} gap={10}>
         <Stack width={{ xs: "100%", md: 600 }} alignItems="center">
