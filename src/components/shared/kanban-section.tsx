@@ -1,24 +1,23 @@
 import { Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { ThreeDots } from "../../assets/icons/three-dots";
-import { AuthContext } from "../../contexts/auth.context";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
+import { StrengthModel } from "../../models/strength.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
 import { CreateEditGoalModal } from "../modals/create-edit-goal.modal";
 import { ColoredCircle } from "./colored-circle";
 
 type KanbanSectionProps = {
+  userId: string;
+  strengths: StrengthModel[];
   progress: GoalProgress;
   goals: GoalModel[];
   isLoading: boolean;
 };
 
-export type ModalAction = "Create" | "Edit";
-
-export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps) => {
-  const { strengths } = useContext(AuthContext);
+export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }: KanbanSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [currentGoal, setCurrentGoal] = useState<GoalModel | null>(null);
 
@@ -27,12 +26,14 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
       variant="soft"
       sx={{
         bgcolor: "neutral.lightest",
-        width: 320,
+        width: { xs: "100%", sm: 320 },
         boxShadow: `0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), "10%")}`
       }}
     >
       {isModalOpen && (
         <CreateEditGoalModal
+          userId={userId}
+          strengths={strengths}
           currentGoal={currentGoal}
           open={isModalOpen}
           onClose={() => {
@@ -61,7 +62,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
               {isLoading ? <Skeleton variant="text" level="body-md" width={16} /> : goals.length}
             </Typography>
           </Stack>
-          <IconButton>
+          <IconButton disabled>
             <ThreeDots sx={{ fontSize: 20 }} />
           </IconButton>
         </Stack>
@@ -95,7 +96,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
 
         {isLoading
           ? [1, 2, 3].map(index => (
-              <Card key={index} variant="soft" sx={{ bgcolor: "neutral.white" }}>
+              <Card key={index} variant="soft" sx={{ bgcolor: "neutral.white", borderColor: "neutral.white" }}>
                 <Stack gap={2}>
                   <Skeleton variant="text" level="body-md" />
                   <Skeleton variant="rectangular" height={24} width="50%" sx={{ borderRadius: 8 }} />
@@ -127,7 +128,7 @@ export const KanbanSection = ({ progress, goals, isLoading }: KanbanSectionProps
                 >
                   <Stack gap={2}>
                     <Typography level="body-md">{goal.details}</Typography>
-                    <Stack direction="row" gap={1}>
+                    <Stack gap={1}>
                       <Chip
                         variant="plain"
                         sx={{

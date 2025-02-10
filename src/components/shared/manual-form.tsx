@@ -1,22 +1,21 @@
 import { Box, Button, Link, Stack, Textarea, Typography } from "@mui/joy";
-import { FormEvent, useContext, useState } from "react";
-import { useUpdateUserManual } from "../../api/use-user.api";
-import { AuthContext } from "../../contexts/auth.context";
-import { SnackbarContext } from "../../contexts/snackbar.context";
+import { FormEvent, useState } from "react";
 import { ManualModel } from "../../models/manual.model";
+import { UserModel } from "../../models/user.model";
 
-type EditableFormProps = {
+type EditableForm = {
+  user: UserModel;
+  updateUserManual: any;
   field: keyof ManualModel;
   title: string;
+  isLoading: boolean;
 };
 
-export const ManualForm = ({ field, title }: EditableFormProps) => {
-  const { user, refetchUser } = useContext(AuthContext);
-  const { showSnackbar } = useContext(SnackbarContext);
+export const ManualForm = ({ user, updateUserManual, field, title, isLoading }: EditableForm) => {
   const value = user?.manual?.[field] || "";
-  const [tempValue, setTempValue] = useState<string>(value);
+  const [tempValue, setTempValue] = useState<string>(user?.manual?.[field] || "");
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const { mutateAsync: updateUserManual, isPending: isLoading, isError } = useUpdateUserManual();
+  const isButtonDisabled = isLoading || !tempValue.trim() || tempValue === value;
 
   const handleUpdateUserManual = async (e: FormEvent) => {
     e.preventDefault();
@@ -24,13 +23,7 @@ export const ManualForm = ({ field, title }: EditableFormProps) => {
 
     try {
       const updatedManual = { ...user?.manual, [field]: tempValue };
-      if (isError || !updatedManual) {
-        showSnackbar("danger", "Field was not updated.");
-      } else {
-        await updateUserManual({ userId: user.id, manual: updatedManual });
-        await refetchUser();
-        showSnackbar("success", "Field updated with success!");
-      }
+      await updateUserManual({ userId: user.id, manual: updatedManual });
     } catch (error) {
       console.error(error);
     } finally {
@@ -38,10 +31,8 @@ export const ManualForm = ({ field, title }: EditableFormProps) => {
     }
   };
 
-  const isButtonDisabled = isLoading || !tempValue.trim() || tempValue === value;
-
   return (
-    <Stack key={field} component="form" onSubmit={handleUpdateUserManual} gap={2.5}>
+    <Stack key={field} component="form" onSubmit={handleUpdateUserManual} gap={1}>
       <Stack direction="row" justifyContent="space-between" alignItems="start" gap={1}>
         <Typography level="body-md" textColor="neutral.dark" fontWeight={700}>
           {title}

@@ -1,9 +1,10 @@
-import { Stack, Typography } from "@mui/joy";
+import { Typography } from "@mui/joy";
+import { TabContainer } from "../shared/tabs-container";
 
 export const PersonalActivityTab = () => {
   return (
-    <Stack>
+    <TabContainer>
       <Typography>Activity</Typography>
-    </Stack>
+    </TabContainer>
   );
 };

@@ -6,21 +6,14 @@ import { ArrowRightOutlined } from "../assets/icons/arrow-right";
 import { AvatarLoading } from "../components/layout/avatar-loading";
 import { MainContainer } from "../components/shared/main-container";
 import { AuthContext } from "../contexts/auth.context";
-import { SnackbarContext } from "../contexts/snackbar.context";
 
 export const AvatarCreatePage = () => {
-  const { user, refetchUser } = useContext(AuthContext);
-  const { showSnackbar } = useContext(SnackbarContext);
-  const { mutateAsync: updateUserAvatarState, isPending: isLoading, isError } = useUpdateUserAvatarState();
+  const { user } = useContext(AuthContext);
+  const { mutateAsync: updateUserAvatarState, isPending: isLoading } = useUpdateUserAvatarState();
 
   const handleCreateAvatar = async () => {
     try {
-      if (isError) {
-        showSnackbar("danger", "Failed creating avatar.");
-      } else {
-        await updateUserAvatarState(user.id);
-        await refetchUser();
-      }
+      await updateUserAvatarState(user.id);
     } catch (error) {
       console.error(error);
     }

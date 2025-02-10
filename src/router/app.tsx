@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "../contexts/auth.context";
 import { AvatarCreatePage } from "../pages/avatar-create.page";
@@ -23,7 +23,7 @@ export const App = () => {
               <Route path="*" element={<Navigate to="/signup" replace />} />
             </>
           ) : (
-            <>
+            <Fragment>
               {!user?.hasAvatar ? (
                 <>
                   <Route path="/avatar-create" element={<AvatarCreatePage />} />
@@ -38,7 +38,7 @@ export const App = () => {
                   <Route path="*" element={<Navigate to="/avatar-results" replace />} />
                 </>
               )}
-            </>
+            </Fragment>
           )}
         </Routes>
       )}

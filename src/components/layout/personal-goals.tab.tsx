@@ -5,10 +5,11 @@ import { AuthContext } from "../../contexts/auth.context";
 import { GOALS_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { KanbanSection } from "../shared/kanban-section";
+import { TabContainer } from "../shared/tabs-container";
 import { UserInfo } from "../shared/user-info";
 
 export const PersonalGoalsTab = () => {
-  const { user } = useContext(AuthContext);
+  const { user, strengths } = useContext(AuthContext);
   const { data: userGoals = [], isLoading } = useGetGoalsByUserId(user.id);
 
   const userGoalsBasedOnProgress = (progress: GoalProgress): GoalModel[] => {
@@ -16,8 +17,8 @@ export const PersonalGoalsTab = () => {
   };
 
   return (
-    <Stack alignItems={{ xs: "center", lg: "start" }} gap={4}>
-      <UserInfo />
+    <TabContainer>
+      <UserInfo user={user} />
 
       <Stack width="100%" gap={4}>
         <Stack gap={1.5}>
@@ -32,10 +33,17 @@ export const PersonalGoalsTab = () => {
 
         <Divider />
 
-        <Stack direction="row" gap={2.5}>
+        <Stack
+          direction={{ xs: "column", lg: "row" }}
+          justifyContent={{ xs: "center", lg: "start" }}
+          alignItems={{ xs: "center", lg: "flex-start" }}
+          gap={{ xs: 6, lg: 3 }}
+        >
           {GOALS_PROGRESS.map((progress, index) => (
             <KanbanSection
               key={index}
+              userId={user.id}
+              strengths={strengths}
               progress={progress as GoalProgress}
               goals={userGoalsBasedOnProgress(progress as GoalProgress)}
               isLoading={isLoading}
@@ -43,6 +51,6 @@ export const PersonalGoalsTab = () => {
           ))}
         </Stack>
       </Stack>
-    </Stack>
+    </TabContainer>
   );
 };

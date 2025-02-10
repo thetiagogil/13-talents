@@ -8,8 +8,7 @@ export const SignupPage = () => {
   const { handleLogin } = useContext(AuthContext);
   const { showSnackbar } = useContext(SnackbarContext);
   const [email, setEmail] = useState<string>("");
-
-  const { isFetching, refetch } = useGetUserByEmail(email);
+  const { isFetching: isLoading, refetch } = useGetUserByEmail(email);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -72,7 +71,7 @@ export const SignupPage = () => {
 
             <Stack component="form" onSubmit={handleSubmit} gap={1.5}>
               <Input placeholder="Type your email here..." value={email} onChange={e => setEmail(e.target.value)} />
-              <Button type="submit" loading={isFetching} disabled={!email}>
+              <Button type="submit" loading={isLoading} disabled={!email}>
                 Continue
               </Button>
             </Stack>

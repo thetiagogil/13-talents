@@ -1,5 +1,9 @@
 import { Divider, Stack, Typography } from "@mui/joy";
+import { useContext } from "react";
+import { useUpdateUserManual } from "../../api/use-user.api";
+import { AuthContext } from "../../contexts/auth.context";
 import { ManualForm } from "../shared/manual-form";
+import { TabContainer } from "../shared/tabs-container";
 import { UserInfo } from "../shared/user-info";
 
 const manualInfo = [
@@ -11,9 +15,11 @@ const manualInfo = [
 ] as const;
 
 export const PersonalManualTab = () => {
+  const { user } = useContext(AuthContext);
+  const { mutateAsync: updateUserManual, isPending: isLoading } = useUpdateUserManual();
   return (
-    <Stack alignItems={{ xs: "center", lg: "start" }} gap={4}>
-      <UserInfo />
+    <TabContainer>
+      <UserInfo user={user} />
 
       <Stack gap={4}>
         <Typography level="body-md" textColor="neutral.baseDarker">
@@ -24,9 +30,16 @@ export const PersonalManualTab = () => {
         <Divider />
 
         {manualInfo.map(({ field, title }) => (
-          <ManualForm key={field} field={field} title={title} />
+          <ManualForm
+            user={user}
+            updateUserManual={updateUserManual}
+            key={field}
+            field={field}
+            title={title}
+            isLoading={isLoading}
+          />
         ))}
       </Stack>
-    </Stack>
+    </TabContainer>
   );
 };

@@ -1,19 +1,17 @@
 import { List, ListDivider, ListItem, Option, Select, Typography } from "@mui/joy";
 import { SxProps } from "@mui/joy/styles/types";
-import { useContext } from "react";
 import { Fragment } from "react/jsx-runtime";
-import { AuthContext } from "../../contexts/auth.context";
 import { StrengthModel } from "../../models/strength.model";
 import { ColoredCircle } from "./colored-circle";
 
-type GroupedSingleSelectProps = {
+type StrengthsCategorySelectProps = {
+  strengths: StrengthModel[];
   value: number | null;
   onChange: (strengthId: number) => void;
   sx?: SxProps;
 };
 
-export const StrengthsCategorySelect = ({ value, onChange, sx }: GroupedSingleSelectProps) => {
-  const { strengths } = useContext(AuthContext);
+export const StrengthsCategorySelect = ({ strengths, value, onChange, sx }: StrengthsCategorySelectProps) => {
   const groupedStrengths = strengths.reduce<Record<string, StrengthModel[]>>((acc, strength) => {
     acc[strength.category] = [...(acc[strength.category] || []), strength];
     return acc;

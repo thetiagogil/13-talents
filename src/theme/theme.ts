@@ -1,5 +1,5 @@
 import { extendTheme } from "@mui/joy/styles";
-import { colors } from "./utils/colors";
+import { colors } from "./colors";
 
 declare module "@mui/joy/styles" {
   interface Palette {
@@ -56,7 +56,7 @@ export const theme = extendTheme({
     JoyTypography: {
       styleOverrides: {
         root: () => ({
-          lineHeight: 1,
+          lineHeight: 1.2,
           fontWeight: 400
         })
       }
