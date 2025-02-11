@@ -40,9 +40,13 @@ export const useGetUserById = (userId?: string) => {
 export const useUpdateUserAvatarState = () => {
   const { showSnackbar } = useContext(SnackbarContext);
   const queryClient = useQueryClient();
+  type MutationProps = {
+    userId: UserModel["id"];
+    avatar: UserModel["avatar"];
+  };
   return useMutation({
-    mutationFn: async (userId: string) => {
-      await supabase.from("users").update({ hasAvatar: true }).eq("id", userId).single();
+    mutationFn: async ({ userId, avatar }: MutationProps) => {
+      await supabase.from("users").update({ avatar }).eq("id", userId).single();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["useGetUserById"] });
@@ -57,8 +61,8 @@ export const useUpdateUserManual = () => {
   const { showSnackbar } = useContext(SnackbarContext);
   const queryClient = useQueryClient();
   type MutationProps = {
-    userId?: string;
-    manual?: ManualModel;
+    userId: UserModel["id"];
+    manual: ManualModel;
   };
   return useMutation({
     mutationFn: async ({ userId, manual }: MutationProps) => {

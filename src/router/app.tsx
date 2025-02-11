@@ -24,7 +24,7 @@ export const App = () => {
             </>
           ) : (
             <Fragment>
-              {!user?.hasAvatar ? (
+              {user && !user?.avatar ? (
                 <>
                   <Route path="/avatar-create" element={<AvatarCreatePage />} />
                   <Route path="*" element={<Navigate to="/avatar-create" replace />} />

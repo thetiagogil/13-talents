@@ -1,11 +1,11 @@
 import { Stack } from "@mui/joy";
 import { useContext } from "react";
-import { MockAvatar } from "../../api/mock-avatar";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
 import { userTopStrengths } from "../../utils/get-user-top-strengths";
 import { StrengthsCard } from "../shared/strengths-card";
 import { TabContainer } from "../shared/tabs-container";
+import { UserAvatar } from "../shared/user-avatar";
 import { UserProfileInfo } from "../shared/user-info";
 
 type SharedProfileTabProps = {
@@ -24,7 +24,7 @@ export const SharedProfileTab = ({ user, isTeamView }: SharedProfileTabProps) =>
 
       <Stack width="100%" direction={{ xs: "column", lg: "row" }} alignItems={{ xs: "center", lg: "start" }} gap={10}>
         <Stack width={{ xs: "100%", md: 600 }} alignItems="center">
-          <MockAvatar sx={{ fontSize: 280 }} />
+          <UserAvatar avatar={displayUser.avatar} />
         </Stack>
 
         <Stack>
