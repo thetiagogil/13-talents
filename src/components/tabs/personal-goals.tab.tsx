@@ -2,7 +2,7 @@ import { Divider, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { useGetGoalsByUserId } from "../../api/use-goals.api";
 import { AuthContext } from "../../contexts/auth.context";
-import { GOALS_PROGRESS } from "../../lib/constants";
+import { GOAL_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { KanbanSection } from "../layout/kanban-section";
 import { TabContainer } from "../shared/tabs-container";
@@ -39,7 +39,7 @@ export const PersonalGoalsTab = () => {
           alignItems={{ xs: "center", lg: "flex-start" }}
           gap={{ xs: 6, lg: 3 }}
         >
-          {GOALS_PROGRESS.map((progress, index) => (
+          {GOAL_PROGRESS.map((progress, index) => (
             <KanbanSection
               key={index}
               userId={user.id}

@@ -37,22 +37,23 @@ export const useGetUserById = (userId?: string) => {
   });
 };
 
-export const useUpdateUserAvatarState = () => {
+export const useUpdateUserProfileAfterFirstLogin = () => {
   const { showSnackbar } = useContext(SnackbarContext);
   const queryClient = useQueryClient();
   type MutationProps = {
     userId: UserModel["id"];
     avatar: UserModel["avatar"];
+    role: UserModel["role"];
   };
   return useMutation({
-    mutationFn: async ({ userId, avatar }: MutationProps) => {
-      await supabase.from("users").update({ avatar }).eq("id", userId).single();
+    mutationFn: async ({ userId, avatar, role }: MutationProps) => {
+      await supabase.from("users").update({ avatar, role }).eq("id", userId).single();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["useGetUserById"] });
     },
     onError: () => {
-      showSnackbar("danger", "Failed creating avatar.");
+      showSnackbar("danger", "Failed creating profile.");
     }
   });
 };

@@ -18,20 +18,20 @@ export const UserProfileInfo = ({ user }: UserProfileInfoprops) => (
       {user?.name}
     </Typography>
     <Typography level="body-md" textColor="neutral.light">
-      {user?.title}
+      {user?.role}
     </Typography>
   </Stack>
 );
 
 export const UserAvatarInfo = ({ user, fontSize, isRow = false, hasMe = false }: UserInfoProps) => (
   <Stack direction={isRow ? "row" : "column"} alignItems="center" gap={1}>
-    <Avatar size="lg" alt={user.name} />
+    <Avatar size="lg" src={user.avatar || undefined} alt={user.name} />
     <Stack alignItems={isRow ? "start" : "center"} textAlign={isRow ? "start" : "center"} gap={0.5}>
       <Typography fontSize={fontSize} fontWeight={700}>
         {user.name} {hasMe && "(me)"}
       </Typography>
       <Typography textColor="neutral.light" fontSize={fontSize}>
-        {user.title}
+        {user.role}
       </Typography>
     </Stack>
   </Stack>

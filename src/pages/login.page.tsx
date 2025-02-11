@@ -4,7 +4,7 @@ import { useGetUserByEmail } from "../api/use-user.api";
 import { AuthContext } from "../contexts/auth.context";
 import { SnackbarContext } from "../contexts/snackbar.context";
 
-export const SignupPage = () => {
+export const LoginPage = () => {
   const { handleLogin } = useContext(AuthContext);
   const { showSnackbar } = useContext(SnackbarContext);
   const [email, setEmail] = useState<string>("");

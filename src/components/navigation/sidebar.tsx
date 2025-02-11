@@ -38,7 +38,7 @@ export const Sidebar = () => {
   return (
     <Stack alignItems="center" gap={{ xs: 0, lg: 8 }}>
       <Stack height={80} width="100%" justifyContent="center" alignItems="center">
-        <JoyLink component={ReactLink} to="/">
+        <JoyLink component={ReactLink} to="/profile-results">
           <SubvisualLogo sx={{ fontSize: 40 }} />
         </JoyLink>
       </Stack>

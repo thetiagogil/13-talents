@@ -1,7 +1,8 @@
+import { GOAL_PROGRESS } from "../lib/constants";
 import { StrengthModel } from "./strength.model";
 import { UserModel } from "./user.model";
 
-export type GoalProgress = "To do" | "Doing" | "Done";
+export type GoalProgress = (typeof GOAL_PROGRESS)[number];
 
 export type GoalModel = {
   id?: number;
