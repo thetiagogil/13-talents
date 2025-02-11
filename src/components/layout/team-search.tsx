@@ -3,6 +3,8 @@ import { useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { UserModel } from "../../models/user.model";
+import { getColorHex } from "../../utils/get-color-hex";
+import { getColorTransparency } from "../../utils/get-color-transparency";
 import { IsLoading } from "../shared/is-loading";
 import { UserAvatarInfo } from "../shared/user-info";
 
@@ -10,6 +12,9 @@ type UserCardProps = {
   user: UserModel;
   selectedUser: UserModel | null;
   setSelectedUser: (user: UserModel | null) => void;
+  isComparing: boolean;
+  selectedUsersArray: UserModel[];
+  setSelectedUsersArray: (users: UserModel[]) => void;
   setActiveTab: (activeTab: string | number | null) => void;
   hasMe?: boolean;
 };
@@ -19,52 +24,82 @@ type TeamSearchProps = {
   users: UserModel[];
   selectedUser: UserModel | null;
   setSelectedUser: (user: UserModel | null) => void;
+  isComparing: boolean;
+  setIsComparing: (boolean: boolean) => void;
+  selectedUsersArray: UserModel[];
+  setSelectedUsersArray: (users: UserModel[]) => void;
   setActiveTab: (activeTab: string | number | null) => void;
-  isloading: boolean;
+  isLoading: boolean;
 };
 
-const UserCard = ({ user, selectedUser, setSelectedUser, setActiveTab, hasMe }: UserCardProps) => (
-  <Card
-    variant="plain"
-    onClick={() => {
-      selectedUser?.id === user.id ? setSelectedUser(null) : setSelectedUser(user);
-      setActiveTab(0);
-    }}
-    sx={{
-      cursor: "pointer",
-      bgcolor: "neutral.white",
-      border: "1px solid",
-      borderColor: selectedUser?.id === user.id ? "subvisual.primary" : "neutral.white",
-      p: 1.5,
-      "&:hover": {
+const UserCard = ({
+  user,
+  selectedUser,
+  setSelectedUser,
+  isComparing,
+  selectedUsersArray,
+  setSelectedUsersArray,
+  setActiveTab,
+  hasMe
+}: UserCardProps) => {
+  const isUserAlreadyBeingCompared = selectedUsersArray.some(u => u.id === user.id);
+  const isUserAlreadySelected = selectedUser?.id === user.id;
+  const isSelected = isUserAlreadyBeingCompared || isUserAlreadySelected;
+  return (
+    <Card
+      component="button"
+      variant="plain"
+      onClick={() => {
+        if (isComparing) {
+          if (isUserAlreadyBeingCompared) {
+            setSelectedUsersArray(selectedUsersArray.filter(u => u.id !== user.id));
+          } else {
+            setSelectedUsersArray([...selectedUsersArray, user]);
+          }
+        } else {
+          if (isUserAlreadySelected) {
+            setSelectedUser(null);
+          } else {
+            setSelectedUser(user);
+          }
+          setActiveTab(0);
+        }
+      }}
+      sx={{
+        cursor: "pointer",
+        bgcolor: isSelected ? getColorTransparency(getColorHex("primary"), 10) : "neutral.white",
         border: "1px solid",
-        borderColor: selectedUser?.id === user.id ? "danger.500" : "subvisual.primary"
-      }
-    }}
-  >
-    <UserAvatarInfo user={user} fontSize={14} hasMe={hasMe} isRow />
-  </Card>
-);
+        borderColor: isSelected ? "subvisual.primary" : "neutral.white",
+        p: 1.5,
+        "&:hover": {
+          bgcolor: isSelected ? "neutral.lighter" : getColorTransparency(getColorHex("primary"), 10),
+          border: "1px solid",
+          borderColor: isSelected ? "neutral.baseLighter" : "subvisual.primary"
+        }
+      }}
+    >
+      <UserAvatarInfo user={user} fontSize={14} hasMe={hasMe} isRow />
+    </Card>
+  );
+};
 
 export const TeamSearch = ({
   currentUser,
   users,
   selectedUser,
   setSelectedUser,
+  isComparing,
+  setIsComparing,
+  selectedUsersArray,
+  setSelectedUsersArray,
   setActiveTab,
-  isloading
+  isLoading
 }: TeamSearchProps) => {
   const [search, setSearch] = useState<string>("");
 
   const filteredUsers = users
     .filter(user => user.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => a.name.localeCompare(b.name));
-
-  const sortedUsers = search
-    ? filteredUsers
-    : selectedUser
-      ? [selectedUser, ...filteredUsers.filter(user => user.id !== selectedUser.id)]
-      : filteredUsers;
 
   return (
     <Card variant="plain" sx={{ bgcolor: "neutral.lightest", maxWidth: 256 }}>
@@ -73,7 +108,7 @@ export const TeamSearch = ({
           <Typography level="title-lg" fontWeight={700}>
             Subvisual Team
           </Typography>
-          {isloading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
+          {isLoading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
         </Stack>
 
         <Stack gap={2}>
@@ -95,21 +130,32 @@ export const TeamSearch = ({
             }
             sx={{ borderRadius: 20, pl: 2 }}
           />
-          <Button variant="outlined" disabled>
+          <Button
+            variant="solid"
+            onClick={() => {
+              setSelectedUser(null);
+              setIsComparing(!isComparing);
+              setSelectedUsersArray([]);
+            }}
+            sx={{ ...(isComparing && { bgcolor: "subvisual.primaryDark" }) }}
+          >
             Compare
           </Button>
 
-          {isloading ? (
+          {isLoading ? (
             <IsLoading />
           ) : (
-            <Stack maxHeight={400} overflow="auto" gap={2}>
-              {sortedUsers.map(user => {
+            <Stack maxHeight={400} overflow="auto" gap={2} pr={1}>
+              {filteredUsers.map(user => {
                 return (
                   <UserCard
                     key={user.id}
                     user={user}
                     selectedUser={selectedUser}
                     setSelectedUser={setSelectedUser}
+                    isComparing={isComparing}
+                    selectedUsersArray={selectedUsersArray}
+                    setSelectedUsersArray={setSelectedUsersArray}
                     setActiveTab={setActiveTab}
                     hasMe={currentUser.id === user.id}
                   />

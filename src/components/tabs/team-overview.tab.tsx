@@ -4,6 +4,7 @@ import { useGetUsers } from "../../api/use-user.api";
 import { useGetUsersStrengths } from "../../api/use-users-strengths.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
+import { TeamComparison } from "../layout/team-comparison";
 import { TeamDomains } from "../layout/team-domains";
 import { TeamSearch } from "../layout/team-search";
 import { TeamStrengths } from "../layout/team-strengths";
@@ -14,25 +15,47 @@ import { SharedProfileTab } from "./shared-profile.tab";
 
 export const TeamOverviewTab = () => {
   const { user, strengths } = useContext(AuthContext);
-  const [selectedUser, setSelectedUser] = useState<UserModel | null>(null);
   const [activeTab, setActiveTab] = useState<string | number | null>(0);
-  const { data: users, isPending: isPendingUsers } = useGetUsers();
-  const { data: usersStrengths, isPending: isPendingUsersStrengths } = useGetUsersStrengths();
+  const [selectedUser, setSelectedUser] = useState<UserModel | null>(null);
+  const [isComparing, setIsComparing] = useState<boolean>(false);
+  const [selectedUsersArray, setSelectedUsersArray] = useState<UserModel[]>([]);
+  const { data: users = [], isPending: isPendingUsers } = useGetUsers();
+  const { data: usersStrengths = [], isPending: isPendingUsersStrengths } = useGetUsersStrengths();
   const isLoading = isPendingUsers || isPendingUsersStrengths;
 
   return (
     <TabContainer>
       <Stack direction="row" gap={8} width="100%" alignItems="flex-start">
         <TeamSearch
-          currentUser={user || {}}
-          users={users || []}
+          currentUser={user}
+          users={users}
           selectedUser={selectedUser}
           setSelectedUser={setSelectedUser}
+          isComparing={isComparing}
+          setIsComparing={setIsComparing}
+          selectedUsersArray={selectedUsersArray}
+          setSelectedUsersArray={setSelectedUsersArray}
           setActiveTab={setActiveTab}
-          isloading={isLoading}
+          isLoading={isLoading}
         />
 
-        {selectedUser ? (
+        {isComparing ? (
+          <Stack width="100%" gap={8}>
+            <TeamComparison
+              strengths={strengths}
+              selectedUsersArray={selectedUsersArray}
+              setSelectedUsersArray={setSelectedUsersArray}
+            />
+            {selectedUsersArray.length > 0 && (
+              <TeamStrengths
+                users={selectedUsersArray}
+                strengths={strengths}
+                usersStrengths={usersStrengths}
+                isLoading={isLoading}
+              />
+            )}
+          </Stack>
+        ) : selectedUser ? (
           <Stack gap={4}>
             <UserProfileInfo user={selectedUser} />
             <TabsContainer
@@ -50,13 +73,8 @@ export const TeamOverviewTab = () => {
           </Stack>
         ) : (
           <Stack width="100%" gap={8}>
-            <TeamDomains strengths={strengths || []} usersStrengths={usersStrengths || []} isLoading={isLoading} />
-            <TeamStrengths
-              users={users || []}
-              strengths={strengths || []}
-              usersStrengths={usersStrengths || []}
-              isLoading={isLoading}
-            />
+            <TeamDomains strengths={strengths} usersStrengths={usersStrengths} isLoading={isLoading} />
+            <TeamStrengths users={users} strengths={strengths} usersStrengths={usersStrengths} isLoading={isLoading} />
           </Stack>
         )}
       </Stack>

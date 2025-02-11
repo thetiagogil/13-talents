@@ -27,7 +27,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
       sx={{
         bgcolor: "neutral.lightest",
         width: { xs: "100%", sm: 320 },
-        boxShadow: `0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), "10%")}`
+        boxShadow: `0px 4px 4px 0px ${getColorTransparency(getColorHex("black"), 10)}`
       }}
     >
       {isModalOpen && (
@@ -51,7 +51,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
               variant="outlined"
               startDecorator={<ColoredCircle color={progress} size={12} />}
               sx={{
-                bgcolor: getColorTransparency(getColorHex(progress), "20%"),
+                bgcolor: getColorTransparency(getColorHex(progress), 20),
                 color: getColorHex(progress),
                 borderColor: getColorHex(progress)
               }}
@@ -136,7 +136,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
                       <Chip
                         variant="plain"
                         sx={{
-                          bgcolor: getColorTransparency(getColorHex(strength?.category || ""), "20%"),
+                          bgcolor: getColorTransparency(getColorHex(strength?.category || ""), 20),
                           color: getColorHex(strength?.category || "")
                         }}
                       >

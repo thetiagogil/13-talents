@@ -28,6 +28,13 @@ export const colors = {
     darkest: "#101113",
     black: "#000000"
   },
+  charts: {
+    color1: "#0070CD",
+    color2: "#E97101",
+    color3: "#00945C",
+    color4: "#FF7B9B",
+    color5: "#7B2381"
+  },
   background: {
     avatarLoading: "#038DEF"
   }
