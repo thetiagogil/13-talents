@@ -2,72 +2,102 @@ import { Chip, Stack } from "@mui/joy";
 import { Chart as ChartJS, Filler, Legend, LineElement, PointElement, RadialLinearScale, Tooltip } from "chart.js";
 import { useMemo } from "react";
 import { Radar } from "react-chartjs-2";
-import { PlusSignOutlined } from "../../assets/icons/plus-sign";
+import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { UserModel } from "../../models/user.model";
+import { getColorHex } from "../../utils/get-color-hex";
+import { getColorTransparency } from "../../utils/get-color-transparency";
 import { radarChartBgColors, radarChartBorderColors } from "../../utils/get-radar-chart-colors";
-import { ColoredCircle } from "../shared/colored-circle";
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 type ProfileComparisonChartProps = {
   strengths: StrengthModel[];
   selectedUsersArray: UserModel[];
-  setSelectedUsersArray: (users: UserModel[]) => void;
 };
 
-export const TeamComparisonRadarChart = ({
-  strengths,
-  selectedUsersArray,
-  setSelectedUsersArray
-}: ProfileComparisonChartProps) => {
-  const removeUser = (userId: string) => {
-    setSelectedUsersArray(selectedUsersArray.filter(user => user.id !== userId));
-  };
-
+export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: ProfileComparisonChartProps) => {
   const { data, options } = useMemo(() => {
-    const usersToCompare = selectedUsersArray.slice(0, 5);
-    const labels = strengths.map(str => str.label);
+    const maxUsersToCompare = selectedUsersArray.slice(0, 5);
 
-    const datasets = usersToCompare.map((user, index) => {
-      const data = strengths.map(strength => {
-        const position = (user.strengths || []).indexOf(strength.id);
-        return position !== -1 ? 10 - position : 0;
+    // Ordered list for each strength category
+    const orderedCategoryStrengths = STRENGTH_CATEGORIES.map(category => {
+      let ordered: StrengthModel[] = [];
+      // 1. Add strengths that are common to every selected user
+      const currentCategoryStrengths = strengths.filter(strength => strength.category === category);
+      const commonStrengths = currentCategoryStrengths.filter(strength =>
+        selectedUsersArray.every(user => (user.strengths || []).includes(strength.id))
+      );
+      ordered = [...commonStrengths];
+
+      // 2. Add the rest of the strengths that are individual for each user (in order) that haven't been added yet
+      selectedUsersArray.forEach(user => {
+        (user.strengths || []).forEach(strengthId => {
+          const matchingStrength = currentCategoryStrengths.find(strength => strength.id === strengthId);
+          if (matchingStrength && !ordered.find(strength => strength.id === matchingStrength.id)) {
+            ordered.push(matchingStrength);
+          }
+        });
       });
-      const colorIndex = index % radarChartBgColors.length;
-      return {
-        data,
-        label: user.name,
-        backgroundColor: radarChartBgColors[colorIndex],
-        borderColor: radarChartBorderColors[colorIndex],
-        borderWidth: 1,
-        fill: true
-      };
+      return ordered;
     });
 
-    let filteredIndexes = strengths
-      .map((_, index) => (datasets.some(dataset => dataset.data[index] > 0) ? index : null))
-      .filter(index => index !== null);
+    // Ensure each quadrant's size of the chart is the same
+    const maxNumberOfStrengthsPerQuadrant = Math.max(...orderedCategoryStrengths.map(arr => arr.length), 1);
+    const dividedCategoryStrengths = orderedCategoryStrengths.map((array, index) => {
+      if (array.length < maxNumberOfStrengthsPerQuadrant) {
+        const placeholders = Array(maxNumberOfStrengthsPerQuadrant - array.length).fill({
+          id: null,
+          label: "",
+          details: "",
+          category: STRENGTH_CATEGORIES[index]
+        });
+        return [...array, ...placeholders];
+      }
+      return array;
+    });
 
-    if (filteredIndexes.length === 0) {
-      filteredIndexes = strengths.map((_, index) => index);
-    }
+    // Flatten the array into one ordered list
+    const flattenCategoryStrengths = dividedCategoryStrengths.flat();
 
-    const filteredLabels = labels.filter((_, index) => filteredIndexes.includes(index));
-    const filteredDatasets = datasets.map(dataset => ({
-      ...dataset,
-      data: dataset.data.filter((_, index) => filteredIndexes.includes(index))
-    }));
+    // Chart configs
+    const data = {
+      labels: flattenCategoryStrengths.map(s => s.label),
+      datasets: maxUsersToCompare.map((user, index) => {
+        const data = flattenCategoryStrengths.map(strength => {
+          if (strength.id) {
+            const position = (user.strengths || []).indexOf(strength.id);
+            return position !== -1 ? 10 - position : 0;
+          }
+          return 0;
+        });
+        const colorIndex = index % radarChartBgColors.length;
+        return {
+          data,
+          label: user.name,
+          backgroundColor: radarChartBgColors[colorIndex],
+          borderColor: radarChartBorderColors[colorIndex],
+          borderWidth: 1,
+          fill: true
+        };
+      })
+    };
 
-    let data;
-    let options;
-    const sharedOptions = {
+    const options = {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
         r: {
           beginAtZero: true,
-          max: 10
+          max: 10,
+          pointLabels: {
+            display: true,
+            color: (context: any) => {
+              const index = context.index;
+              const category = flattenCategoryStrengths[index]?.category;
+              return category ? getColorHex(category) : "black";
+            }
+          }
         }
       },
       plugins: {
@@ -82,74 +112,40 @@ export const TeamComparisonRadarChart = ({
       }
     };
 
-    if (selectedUsersArray.length === 0) {
-      data = {
-        labels: labels,
-        datasets: []
-      };
-      options = {
-        ...sharedOptions,
-        scales: {
-          r: {
-            ...sharedOptions.scales.r,
-            pointLabels: { display: false }
-          }
-        }
-      };
-    } else {
-      data = {
-        labels: filteredLabels,
-        datasets: filteredDatasets
-      };
-      options = {
-        ...sharedOptions,
-        scales: {
-          r: {
-            ...sharedOptions.scales.r,
-            pointLabels: { display: true }
-          }
-        }
-      };
-    }
     return { data, options };
   }, [strengths, selectedUsersArray]);
 
   return (
-    <>
-      {selectedUsersArray.length > 0 && (
-        <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap={2}>
-          <Stack direction="row" flexWrap="wrap" gap={2}>
-            {selectedUsersArray.map((user, index) => {
-              const colorIndex = index % radarChartBgColors.length;
-              return (
-                <Chip
-                  key={user.id}
-                  variant="outlined"
-                  onClick={() => removeUser(user.id)}
-                  startDecorator={<ColoredCircle color={radarChartBorderColors[colorIndex]} size={12} />}
-                  sx={{
-                    color: radarChartBorderColors[colorIndex],
-                    fontSize: 14
-                  }}
-                >
-                  {user.name}
-                </Chip>
-              );
-            })}
-          </Stack>
+    <Stack position="relative" width="100%" height={{ xs: 360, md: "100%" }}>
+      <Radar data={data} options={options} />
+
+      {STRENGTH_CATEGORIES.map((category, index) => {
+        const value = 40;
+        const labelPositions = [
+          { top: value, right: value },
+          { bottom: value, right: value },
+          { bottom: value, left: value },
+          { top: value, left: value }
+        ];
+        const position = labelPositions[index];
+
+        return (
           <Chip
+            key={category}
             variant="outlined"
-            onClick={() => setSelectedUsersArray([])}
-            endDecorator={<PlusSignOutlined sx={{ fontSize: 12, transform: "rotate(45deg)" }} />}
-            sx={{ fontSize: 14 }}
+            sx={{
+              position: "absolute",
+              ...position,
+              color: getColorHex(category),
+              bgcolor: getColorTransparency(getColorHex(category), 10),
+              borderColor: getColorHex(category),
+              fontSize: 12
+            }}
           >
-            Clear all
+            {category}
           </Chip>
-        </Stack>
-      )}
-      <Stack position="relative" width="100%" height="100%">
-        <Radar data={data} options={options} />
-      </Stack>
-    </>
+        );
+      })}
+    </Stack>
   );
 };
