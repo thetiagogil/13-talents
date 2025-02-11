@@ -29,11 +29,11 @@ export const colors = {
     black: "#000000"
   },
   charts: {
-    color1: "#0070CD",
-    color2: "#E97101",
-    color3: "#00945C",
-    color4: "#FF7B9B",
-    color5: "#7B2381"
+    color1: "#FB2C36",
+    color2: "#00B8DB",
+    color3: "#FE9A00",
+    color4: "#00A63E",
+    color5: "#AD46FF"
   },
   background: {
     avatarLoading: "#038DEF"
