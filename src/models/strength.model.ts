@@ -1,10 +1,13 @@
 import { STRENGTH_CATEGORIES } from "../lib/constants";
 
-export type StrengthCategories = (typeof STRENGTH_CATEGORIES)[number];
-
 export type StrengthModel = {
   id: number;
   label: string;
-  details: string;
-  category: StrengthCategories;
+  description: string;
+  category: (typeof STRENGTH_CATEGORIES)[number];
+  details: {
+    bring: string;
+    need: string;
+    motivate: string;
+  };
 };

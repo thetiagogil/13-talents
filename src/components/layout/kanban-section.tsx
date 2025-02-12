@@ -2,7 +2,7 @@ import { Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { ThreeDots } from "../../assets/icons/three-dots";
-import { GoalModel, GoalProgress } from "../../models/goal.model";
+import { GoalModel } from "../../models/goal.model";
 import { StrengthModel } from "../../models/strength.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
@@ -12,7 +12,7 @@ import { ColoredCircle } from "../shared/colored-circle";
 type KanbanSectionProps = {
   userId: string;
   strengths: StrengthModel[];
-  progress: GoalProgress;
+  progress: GoalModel["progress"];
   goals: GoalModel[];
   isLoading: boolean;
 };
@@ -131,7 +131,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
                   }}
                 >
                   <Stack gap={2}>
-                    <Typography level="body-md">{goal.details}</Typography>
+                    <Typography level="body-md">{goal.description}</Typography>
                     <Stack gap={1}>
                       <Chip
                         variant="plain"
