@@ -55,6 +55,7 @@ export const Sidebar = () => {
               to={item.path}
               width="100%"
               gap={1}
+              sx={{ opacity: item.disabled ? 0.5 : 1 }}
             >
               <IconButton
                 variant="plain"

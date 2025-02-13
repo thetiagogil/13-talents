@@ -22,7 +22,7 @@ export const AuthContext = createContext({} as AuthContextProps);
 export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(localStorage.getItem("userId") as string);
-  const { data: user = {}, isLoading: isLoadingUserData, isError } = useGetUserById(userId);
+  const { data: user, isLoading: isLoadingUserData, isError } = useGetUserById(userId);
   const { data: strengths = [], isLoading: isLoadingStrengthsData } = useGetStrengths();
 
   useEffect(() => {

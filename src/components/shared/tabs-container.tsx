@@ -31,7 +31,8 @@ export const TabsContainer = ({ tabs, hasPadding, activeTab, setActiveTab }: Tab
             root: {
               sx: {
                 p: 0,
-                fontSize: { xs: 14, sm: 16 }
+                fontSize: { xs: 14, sm: 16 },
+                opacity: obj.disabled ? 0.5 : 1
               }
             }
           }}

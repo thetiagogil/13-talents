@@ -1,5 +1,5 @@
 import { Divider, Stack, Typography } from "@mui/joy";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useUpdateUserManual } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
@@ -23,7 +23,9 @@ const manualInfo = [
 export const SharedManualTab = ({ user, isTeamView }: SharedManualTabProps) => {
   const { user: currentUser } = useContext(AuthContext);
   const displayUser = user || currentUser;
-  const { mutateAsync: updateUserManual, isPending: isLoading } = useUpdateUserManual();
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [submittingField, setSubmittingField] = useState<string | null>(null);
+  const { mutateAsync: updateUserManual } = useUpdateUserManual();
 
   return (
     <TabContainer>
@@ -48,8 +50,11 @@ export const SharedManualTab = ({ user, isTeamView }: SharedManualTabProps) => {
             updateUserManual={updateUserManual}
             field={field}
             title={title}
+            editingField={editingField}
+            submittingField={submittingField}
+            setEditingField={setEditingField}
+            setSubmittingField={setSubmittingField}
             isTeamView={isTeamView}
-            isLoading={isLoading}
           />
         ))}
       </Stack>

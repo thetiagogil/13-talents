@@ -54,7 +54,7 @@ export const Navbar = ({ hasSideBar }: NavbarProps) => {
       </Grid>
 
       <Grid xs={6} display="flex" alignItems="center" justifyContent="end" gap={1}>
-        <IconButton size="sm" disabled>
+        <IconButton size="sm" disabled sx={{ opacity: 0.5 }}>
           <NotificationsOutlined sx={{ fontSize: 18 }} />
         </IconButton>
 

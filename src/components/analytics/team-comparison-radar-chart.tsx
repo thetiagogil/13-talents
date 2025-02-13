@@ -120,7 +120,7 @@ export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: Prof
       <Radar data={data} options={options} />
 
       {STRENGTH_CATEGORIES.map((category, index) => {
-        const value = 40;
+        const value = { xs: 10, sm: 0, md: 40 };
         const labelPositions = [
           { top: value, right: value },
           { bottom: value, right: value },
