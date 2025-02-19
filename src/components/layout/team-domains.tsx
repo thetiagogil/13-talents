@@ -1,4 +1,5 @@
 import { Card, Skeleton, Stack, Typography } from "@mui/joy";
+import { useMemo } from "react";
 import { STRENGTH_CATEGORIES } from "../../lib/constants";
 import { StrengthModel } from "../../models/strength.model";
 import { UsersStrengthsModel } from "../../models/users-strengths.model";
@@ -11,22 +12,27 @@ type TeamSearchProps = {
   isLoading: boolean;
 };
 
-export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearchProps) => (
-  <Stack gap={2.5}>
-    <Typography level="title-lg" fontWeight={700}>
-      Team's Domains
-    </Typography>
+export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearchProps) => {
+  const strengthCategoriesArray = useMemo(() => {
+    return STRENGTH_CATEGORIES.map(category => {
+      const filterStrengthsByCategory = strengths.filter(strength => strength.category === category);
+      const filterUsersStrengthsByCategory = usersStrengths.filter(item =>
+        filterStrengthsByCategory.some(strength => item.strength_id === strength.id)
+      );
+      const numberOfUsers = new Set(filterUsersStrengthsByCategory.map(item => item.user_id)).size;
+      const numberOfStrengths = new Set(filterUsersStrengthsByCategory.map(item => item.strength_id)).size;
+      return { category, numberOfUsers, numberOfStrengths };
+    });
+  }, [strengths, usersStrengths]);
 
-    <Stack direction={{ xs: "column", sm: "row" }} borderRadius={8} overflow="hidden">
-      {STRENGTH_CATEGORIES.map(category => {
-        const filterStrengthsByCategory = strengths.filter(strength => strength.category === category);
-        const filterUsersStrengthsByCategory = usersStrengths.filter(item =>
-          filterStrengthsByCategory.some(strength => item.strength_id === strength.id)
-        );
-        const numberOfUsers = new Set(filterUsersStrengthsByCategory.map(item => item.user_id)).size;
-        const numberOfStrengths = new Set(filterUsersStrengthsByCategory.map(item => item.strength_id)).size;
+  return (
+    <Stack gap={2.5}>
+      <Typography level="title-lg" fontWeight={700}>
+        Team's Domains
+      </Typography>
 
-        return (
+      <Stack direction={{ xs: "column", sm: "row" }} borderRadius={8} overflow="hidden">
+        {strengthCategoriesArray.map(({ category, numberOfUsers, numberOfStrengths }) => (
           <Card
             key={category}
             variant="plain"
@@ -56,8 +62,8 @@ export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearch
               )}
             </Stack>
           </Card>
-        );
-      })}
+        ))}
+      </Stack>
     </Stack>
-  </Stack>
-);
+  );
+};
