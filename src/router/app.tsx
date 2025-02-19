@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthContext } from "../contexts/auth.context";
 import { LoadingPage } from "../pages/loading.page";
@@ -10,7 +10,7 @@ import { TeamPage } from "../pages/team.page";
 
 export const App = () => {
   const { isAuthenticated, user, isLoadingContext } = useContext(AuthContext);
-  const hasProfile = user.avatar && user.role;
+  const hasProfile = user?.avatar && user?.role;
 
   return (
     <>
@@ -24,7 +24,7 @@ export const App = () => {
               <Route path="*" element={<Navigate to="/login" replace />} />
             </>
           ) : (
-            <Fragment>
+            <>
               {user && !hasProfile ? (
                 <>
                   <Route path="/profile-create" element={<ProfileCreatePage />} />
@@ -39,7 +39,7 @@ export const App = () => {
                   <Route path="*" element={<Navigate to="/profile-results" replace />} />
                 </>
               )}
-            </Fragment>
+            </>
           )}
         </Routes>
       )}

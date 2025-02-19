@@ -48,7 +48,7 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
           indicator={
             <PlusSignOutlined
               sx={{
-                fontSize: 12,
+                fontSize: isExpanded ? 13 : 12,
                 transition: "0.3s",
                 transform: isExpanded ? "rotate(45deg)" : "rotate(0deg)"
               }}
@@ -129,9 +129,13 @@ export const TeamStrengths = ({ users, strengths, usersStrengths, isLoading }: T
 
   return (
     <Stack gap={2.5}>
-      <Typography level="title-lg" fontWeight={700}>
-        Team's Domains
-      </Typography>
+      <Stack gap={1.5}>
+        <Typography level="title-lg" fontWeight={700}>
+          The Team’s Top 10 Strengths
+        </Typography>
+
+        <Typography level="title-md">Discover how many people have each of these strengths in their top 10</Typography>
+      </Stack>
 
       <Stack direction={{ xs: "column", md: "row" }} gap={{ xs: 1.5, md: 4 }}>
         {columns.map((column, index) => (

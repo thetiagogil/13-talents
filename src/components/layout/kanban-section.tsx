@@ -1,7 +1,6 @@
-import { Card, Chip, IconButton, Skeleton, Stack, Typography } from "@mui/joy";
+import { Card, Checkbox, Chip, Skeleton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
-import { ThreeDots } from "../../assets/icons/three-dots";
 import { GoalModel } from "../../models/goal.model";
 import { StrengthModel } from "../../models/strength.model";
 import { getColorHex } from "../../utils/get-color-hex";
@@ -20,6 +19,10 @@ type KanbanSectionProps = {
 export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }: KanbanSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [currentGoal, setCurrentGoal] = useState<GoalModel | null>(null);
+  const [showApproved, setShowApproved] = useState(false);
+  const filteredGoals = showApproved
+    ? goals.sort((a, b) => Number(a.approved) - Number(b.approved))
+    : goals.filter(goal => goal.approved === false);
 
   return (
     <Card
@@ -45,8 +48,8 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
       )}
 
       <Stack gap={1.5}>
-        <Stack direction="row" justifyContent="space-between">
-          <Stack flex={1} direction="row" alignItems="center" gap={1}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Stack flex={1} height={36} direction="row" alignItems="center" gap={1}>
             <Chip
               variant="outlined"
               startDecorator={<ColoredCircle color={progress} size={12} />}
@@ -66,9 +69,18 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
               </Typography>
             )}
           </Stack>
-          <IconButton disabled>
-            <ThreeDots sx={{ fontSize: 20 }} />
-          </IconButton>
+
+          {progress === "Done" && (
+            <Checkbox
+              size="sm"
+              disabled={!goals.length}
+              label="Show Approved"
+              checked={showApproved}
+              onChange={event => setShowApproved(event.target.checked)}
+              variant={showApproved ? "soft" : "outlined"}
+              sx={{ color: "neutral.baseDarker" }}
+            />
+          )}
         </Stack>
 
         <Card
@@ -107,7 +119,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
                 </Stack>
               </Card>
             ))
-          : goals.map(goal => {
+          : filteredGoals.map(goal => {
               const strength = strengths.find(strength => strength.id === goal.strength_id);
               return (
                 <Card
@@ -120,13 +132,13 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
                     }
                   }}
                   sx={{
-                    cursor: "pointer",
+                    ...(!goal.approved && { cursor: "pointer" }),
                     bgcolor: "neutral.white",
                     border: "1px solid",
                     borderColor: "neutral.white",
                     "&:hover": {
                       border: "1px solid",
-                      borderColor: goal.approved ? "neutral.light" : "subvisual.primary"
+                      borderColor: goal.approved ? "transparent" : "subvisual.primary"
                     }
                   }}
                 >

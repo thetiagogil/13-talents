@@ -10,7 +10,8 @@ import {
   Stack,
   Typography
 } from "@mui/joy";
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
+import { FilterOutlined } from "../../assets/icons/filter";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { SnackbarContext } from "../../contexts/snackbar.context";
@@ -126,6 +127,18 @@ export const TeamSearchContent = ({
       </Stack>
 
       <Stack gap={2}>
+        <Button
+          variant="solid"
+          onClick={() => {
+            setSelectedUser(null);
+            setIsComparing(!isComparing);
+            setSelectedUsersArray([]);
+          }}
+          sx={{ ...(isComparing && { bgcolor: "subvisual.primaryDark" }) }}
+        >
+          Compare
+        </Button>
+
         <Input
           placeholder="Search"
           value={search}
@@ -144,17 +157,6 @@ export const TeamSearchContent = ({
           }
           sx={{ borderRadius: 20, pl: 2 }}
         />
-        <Button
-          variant="solid"
-          onClick={() => {
-            setSelectedUser(null);
-            setIsComparing(!isComparing);
-            setSelectedUsersArray([]);
-          }}
-          sx={{ ...(isComparing && { bgcolor: "subvisual.primaryDark" }) }}
-        >
-          Compare
-        </Button>
 
         {isLoading ? (
           <IsLoading />
@@ -185,11 +187,17 @@ export const TeamSearchContent = ({
 export const TeamSearch = (props: TeamSearchProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <Fragment>
+    <>
       <Stack display={{ xs: "block", lg: "none" }} width="100%">
-        <Button variant="solid" onClick={() => setIsOpen(true)} fullWidth>
-          Search
+        <Button
+          variant="solid"
+          onClick={() => setIsOpen(true)}
+          fullWidth
+          endDecorator={<FilterOutlined sx={{ fontSize: 14 }} />}
+        >
+          Filters
         </Button>
+
         <Drawer open={isOpen} onClose={_event => setIsOpen(false)} anchor="top" size="lg">
           <ModalDialog layout="fullscreen">
             <ModalClose variant="outlined" />
@@ -201,6 +209,6 @@ export const TeamSearch = (props: TeamSearchProps) => {
       <Card variant="plain" sx={{ display: { xs: "none", lg: "block" }, bgcolor: "neutral.lightest", maxWidth: 256 }}>
         <TeamSearchContent {...props} />
       </Card>
-    </Fragment>
+    </>
   );
 };

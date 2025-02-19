@@ -49,7 +49,7 @@ const AccordionItem = ({ rank, label, description, category }: AccordionItemProp
         indicator={
           <PlusSignOutlined
             sx={{
-              fontSize: 12,
+              fontSize: isExpanded ? 13 : 12,
               transition: "0.3s",
               transform: isExpanded ? "rotate(45deg)" : "rotate(0deg)"
             }}
@@ -131,7 +131,7 @@ export const StrengthsCard = ({ userTopStrengthsArray, userTopStrengthsPercentag
       ))}
     </Grid>
 
-    <Button variant="outlined" size="sm" disabled>
+    <Button variant="outlined" size="sm" disabled sx={{ opacity: 0.5 }}>
       See full report
     </Button>
   </Stack>
