@@ -51,15 +51,13 @@ export const TeamComparisonTable = ({ strengths, selectedUsersArray }: TeamCompa
         {data.map(strength => (
           <tr key={strength.id}>
             <td>
-              {selectedUsersArray.length > 0 && (
-                <Typography textColor={getColorHex(strength.category)}>
-                  {strength.label} ({strength.compatibility}%)
-                </Typography>
-              )}
+              <Typography textColor={getColorHex(strength.category)}>
+                {strength.label} ({strength.compatibility}%)
+              </Typography>
             </td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>{strength.details.bring}</td>
+            <td>{strength.details.need}</td>
+            <td>{strength.details.motivate}</td>
           </tr>
         ))}
       </tbody>

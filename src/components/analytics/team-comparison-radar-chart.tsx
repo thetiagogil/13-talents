@@ -49,7 +49,7 @@ export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: Prof
         const placeholders = Array(maxNumberOfStrengthsPerQuadrant - array.length).fill({
           id: null,
           label: "",
-          details: "",
+          description: "",
           category: STRENGTH_CATEGORIES[index]
         });
         return [...array, ...placeholders];

@@ -3,7 +3,7 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import { useCreateGoal, useDeleteGoal, useUpdateGoal } from "../../api/use-goals.api";
 import { SnackbarContext } from "../../contexts/snackbar.context";
 import { GOAL_PROGRESS } from "../../lib/constants";
-import { GoalModel, GoalProgress } from "../../models/goal.model";
+import { GoalModel } from "../../models/goal.model";
 import { StrengthModel } from "../../models/strength.model";
 import { ColoredCircle } from "../shared/colored-circle";
 import { StrengthsCategorySelect } from "../shared/strengths-category-select";
@@ -14,7 +14,7 @@ type CreateEditGoalModalProps = {
   currentGoal: GoalModel | null;
   open: boolean;
   onClose: () => void;
-  progress: GoalProgress;
+  progress: GoalModel["progress"];
 };
 
 export const CreateEditGoalModal = ({
@@ -26,9 +26,9 @@ export const CreateEditGoalModal = ({
   progress
 }: CreateEditGoalModalProps) => {
   const { showSnackbar } = useContext(SnackbarContext);
-  const [goal, setGoal] = useState<{ strength_id: number; details: string; progress: GoalProgress }>({
+  const [goal, setGoal] = useState<{ strength_id: number; description: string; progress: GoalModel["progress"] }>({
     strength_id: currentGoal?.strength_id || 0,
-    details: currentGoal?.details || "",
+    description: currentGoal?.description || "",
     progress: currentGoal?.progress || progress
   });
   const { mutate: createGoal, isPending: isCreating } = useCreateGoal();
@@ -39,7 +39,7 @@ export const CreateEditGoalModal = ({
     if (open) {
       setGoal({
         strength_id: currentGoal?.strength_id || 0,
-        details: currentGoal?.details || "",
+        description: currentGoal?.description || "",
         progress: currentGoal?.progress || progress
       });
     }
@@ -47,7 +47,7 @@ export const CreateEditGoalModal = ({
 
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
-    if (!goal.strength_id || !goal.details) {
+    if (!goal.strength_id || !goal.description) {
       showSnackbar("danger", "Fields cannot be empty!");
       return;
     }
@@ -55,7 +55,7 @@ export const CreateEditGoalModal = ({
     if (currentGoal) {
       if (
         goal.strength_id === currentGoal.strength_id &&
-        goal.details === currentGoal.details &&
+        goal.description === currentGoal.description &&
         goal.progress === currentGoal.progress
       ) {
         showSnackbar("danger", "No changes detected!");
@@ -130,7 +130,7 @@ export const CreateEditGoalModal = ({
             <Select
               name="progress"
               value={goal.progress}
-              onChange={(_, newValue) => setGoal(prev => ({ ...prev, progress: newValue as GoalProgress }))}
+              onChange={(_, newValue) => setGoal(prev => ({ ...prev, progress: newValue as GoalModel["progress"] }))}
               disabled={currentGoal ? false : true}
               sx={{ width: "100%" }}
             >
@@ -149,10 +149,10 @@ export const CreateEditGoalModal = ({
           </Stack>
 
           <Textarea
-            name="details"
-            value={goal.details}
-            onChange={e => setGoal(prev => ({ ...prev, details: e.target.value }))}
-            placeholder="Enter goal details..."
+            name="description"
+            value={goal.description}
+            onChange={e => setGoal(prev => ({ ...prev, description: e.target.value }))}
+            placeholder="Enter goal description..."
             minRows={2}
           />
 

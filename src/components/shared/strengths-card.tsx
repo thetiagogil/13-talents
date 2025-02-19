@@ -19,7 +19,7 @@ import { ColoredCircle } from "./colored-circle";
 type AccordionItemProps = {
   rank: number;
   label: StrengthModel["label"];
-  details: StrengthModel["details"];
+  description: StrengthModel["description"];
   category: StrengthModel["category"];
 };
 
@@ -33,7 +33,7 @@ type StrengthsCardProps = {
   userTopStrengthsPercentages: { [k: string]: number };
 };
 
-const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) => {
+const AccordionItem = ({ rank, label, description, category }: AccordionItemProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   return (
@@ -84,7 +84,7 @@ const AccordionItem = ({ rank, label, details, category }: AccordionItemProps) =
 
       <AccordionDetails>
         <Stack py={1}>
-          <Typography level="body-sm">{details}</Typography>
+          <Typography level="body-sm">{description}</Typography>
         </Stack>
       </AccordionDetails>
     </Accordion>
@@ -113,7 +113,7 @@ export const StrengthsCard = ({ userTopStrengthsArray, userTopStrengthsPercentag
             key={index}
             rank={index + 1}
             label={item.label}
-            details={item.details}
+            description={item.description}
             category={item.category}
           />
         ))}

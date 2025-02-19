@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useGetGoalsByUserId } from "../../api/use-goals.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { GOAL_PROGRESS } from "../../lib/constants";
-import { GoalModel, GoalProgress } from "../../models/goal.model";
+import { GoalModel } from "../../models/goal.model";
 import { KanbanSection } from "../layout/kanban-section";
 import { TabContainer } from "../shared/tabs-container";
 import { UserProfileInfo } from "../shared/user-info";
@@ -12,7 +12,7 @@ export const PersonalGoalsTab = () => {
   const { user, strengths } = useContext(AuthContext);
   const { data: userGoals = [], isLoading } = useGetGoalsByUserId(user.id);
 
-  const userGoalsBasedOnProgress = (progress: GoalProgress): GoalModel[] => {
+  const userGoalsBasedOnProgress = (progress: GoalModel["progress"]): GoalModel[] => {
     return userGoals?.filter((goal: GoalModel) => goal?.progress === progress);
   };
 
@@ -44,8 +44,8 @@ export const PersonalGoalsTab = () => {
               key={index}
               userId={user.id}
               strengths={strengths}
-              progress={progress as GoalProgress}
-              goals={userGoalsBasedOnProgress(progress as GoalProgress)}
+              progress={progress as GoalModel["progress"]}
+              goals={userGoalsBasedOnProgress(progress as GoalModel["progress"])}
               isLoading={isLoading}
             />
           ))}

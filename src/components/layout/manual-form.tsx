@@ -1,12 +1,11 @@
 import { Box, Button, Link, Stack, Textarea, Typography } from "@mui/joy";
 import { FormEvent, Fragment, useState } from "react";
-import { ManualModel } from "../../models/manual.model";
 import { UserModel } from "../../models/user.model";
 
 type EditableForm = {
   user: UserModel;
   updateUserManual: any;
-  field: keyof ManualModel;
+  field: keyof UserModel["manual"];
   title: string;
   isTeamView?: boolean;
   isLoading: boolean;

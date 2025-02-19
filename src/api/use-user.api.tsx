@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { SnackbarContext } from "../contexts/snackbar.context";
 import { supabase } from "../lib/supabase";
-import { ManualModel } from "../models/manual.model";
 import { UserModel } from "../models/user.model";
 
 export const useGetUsers = () => {
@@ -63,7 +62,7 @@ export const useUpdateUserManual = () => {
   const queryClient = useQueryClient();
   type MutationProps = {
     userId: UserModel["id"];
-    manual: ManualModel;
+    manual: UserModel["manual"];
   };
   return useMutation({
     mutationFn: async ({ userId, manual }: MutationProps) => {
