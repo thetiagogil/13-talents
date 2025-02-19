@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/joy";
+import { Button, Stack, Typography } from "@mui/joy";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { MainContainer } from "../components/shared/main-container";
@@ -12,7 +12,7 @@ const DashboardButton = () => (
     Go to dashboard
   </Button>
 );
-export const AvatarResultsPage = () => {
+export const ProfileResultsPage = () => {
   const { user, strengths } = useContext(AuthContext);
   const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(user?.strengths, strengths);
 
@@ -32,19 +32,13 @@ export const AvatarResultsPage = () => {
 
           <UserAvatar avatar={user.avatar} />
 
-          <Box display={{ xs: "none", lg: "block" }}>
-            <DashboardButton />
-          </Box>
+          <DashboardButton />
         </Stack>
 
         <StrengthsCard
           userTopStrengthsArray={userTopStrengthsArray}
           userTopStrengthsPercentages={userTopStrengthsPercentages}
         />
-
-        <Box display={{ xs: "block", lg: "none" }}>
-          <DashboardButton />
-        </Box>
       </Stack>
     </MainContainer>
   );

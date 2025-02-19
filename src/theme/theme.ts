@@ -66,7 +66,8 @@ export const theme = extendTheme({
         root: ({ theme }) => ({
           color: theme.palette.neutral.black,
           textDecorationColor: theme.palette.neutral.black,
-          transition: "0.3s"
+          transition: "0.3s",
+          "&:hover": { color: theme.palette.neutral.baseLighter }
         })
       }
     },

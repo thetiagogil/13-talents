@@ -46,7 +46,7 @@ export const Navbar = ({ hasSideBar }: NavbarProps) => {
 
         {!hasSideBar && (
           <Box display={{ xs: "none", lg: "flex" }} alignItems="center">
-            <JoyLink component={ReactLink} to="/">
+            <JoyLink component={ReactLink} to="/profile-results">
               <SubvisualLogo sx={{ fontSize: 40 }} />
             </JoyLink>
           </Box>

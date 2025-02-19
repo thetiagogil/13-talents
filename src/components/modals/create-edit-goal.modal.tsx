@@ -2,7 +2,7 @@ import { Button, Modal, ModalClose, ModalDialog, Option, Select, Stack, Textarea
 import { FormEvent, useContext, useEffect, useState } from "react";
 import { useCreateGoal, useDeleteGoal, useUpdateGoal } from "../../api/use-goals.api";
 import { SnackbarContext } from "../../contexts/snackbar.context";
-import { GOALS_PROGRESS } from "../../lib/constants";
+import { GOAL_PROGRESS } from "../../lib/constants";
 import { GoalModel, GoalProgress } from "../../models/goal.model";
 import { StrengthModel } from "../../models/strength.model";
 import { ColoredCircle } from "../shared/colored-circle";
@@ -134,7 +134,7 @@ export const CreateEditGoalModal = ({
               disabled={currentGoal ? false : true}
               sx={{ width: "100%" }}
             >
-              {GOALS_PROGRESS.map(progress => (
+              {GOAL_PROGRESS.map(progress => (
                 <Option
                   key={progress}
                   value={progress}
