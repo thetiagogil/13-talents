@@ -18,15 +18,15 @@ export const TeamComparison = ({ strengths, selectedUsersArray, setSelectedUsers
   };
 
   return (
-    <Stack flex={1} gap={2.5}>
+    <Stack gap={2.5}>
       <Typography level="title-lg" fontWeight={700}>
         Profile Comparison
       </Typography>
 
       <Stack gap={4}>
         {selectedUsersArray.length > 0 && (
-          <Stack direction="row" justifyContent="space-between">
-            <Stack direction="row" gap={2}>
+          <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap={2}>
+            <Stack direction="row" flexWrap="wrap" gap={2}>
               {selectedUsersArray.map((user, index) => {
                 const colorIndex = index % radarChartBgColors.length;
                 return (

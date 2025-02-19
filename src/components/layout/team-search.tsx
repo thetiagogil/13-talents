@@ -1,5 +1,16 @@
-import { Button, Card, IconButton, Input, Skeleton, Stack, Typography } from "@mui/joy";
-import { useState } from "react";
+import {
+  Button,
+  Card,
+  Drawer,
+  IconButton,
+  Input,
+  ModalClose,
+  ModalDialog,
+  Skeleton,
+  Stack,
+  Typography
+} from "@mui/joy";
+import { Fragment, useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { UserModel } from "../../models/user.model";
@@ -83,7 +94,7 @@ const UserCard = ({
   );
 };
 
-export const TeamSearch = ({
+export const TeamSearchContent = ({
   currentUser,
   users,
   selectedUser,
@@ -102,69 +113,90 @@ export const TeamSearch = ({
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <Card variant="plain" sx={{ bgcolor: "neutral.lightest", maxWidth: 256 }}>
-      <Stack gap={2}>
-        <Stack gap={1}>
-          <Typography level="title-lg" fontWeight={700}>
-            Subvisual Team
-          </Typography>
-          {isLoading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
-        </Stack>
-
-        <Stack gap={2}>
-          <Input
-            placeholder="Search"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            startDecorator={<MagnifyingGlass sx={{ fontSize: 14 }} />}
-            endDecorator={
-              search && (
-                <IconButton
-                  variant="plain"
-                  onClick={() => setSearch("")}
-                  sx={{ transform: "rotate(45deg)", borderRadius: 20 }}
-                >
-                  <PlusSignOutlined sx={{ fontSize: 14 }} />
-                </IconButton>
-              )
-            }
-            sx={{ borderRadius: 20, pl: 2 }}
-          />
-          <Button
-            variant="solid"
-            onClick={() => {
-              setSelectedUser(null);
-              setIsComparing(!isComparing);
-              setSelectedUsersArray([]);
-            }}
-            sx={{ ...(isComparing && { bgcolor: "subvisual.primaryDark" }) }}
-          >
-            Compare
-          </Button>
-
-          {isLoading ? (
-            <IsLoading />
-          ) : (
-            <Stack maxHeight={400} overflow="auto" gap={2} pr={1}>
-              {filteredUsers.map(user => {
-                return (
-                  <UserCard
-                    key={user.id}
-                    user={user}
-                    selectedUser={selectedUser}
-                    setSelectedUser={setSelectedUser}
-                    isComparing={isComparing}
-                    selectedUsersArray={selectedUsersArray}
-                    setSelectedUsersArray={setSelectedUsersArray}
-                    setActiveTab={setActiveTab}
-                    hasMe={currentUser.id === user.id}
-                  />
-                );
-              })}
-            </Stack>
-          )}
-        </Stack>
+    <Stack gap={2}>
+      <Stack gap={1}>
+        <Typography level="title-lg" fontWeight={700}>
+          Subvisual Team
+        </Typography>
+        {isLoading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
       </Stack>
-    </Card>
+
+      <Stack gap={2}>
+        <Input
+          placeholder="Search"
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          startDecorator={<MagnifyingGlass sx={{ fontSize: 14 }} />}
+          endDecorator={
+            search && (
+              <IconButton
+                variant="plain"
+                onClick={() => setSearch("")}
+                sx={{ transform: "rotate(45deg)", borderRadius: 20 }}
+              >
+                <PlusSignOutlined sx={{ fontSize: 14 }} />
+              </IconButton>
+            )
+          }
+          sx={{ borderRadius: 20, pl: 2 }}
+        />
+        <Button
+          variant="solid"
+          onClick={() => {
+            setSelectedUser(null);
+            setIsComparing(!isComparing);
+            setSelectedUsersArray([]);
+          }}
+          sx={{ ...(isComparing && { bgcolor: "subvisual.primaryDark" }) }}
+        >
+          Compare
+        </Button>
+
+        {isLoading ? (
+          <IsLoading />
+        ) : (
+          <Stack maxHeight={{ xs: 304, md: 320, lg: 400 }} overflow="auto" gap={2} pr={1}>
+            {filteredUsers.map(user => {
+              return (
+                <UserCard
+                  key={user.id}
+                  user={user}
+                  selectedUser={selectedUser}
+                  setSelectedUser={setSelectedUser}
+                  isComparing={isComparing}
+                  selectedUsersArray={selectedUsersArray}
+                  setSelectedUsersArray={setSelectedUsersArray}
+                  setActiveTab={setActiveTab}
+                  hasMe={currentUser.id === user.id}
+                />
+              );
+            })}
+          </Stack>
+        )}
+      </Stack>
+    </Stack>
+  );
+};
+
+export const TeamSearch = (props: TeamSearchProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  return (
+    <Fragment>
+      <Stack display={{ xs: "block", lg: "none" }} width="100%">
+        <Button variant="solid" onClick={() => setIsOpen(true)} fullWidth>
+          Search
+        </Button>
+        <Drawer open={isOpen} onClose={_event => setIsOpen(false)} anchor="top" size="lg">
+          <ModalDialog layout="fullscreen">
+            <ModalClose variant="outlined" />
+            <TeamSearchContent {...props} />
+          </ModalDialog>
+        </Drawer>
+      </Stack>
+
+      <Card variant="plain" sx={{ display: { xs: "none", lg: "block" }, bgcolor: "neutral.lightest", maxWidth: 256 }}>
+        <TeamSearchContent {...props} />
+      </Card>
+    </Fragment>
   );
 };
