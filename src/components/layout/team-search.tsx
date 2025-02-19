@@ -10,9 +10,10 @@ import {
   Stack,
   Typography
 } from "@mui/joy";
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import { MagnifyingGlass } from "../../assets/icons/magnifying-glass";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
+import { SnackbarContext } from "../../contexts/snackbar.context";
 import { UserModel } from "../../models/user.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
@@ -53,6 +54,7 @@ const UserCard = ({
   setActiveTab,
   hasMe
 }: UserCardProps) => {
+  const { showSnackbar } = useContext(SnackbarContext);
   const isUserAlreadyBeingCompared = selectedUsersArray.some(u => u.id === user.id);
   const isUserAlreadySelected = selectedUser?.id === user.id;
   const isSelected = isUserAlreadyBeingCompared || isUserAlreadySelected;
@@ -64,8 +66,10 @@ const UserCard = ({
         if (isComparing) {
           if (isUserAlreadyBeingCompared) {
             setSelectedUsersArray(selectedUsersArray.filter(u => u.id !== user.id));
-          } else {
+          } else if (selectedUsersArray.length < 5) {
             setSelectedUsersArray([...selectedUsersArray, user]);
+          } else {
+            showSnackbar("danger", "You can only compare up to 5 users at once.");
           }
         } else {
           if (isUserAlreadySelected) {
