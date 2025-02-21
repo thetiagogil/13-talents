@@ -1,4 +1,4 @@
-import { Box, Button, Input, Link, Stack, Typography } from "@mui/joy";
+import { Box, Button, Divider, Input, Link, Stack, Typography } from "@mui/joy";
 import { FormEvent, useContext, useState } from "react";
 import { useGetUserByEmail } from "../api/use-user.api";
 import { AuthContext } from "../contexts/auth.context";
@@ -9,13 +9,28 @@ export const LoginPage = () => {
   const { showSnackbar } = useContext(SnackbarContext);
   const [email, setEmail] = useState<string>("");
   const { isFetching: isLoading, refetch } = useGetUserByEmail(email);
+  const { isFetching: isLoadingTestUser, refetch: refetchTestUser } = useGetUserByEmail("johndoe@talents.com");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
+      if (email.length <= 0) return showSnackbar("danger", "Please enter credentials.");
       const { data: user, error } = await refetch();
       if (error || !user) {
         showSnackbar("danger", "Invalid credentials.");
+      } else {
+        await handleLogin(user);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleTestLogin = async () => {
+    try {
+      const { data: user, error } = await refetchTestUser();
+      if (error || !user) {
+        showSnackbar("danger", "Test user not found.");
       } else {
         await handleLogin(user);
       }
@@ -69,10 +84,22 @@ export const LoginPage = () => {
               </Typography>
             </Stack>
 
-            <Stack component="form" onSubmit={handleSubmit} gap={1.5}>
-              <Input placeholder="Type your email here..." value={email} onChange={e => setEmail(e.target.value)} />
-              <Button type="submit" loading={isLoading} disabled={!email}>
-                Continue
+            <Stack gap={2}>
+              <Stack gap={1}>
+                <Input placeholder="Type your email here..." value={email} onChange={e => setEmail(e.target.value)} />
+                <Button variant="solid" onClick={handleSubmit} loading={isLoading}>
+                  Continue
+                </Button>
+              </Stack>
+
+              <Divider orientation="horizontal">
+                <Typography level="body-md" textColor="neutral.baseLighter">
+                  or
+                </Typography>
+              </Divider>
+
+              <Button variant="outlined" onClick={handleTestLogin} loading={isLoadingTestUser}>
+                Continue with test user
               </Button>
             </Stack>
           </Stack>

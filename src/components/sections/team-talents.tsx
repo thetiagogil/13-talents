@@ -19,18 +19,20 @@ import { UserAvatarInfo } from "../shared/user-info";
 
 type AccordionItemProps = {
   item: { talent_id: number; user_ids: string[] };
+  currentUser: UserModel;
   users: UserModel[];
   talent: TalentModel;
 };
 
 type TeamTalentsProps = {
+  currentUser: UserModel;
   users: UserModel[];
   talents: TalentModel[];
   usersTalents: UsersTalentsModel[];
   isLoading: boolean;
 };
 
-const AccordionItem = ({ item, users, talent }: AccordionItemProps) => {
+const AccordionItem = ({ item, currentUser, users, talent }: AccordionItemProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const usersWithTalent = users.filter(user => item.user_ids.some(userId => user.id === userId));
 
@@ -94,7 +96,7 @@ const AccordionItem = ({ item, users, talent }: AccordionItemProps) => {
             <Grid container spacing={4}>
               {usersWithTalent.map(user => (
                 <Grid key={user.id} xs={3}>
-                  <UserAvatarInfo user={user} fontSize={12} />
+                  <UserAvatarInfo user={user} fontSize={12} hasMe={currentUser.id === user.id} />
                 </Grid>
               ))}
             </Grid>
@@ -105,7 +107,7 @@ const AccordionItem = ({ item, users, talent }: AccordionItemProps) => {
   );
 };
 
-export const TeamTalents = ({ users, talents, usersTalents, isLoading }: TeamTalentsProps) => {
+export const TeamTalents = ({ currentUser, users, talents, usersTalents, isLoading }: TeamTalentsProps) => {
   const columns = useMemo(() => {
     const usersTalentsBasedOnUsers = usersTalents.filter(element => users.some(user => element.user_id === user.id));
     const usersTalentsGrouped = Object.entries(
@@ -141,12 +143,20 @@ export const TeamTalents = ({ users, talents, usersTalents, isLoading }: TeamTal
             {isLoading
               ? Array.from({ length: 10 }).map((_, index) => (
                   <Skeleton key={index} variant="rectangular" width="100%" sx={{ borderRadius: 8 }}>
-                    <Button></Button>
+                    <Button />
                   </Skeleton>
                 ))
               : column.map(item => {
                   const talentInfo = talents.find(s => s.id === item.talent_id) as TalentModel;
-                  return <AccordionItem key={item.talent_id} item={item} users={users} talent={talentInfo || {}} />;
+                  return (
+                    <AccordionItem
+                      key={item.talent_id}
+                      item={item}
+                      currentUser={currentUser}
+                      users={users}
+                      talent={talentInfo || {}}
+                    />
+                  );
                 })}
           </Stack>
         ))}

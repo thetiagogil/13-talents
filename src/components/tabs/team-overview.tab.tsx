@@ -66,7 +66,13 @@ export const TeamOverviewTab = () => {
         ) : (
           <Stack width="100%" gap={{ xs: 4, lg: 8 }}>
             <TeamDomains talents={talents} usersTalents={usersTalents} isLoading={isLoading} />
-            <TeamTalents users={users} talents={talents} usersTalents={usersTalents} isLoading={isLoading} />
+            <TeamTalents
+              currentUser={user}
+              users={users}
+              talents={talents}
+              usersTalents={usersTalents}
+              isLoading={isLoading}
+            />
           </Stack>
         )}
       </Stack>
