@@ -11,26 +11,26 @@ import {
 } from "@mui/joy";
 import { useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
-import { StrengthModel } from "../../models/strength.model";
+import { TalentModel } from "../../models/talent.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
 import { ColoredCircle } from "./colored-circle";
 
 type AccordionItemProps = {
   rank: number;
-  label: StrengthModel["label"];
-  description: StrengthModel["description"];
-  category: StrengthModel["category"];
+  label: TalentModel["label"];
+  description: TalentModel["description"];
+  category: TalentModel["category"];
 };
 
-type StrengthsCategoryProps = {
-  category: StrengthModel["category"];
+type TalentsCategoryProps = {
+  category: TalentModel["category"];
   percentage: number;
 };
 
-type StrengthsCardProps = {
-  userTopStrengthsArray: StrengthModel[];
-  userTopStrengthsPercentages: { [k: string]: number };
+type TalentsCardProps = {
+  userTopTalentsArray: TalentModel[];
+  userTopTalentsPercentages: { [k: string]: number };
 };
 
 const AccordionItem = ({ rank, label, description, category }: AccordionItemProps) => {
@@ -91,7 +91,7 @@ const AccordionItem = ({ rank, label, description, category }: AccordionItemProp
   );
 };
 
-const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => (
+const TalentsCategory = ({ category, percentage }: TalentsCategoryProps) => (
   <Stack direction="row" alignItems="center" gap={1}>
     <ColoredCircle color={category} size={16} />
     <Typography level="body-sm">
@@ -100,15 +100,15 @@ const StrengthsCategory = ({ category, percentage }: StrengthsCategoryProps) => 
   </Stack>
 );
 
-export const StrengthsCard = ({ userTopStrengthsArray, userTopStrengthsPercentages }: StrengthsCardProps) => (
+export const TalentsCard = ({ userTopTalentsArray, userTopTalentsPercentages }: TalentsCardProps) => (
   <Stack bgcolor="neutral.white" maxWidth={440} p={4} gap={4} borderRadius={20}>
     <Typography level="h4" textAlign={{ xs: "center", lg: "start" }}>
-      Your Top 10 Strengths
+      Your Top 10 Talents
     </Typography>
 
     <AccordionGroup disableDivider>
       <Stack gap={1}>
-        {userTopStrengthsArray.map((item, index) => (
+        {userTopTalentsArray.map((item, index) => (
           <AccordionItem
             key={index}
             rank={index + 1}
@@ -121,11 +121,11 @@ export const StrengthsCard = ({ userTopStrengthsArray, userTopStrengthsPercentag
     </AccordionGroup>
 
     <Grid container spacing={1}>
-      {Object.keys(userTopStrengthsPercentages).map((category, index) => (
+      {Object.keys(userTopTalentsPercentages).map((category, index) => (
         <Grid key={index} xs={6}>
-          <StrengthsCategory
-            category={category as StrengthModel["category"]}
-            percentage={userTopStrengthsPercentages[category as StrengthModel["category"]]}
+          <TalentsCategory
+            category={category as TalentModel["category"]}
+            percentage={userTopTalentsPercentages[category as TalentModel["category"]]}
           />
         </Grid>
       ))}

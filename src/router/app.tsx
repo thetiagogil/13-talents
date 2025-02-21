@@ -5,7 +5,6 @@ import { LoadingPage } from "../pages/loading.page";
 import { LoginPage } from "../pages/login.page";
 import { PersonalPage } from "../pages/personal.page";
 import { ProfileCreatePage } from "../pages/profile-create.page";
-import { ProfileResultsPage } from "../pages/profile-results.page";
 import { TeamPage } from "../pages/team.page";
 
 export const App = () => {
@@ -32,11 +31,10 @@ export const App = () => {
                 </>
               ) : (
                 <>
-                  <Route path="/profile-results" element={<ProfileResultsPage />} />
                   <Route path="/personal" element={<PersonalPage />} />
                   <Route path="/team" element={<TeamPage />} />
                   {/*  <Route path="/learn" element={<LearnPage />} /> */}
-                  <Route path="*" element={<Navigate to="/profile-results" replace />} />
+                  <Route path="*" element={<Navigate to="/personal" replace />} />
                 </>
               )}
             </>

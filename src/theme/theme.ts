@@ -4,7 +4,7 @@ import { colors } from "./colors";
 declare module "@mui/joy/styles" {
   interface Palette {
     subvisual: typeof colors.subvisual;
-    strengths: typeof colors.strengths;
+    talents: typeof colors.talents;
     goals: typeof colors.goals;
     neutral: typeof colors.neutral;
   }
@@ -21,7 +21,7 @@ export const theme = extendTheme({
           500: colors.subvisual.primary
         },
         subvisual: colors.subvisual,
-        strengths: colors.strengths,
+        talents: colors.talents,
         goals: colors.goals,
         neutral: colors.neutral
       }

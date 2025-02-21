@@ -2,9 +2,9 @@ import { Stack } from "@mui/joy";
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
-import { userTopStrengths } from "../../utils/get-user-top-strengths";
-import { StrengthsCard } from "../shared/strengths-card";
+import { userTopTalents } from "../../utils/get-user-top-talents";
 import { TabContainer } from "../shared/tabs-container";
+import { TalentsCard } from "../shared/talents-card";
 import { UserAvatar } from "../shared/user-avatar";
 import { UserProfileInfo } from "../shared/user-info";
 
@@ -14,9 +14,9 @@ type SharedProfileTabProps = {
 };
 
 export const SharedProfileTab = ({ user, isTeamView }: SharedProfileTabProps) => {
-  const { user: currentUser, strengths } = useContext(AuthContext);
+  const { user: currentUser, talents } = useContext(AuthContext);
   const displayUser = user || currentUser;
-  const { userTopStrengthsArray, userTopStrengthsPercentages } = userTopStrengths(displayUser?.strengths, strengths);
+  const { userTopTalentsArray, userTopTalentsPercentages } = userTopTalents(displayUser?.talents, talents);
 
   return (
     <TabContainer>
@@ -28,9 +28,9 @@ export const SharedProfileTab = ({ user, isTeamView }: SharedProfileTabProps) =>
         </Stack>
 
         <Stack>
-          <StrengthsCard
-            userTopStrengthsArray={userTopStrengthsArray}
-            userTopStrengthsPercentages={userTopStrengthsPercentages}
+          <TalentsCard
+            userTopTalentsArray={userTopTalentsArray}
+            userTopTalentsPercentages={userTopTalentsPercentages}
           />
         </Stack>
       </Stack>

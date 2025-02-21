@@ -1,30 +1,30 @@
 import { List, ListDivider, ListItem, Option, Select, Typography } from "@mui/joy";
 import { SxProps } from "@mui/joy/styles/types";
 import { Fragment } from "react/jsx-runtime";
-import { StrengthModel } from "../../models/strength.model";
+import { TalentModel } from "../../models/talent.model";
 import { ColoredCircle } from "./colored-circle";
 
-type StrengthsCategorySelectProps = {
-  strengths: StrengthModel[];
+type TalentsCategorySelectProps = {
+  talents: TalentModel[];
   value: number | null;
-  onChange: (strengthId: number) => void;
+  onChange: (talentId: number) => void;
   sx?: SxProps;
 };
 
-export const StrengthsCategorySelect = ({ strengths, value, onChange, sx }: StrengthsCategorySelectProps) => {
-  const groupedStrengths = strengths.reduce<Record<string, StrengthModel[]>>((acc, strength) => {
-    acc[strength.category] = [...(acc[strength.category] || []), strength];
+export const TalentsCategorySelect = ({ talents, value, onChange, sx }: TalentsCategorySelectProps) => {
+  const groupedTalents = talents.reduce<Record<string, TalentModel[]>>((acc, talent) => {
+    acc[talent.category] = [...(acc[talent.category] || []), talent];
     return acc;
   }, {});
 
   return (
     <Select
-      placeholder="Select a strength..."
+      placeholder="Select a talent..."
       value={value || 0}
       onChange={(_, newValue) => onChange(newValue as number)}
       sx={{ ...sx }}
     >
-      {Object.entries(groupedStrengths).map(([category, strengths], index) => (
+      {Object.entries(groupedTalents).map(([category, talents], index) => (
         <Fragment key={category}>
           {index !== 0 && <ListDivider role="none" />}
           <List sx={{ "--ListItemDecorator-size": "28px" }}>
@@ -34,20 +34,20 @@ export const StrengthsCategorySelect = ({ strengths, value, onChange, sx }: Stre
                 textTransform="uppercase"
                 startDecorator={<ColoredCircle color={category} size={12} />}
               >
-                {category} ({strengths.length})
+                {category} ({talents.length})
               </Typography>
             </ListItem>
-            {strengths.map(strength => (
+            {talents.map(talent => (
               <Option
-                key={strength.id}
-                value={strength.id}
+                key={talent.id}
+                value={talent.id}
                 label={
                   <Typography level="body-md" startDecorator={<ColoredCircle color={category} size={12} />}>
-                    {strength.label}
+                    {talent.label}
                   </Typography>
                 }
               >
-                {strength.label}
+                {talent.label}
               </Option>
             ))}
           </List>

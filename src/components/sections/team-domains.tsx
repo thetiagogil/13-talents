@@ -1,29 +1,29 @@
 import { Card, Skeleton, Stack, Typography } from "@mui/joy";
 import { useMemo } from "react";
-import { STRENGTH_CATEGORIES } from "../../lib/constants";
-import { StrengthModel } from "../../models/strength.model";
-import { UsersStrengthsModel } from "../../models/users-strengths.model";
+import { TALENT_CATEGORIES } from "../../lib/constants";
+import { TalentModel } from "../../models/talent.model";
+import { UsersTalentsModel } from "../../models/users-talents.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { pluralize } from "../../utils/pluralize";
 
 type TeamSearchProps = {
-  strengths: StrengthModel[];
-  usersStrengths: UsersStrengthsModel[];
+  talents: TalentModel[];
+  usersTalents: UsersTalentsModel[];
   isLoading: boolean;
 };
 
-export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearchProps) => {
-  const strengthCategoriesArray = useMemo(() => {
-    return STRENGTH_CATEGORIES.map(category => {
-      const filterStrengthsByCategory = strengths.filter(strength => strength.category === category);
-      const filterUsersStrengthsByCategory = usersStrengths.filter(item =>
-        filterStrengthsByCategory.some(strength => item.strength_id === strength.id)
+export const TeamDomains = ({ talents, usersTalents, isLoading }: TeamSearchProps) => {
+  const talentCategoriesArray = useMemo(() => {
+    return TALENT_CATEGORIES.map(category => {
+      const filterTalentsByCategory = talents.filter(talent => talent.category === category);
+      const filterUsersTalentsByCategory = usersTalents.filter(item =>
+        filterTalentsByCategory.some(talent => item.talent_id === talent.id)
       );
-      const numberOfUsers = new Set(filterUsersStrengthsByCategory.map(item => item.user_id)).size;
-      const numberOfStrengths = new Set(filterUsersStrengthsByCategory.map(item => item.strength_id)).size;
-      return { category, numberOfUsers, numberOfStrengths };
+      const numberOfUsers = new Set(filterUsersTalentsByCategory.map(item => item.user_id)).size;
+      const numberOfTalents = new Set(filterUsersTalentsByCategory.map(item => item.talent_id)).size;
+      return { category, numberOfUsers, numberOfTalents };
     });
-  }, [strengths, usersStrengths]);
+  }, [talents, usersTalents]);
 
   return (
     <Stack gap={2.5}>
@@ -32,7 +32,7 @@ export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearch
       </Typography>
 
       <Stack direction={{ xs: "column", sm: "row" }} borderRadius={8} overflow="hidden">
-        {strengthCategoriesArray.map(({ category, numberOfUsers, numberOfStrengths }) => (
+        {talentCategoriesArray.map(({ category, numberOfUsers, numberOfTalents }) => (
           <Card
             key={category}
             variant="plain"
@@ -57,7 +57,7 @@ export const TeamDomains = ({ strengths, usersStrengths, isLoading }: TeamSearch
                 <Skeleton variant="text" />
               ) : (
                 <Typography level="body-md" textColor="neutral.white">
-                  {pluralize(numberOfStrengths, "strength", "strengths")}
+                  {pluralize(numberOfTalents, "talent", "talents")}
                 </Typography>
               )}
             </Stack>

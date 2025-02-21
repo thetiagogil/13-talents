@@ -1,27 +1,27 @@
 import { Stack } from "@mui/joy";
 import { useContext, useState } from "react";
 import { useGetUsers } from "../../api/use-user.api";
-import { useGetUsersStrengths } from "../../api/use-users-strengths.api";
+import { useGetUsersTalents } from "../../api/use-users-talents.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
-import { TeamComparison } from "../layout/team-comparison";
-import { TeamDomains } from "../layout/team-domains";
-import { TeamSearch } from "../layout/team-search";
-import { TeamStrengths } from "../layout/team-strengths";
+import { TeamComparison } from "../sections/team-comparison";
+import { TeamDomains } from "../sections/team-domains";
+import { TeamSearch } from "../sections/team-search";
+import { TeamTalents } from "../sections/team-talents";
 import { TabContainer, TabsContainer } from "../shared/tabs-container";
 import { UserProfileInfo } from "../shared/user-info";
 import { SharedManualTab } from "./shared-manual.tab";
 import { SharedProfileTab } from "./shared-profile.tab";
 
 export const TeamOverviewTab = () => {
-  const { user, strengths } = useContext(AuthContext);
+  const { user, talents } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState<string | number | null>(0);
   const [selectedUser, setSelectedUser] = useState<UserModel | null>(null);
   const [isComparing, setIsComparing] = useState<boolean>(false);
   const [selectedUsersArray, setSelectedUsersArray] = useState<UserModel[]>([]);
   const { data: users = [], isPending: isPendingUsers } = useGetUsers();
-  const { data: usersStrengths = [], isPending: isPendingUsersStrengths } = useGetUsersStrengths();
-  const isLoading = isPendingUsers || isPendingUsersStrengths;
+  const { data: usersTalents = [], isPending: isPendingUsersTalents } = useGetUsersTalents();
+  const isLoading = isPendingUsers || isPendingUsersTalents;
 
   return (
     <TabContainer>
@@ -42,7 +42,7 @@ export const TeamOverviewTab = () => {
         {isComparing ? (
           <Stack width="100%" gap={{ xs: 4, lg: 8 }}>
             <TeamComparison
-              strengths={strengths}
+              talents={talents}
               selectedUsersArray={selectedUsersArray}
               setSelectedUsersArray={setSelectedUsersArray}
             />
@@ -65,8 +65,8 @@ export const TeamOverviewTab = () => {
           </Stack>
         ) : (
           <Stack width="100%" gap={{ xs: 4, lg: 8 }}>
-            <TeamDomains strengths={strengths} usersStrengths={usersStrengths} isLoading={isLoading} />
-            <TeamStrengths users={users} strengths={strengths} usersStrengths={usersStrengths} isLoading={isLoading} />
+            <TeamDomains talents={talents} usersTalents={usersTalents} isLoading={isLoading} />
+            <TeamTalents users={users} talents={talents} usersTalents={usersTalents} isLoading={isLoading} />
           </Stack>
         )}
       </Stack>

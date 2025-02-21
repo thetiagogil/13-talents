@@ -1,5 +1,5 @@
 import { USER_ROLES } from "../lib/constants";
-import { StrengthModel } from "./strength.model";
+import { TalentModel } from "./talent.model";
 
 export type UserModel = {
   id: string;
@@ -7,7 +7,6 @@ export type UserModel = {
   email: string;
   role: (typeof USER_ROLES)[number] | null;
   avatar: string | null;
-  strengths: StrengthModel["id"][];
   manual: {
     about?: string;
     needs?: string;
@@ -15,4 +14,5 @@ export type UserModel = {
     happiness?: string;
     passions?: string;
   };
+  talents: TalentModel["id"][];
 };

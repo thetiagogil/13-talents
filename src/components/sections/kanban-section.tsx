@@ -2,7 +2,7 @@ import { Card, Checkbox, Chip, Skeleton, Stack, Typography } from "@mui/joy";
 import { useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
 import { GoalModel } from "../../models/goal.model";
-import { StrengthModel } from "../../models/strength.model";
+import { TalentModel } from "../../models/talent.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
 import { CreateEditGoalModal } from "../modals/create-edit-goal.modal";
@@ -10,13 +10,13 @@ import { ColoredCircle } from "../shared/colored-circle";
 
 type KanbanSectionProps = {
   userId: string;
-  strengths: StrengthModel[];
+  talents: TalentModel[];
   progress: GoalModel["progress"];
   goals: GoalModel[];
   isLoading: boolean;
 };
 
-export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }: KanbanSectionProps) => {
+export const KanbanSection = ({ userId, talents, progress, goals, isLoading }: KanbanSectionProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [currentGoal, setCurrentGoal] = useState<GoalModel | null>(null);
   const [showApproved, setShowApproved] = useState(false);
@@ -36,7 +36,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
       {isModalOpen && (
         <CreateEditGoalModal
           userId={userId}
-          strengths={strengths}
+          talents={talents}
           currentGoal={currentGoal}
           open={isModalOpen}
           onClose={() => {
@@ -120,7 +120,7 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
               </Card>
             ))
           : filteredGoals.map(goal => {
-              const strength = strengths.find(strength => strength.id === goal.strength_id);
+              const talent = talents.find(talent => talent.id === goal.talent_id);
               return (
                 <Card
                   key={goal.id}
@@ -148,11 +148,11 @@ export const KanbanSection = ({ userId, strengths, progress, goals, isLoading }:
                       <Chip
                         variant="plain"
                         sx={{
-                          bgcolor: getColorTransparency(getColorHex(strength?.category || ""), 20),
-                          color: getColorHex(strength?.category || "")
+                          bgcolor: getColorTransparency(getColorHex(talent?.category || ""), 20),
+                          color: getColorHex(talent?.category || "")
                         }}
                       >
-                        {strength?.label}
+                        {talent?.label}
                       </Chip>
                       {goal.progress === "Done" && (
                         <Chip

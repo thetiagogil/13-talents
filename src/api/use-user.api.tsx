@@ -14,7 +14,7 @@ export const useGetUsers = () => {
   });
 };
 
-export const useGetUserByEmail = (email?: string) => {
+export const useGetUserByEmail = (email?: UserModel["email"]) => {
   return useQuery({
     queryKey: ["useGetUserByEmail", email],
     queryFn: async () => {
@@ -25,7 +25,7 @@ export const useGetUserByEmail = (email?: string) => {
   });
 };
 
-export const useGetUserById = (userId?: string) => {
+export const useGetUserById = (userId?: UserModel["id"]) => {
   return useQuery({
     queryKey: ["useGetUserById", userId],
     queryFn: async () => {

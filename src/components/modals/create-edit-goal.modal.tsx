@@ -4,13 +4,13 @@ import { useCreateGoal, useDeleteGoal, useUpdateGoal } from "../../api/use-goals
 import { SnackbarContext } from "../../contexts/snackbar.context";
 import { GOAL_PROGRESS } from "../../lib/constants";
 import { GoalModel } from "../../models/goal.model";
-import { StrengthModel } from "../../models/strength.model";
+import { TalentModel } from "../../models/talent.model";
 import { ColoredCircle } from "../shared/colored-circle";
-import { StrengthsCategorySelect } from "../shared/strengths-category-select";
+import { TalentsCategorySelect } from "../shared/talents-category-select";
 
 type CreateEditGoalModalProps = {
   userId: string;
-  strengths: StrengthModel[];
+  talents: TalentModel[];
   currentGoal: GoalModel | null;
   open: boolean;
   onClose: () => void;
@@ -19,15 +19,15 @@ type CreateEditGoalModalProps = {
 
 export const CreateEditGoalModal = ({
   userId,
-  strengths,
+  talents,
   currentGoal,
   open,
   onClose,
   progress
 }: CreateEditGoalModalProps) => {
   const { showSnackbar } = useContext(SnackbarContext);
-  const [goal, setGoal] = useState<{ strength_id: number; description: string; progress: GoalModel["progress"] }>({
-    strength_id: currentGoal?.strength_id || 0,
+  const [goal, setGoal] = useState<{ talent_id: number; description: string; progress: GoalModel["progress"] }>({
+    talent_id: currentGoal?.talent_id || 0,
     description: currentGoal?.description || "",
     progress: currentGoal?.progress || progress
   });
@@ -38,7 +38,7 @@ export const CreateEditGoalModal = ({
   useEffect(() => {
     if (open) {
       setGoal({
-        strength_id: currentGoal?.strength_id || 0,
+        talent_id: currentGoal?.talent_id || 0,
         description: currentGoal?.description || "",
         progress: currentGoal?.progress || progress
       });
@@ -47,14 +47,14 @@ export const CreateEditGoalModal = ({
 
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
-    if (!goal.strength_id || !goal.description) {
+    if (!goal.talent_id || !goal.description) {
       showSnackbar("danger", "Fields cannot be empty!");
       return;
     }
 
     if (currentGoal) {
       if (
-        goal.strength_id === currentGoal.strength_id &&
+        goal.talent_id === currentGoal.talent_id &&
         goal.description === currentGoal.description &&
         goal.progress === currentGoal.progress
       ) {
@@ -120,10 +120,10 @@ export const CreateEditGoalModal = ({
           </Typography>
 
           <Stack direction={{ xs: "column", sm: "row" }} width="100%" gap={1}>
-            <StrengthsCategorySelect
-              strengths={strengths}
-              value={goal.strength_id}
-              onChange={newSelection => setGoal(prev => ({ ...prev, strength_id: newSelection }))}
+            <TalentsCategorySelect
+              talents={talents}
+              value={goal.talent_id}
+              onChange={newSelection => setGoal(prev => ({ ...prev, talent_id: newSelection }))}
               sx={{ width: "100%" }}
             />
 

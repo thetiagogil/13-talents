@@ -40,7 +40,7 @@ export const LoginPage = () => {
       <Stack width={{ xs: "100%", lg: "50%" }} justifyContent="center" alignItems={{ xs: "center", lg: "end" }}>
         <Stack alignItems={{ xs: "center", lg: "start" }} gap={{ xs: 2, lg: 1 }}>
           <Typography level="h1" textColor={"neutral.white"} textAlign="center">
-            Subvisual Strengths
+            Subvisual Talents
           </Typography>
           <Typography level="body-md" textColor="neutral.white" textAlign="center">
             Explore your top talents and how they shape your role in the team.
@@ -61,11 +61,11 @@ export const LoginPage = () => {
           <Stack gap={{ xs: 8, lg: 4 }}>
             <Stack gap={{ xs: 2, lg: 1 }}>
               <Typography level="h3" textColor="neutral.dark" fontFamily="Acta-Book">
-                Welcome to Subvisual Strengths!
+                Welcome to Subvisual Talents!
               </Typography>
 
               <Typography level="body-md" textColor="neutral.baseLighter">
-                You are one step away from seeing your strengths coming to life.
+                You are one step away from seeing your talents coming to life.
               </Typography>
             </Stack>
 

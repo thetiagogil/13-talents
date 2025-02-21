@@ -12,7 +12,7 @@ import {
 import { useContext, useState } from "react";
 import { useUpdateUserProfileAfterFirstLogin } from "../api/use-user.api";
 import { ArrowRightOutlined } from "../assets/icons/arrow-right";
-import { AvatarLoading } from "../components/layout/avatar-loading";
+import { AvatarLoading } from "../components/sections/avatar-loading";
 import { MainContainer } from "../components/shared/main-container";
 import { UserAvatar } from "../components/shared/user-avatar";
 import { AuthContext } from "../contexts/auth.context";

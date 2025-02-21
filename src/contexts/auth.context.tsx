@@ -1,13 +1,13 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { useGetStrengths } from "../api/use-strengths.api";
+import { useGetTalents } from "../api/use-talents.api";
 import { useGetUserById } from "../api/use-user.api";
-import { StrengthModel } from "../models/strength.model";
+import { TalentModel } from "../models/talent.model";
 import { UserModel } from "../models/user.model";
 
 type AuthContextProps = {
   isAuthenticated: boolean;
   user: UserModel;
-  strengths: StrengthModel[];
+  talents: TalentModel[];
   isLoadingContext: boolean;
   handleLogin: (user: UserModel | undefined) => Promise<void>;
   handleLogout: () => Promise<void>;
@@ -23,7 +23,7 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userId, setUserId] = useState<string>(localStorage.getItem("userId") as string);
   const { data: user, isLoading: isLoadingUserData, isError } = useGetUserById(userId);
-  const { data: strengths = [], isLoading: isLoadingStrengthsData } = useGetStrengths();
+  const { data: talents = [], isLoading: isLoadingTalentsData } = useGetTalents();
 
   useEffect(() => {
     if (user) {
@@ -52,8 +52,8 @@ export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
       value={{
         isAuthenticated,
         user,
-        strengths,
-        isLoadingContext: isLoadingUserData || isLoadingStrengthsData,
+        talents,
+        isLoadingContext: isLoadingUserData || isLoadingTalentsData,
         handleLogin,
         handleLogout
       }}

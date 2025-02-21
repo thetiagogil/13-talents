@@ -2,8 +2,8 @@ import { Chip, Stack } from "@mui/joy";
 import { Chart as ChartJS, Filler, Legend, LineElement, PointElement, RadialLinearScale, Tooltip } from "chart.js";
 import { useMemo } from "react";
 import { Radar } from "react-chartjs-2";
-import { STRENGTH_CATEGORIES } from "../../lib/constants";
-import { StrengthModel } from "../../models/strength.model";
+import { TALENT_CATEGORIES } from "../../lib/constants";
+import { TalentModel } from "../../models/talent.model";
 import { UserModel } from "../../models/user.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { getColorTransparency } from "../../utils/get-color-transparency";
@@ -12,30 +12,30 @@ import { radarChartBgColors, radarChartBorderColors } from "../../utils/get-rada
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 type ProfileComparisonChartProps = {
-  strengths: StrengthModel[];
+  talents: TalentModel[];
   selectedUsersArray: UserModel[];
 };
 
-export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: ProfileComparisonChartProps) => {
+export const TeamComparisonRadarChart = ({ talents, selectedUsersArray }: ProfileComparisonChartProps) => {
   const { data, options } = useMemo(() => {
     const maxUsersToCompare = selectedUsersArray.slice(0, 5);
 
-    // Ordered list for each strength category
-    const orderedCategoryStrengths = STRENGTH_CATEGORIES.map(category => {
-      let ordered: StrengthModel[] = [];
-      // 1. Add strengths that are common to every selected user
-      const currentCategoryStrengths = strengths.filter(strength => strength.category === category);
-      const commonStrengths = currentCategoryStrengths.filter(strength =>
-        selectedUsersArray.every(user => (user.strengths || []).includes(strength.id))
+    // Ordered list for each talent category
+    const orderedCategoryTalents = TALENT_CATEGORIES.map(category => {
+      let ordered: TalentModel[] = [];
+      // 1. Add talents that are common to every selected user
+      const currentCategoryTalents = talents.filter(talent => talent.category === category);
+      const commonTalents = currentCategoryTalents.filter(talent =>
+        selectedUsersArray.every(user => (user.talents || []).includes(talent.id))
       );
-      ordered = [...commonStrengths];
+      ordered = [...commonTalents];
 
-      // 2. Add the rest of the strengths that are individual for each user (in order) that haven't been added yet
+      // 2. Add the rest of the talents that are individual for each user (in order) that haven't been added yet
       selectedUsersArray.forEach(user => {
-        (user.strengths || []).forEach(strengthId => {
-          const matchingStrength = currentCategoryStrengths.find(strength => strength.id === strengthId);
-          if (matchingStrength && !ordered.find(strength => strength.id === matchingStrength.id)) {
-            ordered.push(matchingStrength);
+        (user.talents || []).forEach(talentId => {
+          const matchingTalent = currentCategoryTalents.find(talent => talent.id === talentId);
+          if (matchingTalent && !ordered.find(talent => talent.id === matchingTalent.id)) {
+            ordered.push(matchingTalent);
           }
         });
       });
@@ -43,14 +43,14 @@ export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: Prof
     });
 
     // Ensure each quadrant's size of the chart is the same
-    const maxNumberOfStrengthsPerQuadrant = Math.max(...orderedCategoryStrengths.map(arr => arr.length), 1);
-    const dividedCategoryStrengths = orderedCategoryStrengths.map((array, index) => {
-      if (array.length < maxNumberOfStrengthsPerQuadrant) {
-        const placeholders = Array(maxNumberOfStrengthsPerQuadrant - array.length).fill({
+    const maxNumberOfTalentsPerQuadrant = Math.max(...orderedCategoryTalents.map(arr => arr.length), 1);
+    const dividedCategoryTalents = orderedCategoryTalents.map((array, index) => {
+      if (array.length < maxNumberOfTalentsPerQuadrant) {
+        const placeholders = Array(maxNumberOfTalentsPerQuadrant - array.length).fill({
           id: null,
           label: "",
           description: "",
-          category: STRENGTH_CATEGORIES[index]
+          category: TALENT_CATEGORIES[index]
         });
         return [...array, ...placeholders];
       }
@@ -58,15 +58,15 @@ export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: Prof
     });
 
     // Flatten the array into one ordered list
-    const flattenCategoryStrengths = dividedCategoryStrengths.flat();
+    const flattenCategoryTalents = dividedCategoryTalents.flat();
 
     // Chart configs
     const data = {
-      labels: flattenCategoryStrengths.map(s => s.label),
+      labels: flattenCategoryTalents.map(s => s.label),
       datasets: maxUsersToCompare.map((user, index) => {
-        const data = flattenCategoryStrengths.map(strength => {
-          if (strength.id) {
-            const position = (user.strengths || []).indexOf(strength.id);
+        const data = flattenCategoryTalents.map(talent => {
+          if (talent.id) {
+            const position = (user.talents || []).indexOf(talent.id);
             return position !== -1 ? 10 - position : 0;
           }
           return 0;
@@ -94,7 +94,7 @@ export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: Prof
             display: true,
             color: (context: any) => {
               const index = context.index;
-              const category = flattenCategoryStrengths[index]?.category;
+              const category = flattenCategoryTalents[index]?.category;
               return category ? getColorHex(category) : "black";
             }
           }
@@ -113,13 +113,13 @@ export const TeamComparisonRadarChart = ({ strengths, selectedUsersArray }: Prof
     };
 
     return { data, options };
-  }, [strengths, selectedUsersArray]);
+  }, [talents, selectedUsersArray]);
 
   return (
     <Stack position="relative" width="100%" height={{ xs: 360, md: "100%" }}>
       <Radar data={data} options={options} />
 
-      {STRENGTH_CATEGORIES.map((category, index) => {
+      {TALENT_CATEGORIES.map((category, index) => {
         const value = { xs: 10, sm: 0, md: 40 };
         const labelPositions = [
           { top: value, right: value },

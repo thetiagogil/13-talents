@@ -4,12 +4,12 @@ import { useGetGoalsByUserId } from "../../api/use-goals.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { GOAL_PROGRESS } from "../../lib/constants";
 import { GoalModel } from "../../models/goal.model";
-import { KanbanSection } from "../layout/kanban-section";
+import { KanbanSection } from "../sections/kanban-section";
 import { TabContainer } from "../shared/tabs-container";
 import { UserProfileInfo } from "../shared/user-info";
 
 export const PersonalGoalsTab = () => {
-  const { user, strengths } = useContext(AuthContext);
+  const { user, talents } = useContext(AuthContext);
   const { data: userGoals = [], isLoading } = useGetGoalsByUserId(user.id);
 
   const userGoalsBasedOnProgress = (progress: GoalModel["progress"]): GoalModel[] => {
@@ -23,8 +23,8 @@ export const PersonalGoalsTab = () => {
       <Stack width="100%" gap={4}>
         <Stack gap={1.5}>
           <Typography level="body-md" textColor="neutral.baseDarker">
-            Connect your <strong>actionable goals</strong> with the <strong>strengths</strong> you want to reinforce,
-            and track your progress as you grow.
+            Connect your <strong>actionable goals</strong> with the <strong>talents</strong> you want to reinforce, and
+            track your progress as you grow.
           </Typography>
           <Typography level="body-md" textColor="neutral.baseDarker">
             This is your space to focus on what you're great at and make it even greater.
@@ -43,7 +43,7 @@ export const PersonalGoalsTab = () => {
             <KanbanSection
               key={index}
               userId={user.id}
-              strengths={strengths}
+              talents={talents}
               progress={progress as GoalModel["progress"]}
               goals={userGoalsBasedOnProgress(progress as GoalModel["progress"])}
               isLoading={isLoading}

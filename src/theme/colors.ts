@@ -5,7 +5,7 @@ export const colors = {
     purple: "#FF7B9B",
     pink: "#FF7B9B"
   },
-  strengths: {
+  talents: {
     executing: "#7B2381",
     influencing: "#E97101",
     relationshipBuilding: "#0070CD",

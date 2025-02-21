@@ -3,8 +3,9 @@ import { useContext } from "react";
 import { SnackbarContext } from "../contexts/snackbar.context";
 import { supabase } from "../lib/supabase";
 import { GoalModel } from "../models/goal.model";
+import { UserModel } from "../models/user.model";
 
-export const useGetGoalsByUserId = (userId?: string) => {
+export const useGetGoalsByUserId = (userId?: UserModel["id"]) => {
   return useQuery({
     queryKey: ["useGetGoalsByUserId", userId],
     queryFn: async () => {

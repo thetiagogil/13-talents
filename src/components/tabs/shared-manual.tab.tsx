@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { useUpdateUserManual } from "../../api/use-user.api";
 import { AuthContext } from "../../contexts/auth.context";
 import { UserModel } from "../../models/user.model";
-import { ManualForm } from "../layout/manual-form";
+import { ManualForm } from "../sections/manual-form";
 import { TabContainer } from "../shared/tabs-container";
 import { UserProfileInfo } from "../shared/user-info";
 

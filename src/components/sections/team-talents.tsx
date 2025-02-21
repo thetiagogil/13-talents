@@ -11,28 +11,28 @@ import {
 } from "@mui/joy";
 import { useMemo, useState } from "react";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
-import { StrengthModel } from "../../models/strength.model";
+import { TalentModel } from "../../models/talent.model";
 import { UserModel } from "../../models/user.model";
-import { UsersStrengthsModel } from "../../models/users-strengths.model";
+import { UsersTalentsModel } from "../../models/users-talents.model";
 import { getColorHex } from "../../utils/get-color-hex";
 import { UserAvatarInfo } from "../shared/user-info";
 
 type AccordionItemProps = {
-  item: { strength_id: number; user_ids: string[] };
+  item: { talent_id: number; user_ids: string[] };
   users: UserModel[];
-  strength: StrengthModel;
+  talent: TalentModel;
 };
 
-type TeamStrengthsProps = {
+type TeamTalentsProps = {
   users: UserModel[];
-  strengths: StrengthModel[];
-  usersStrengths: UsersStrengthsModel[];
+  talents: TalentModel[];
+  usersTalents: UsersTalentsModel[];
   isLoading: boolean;
 };
 
-const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
+const AccordionItem = ({ item, users, talent }: AccordionItemProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-  const usersWithStrength = users.filter(user => item.user_ids.some(userId => user.id === userId));
+  const usersWithTalent = users.filter(user => item.user_ids.some(userId => user.id === userId));
 
   return (
     <>
@@ -67,7 +67,7 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
         >
           <Box
             sx={{
-              bgcolor: getColorHex(strength.category),
+              bgcolor: getColorHex(talent.category),
               position: "absolute",
               left: 0,
               top: 0,
@@ -78,7 +78,7 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
             }}
           />
           <Stack direction="row" alignItems="center" gap={1}>
-            <Typography level="body-md">{strength.label}</Typography>
+            <Typography level="body-md">{talent.label}</Typography>
             <Typography level="body-md" fontWeight={700}>
               {item.user_ids.length}
             </Typography>
@@ -88,11 +88,11 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
         <AccordionDetails>
           <Stack p={2} gap={4}>
             <Typography level="body-sm" fontSize={14} textColor="neutral.baseLighter">
-              Domain: {strength.category}
+              Domain: {talent.category}
             </Typography>
 
             <Grid container spacing={4}>
-              {usersWithStrength.map(user => (
+              {usersWithTalent.map(user => (
                 <Grid key={user.id} xs={3}>
                   <UserAvatarInfo user={user} fontSize={12} />
                 </Grid>
@@ -105,36 +105,34 @@ const AccordionItem = ({ item, users, strength }: AccordionItemProps) => {
   );
 };
 
-export const TeamStrengths = ({ users, strengths, usersStrengths, isLoading }: TeamStrengthsProps) => {
+export const TeamTalents = ({ users, talents, usersTalents, isLoading }: TeamTalentsProps) => {
   const columns = useMemo(() => {
-    const usersStrengthsBasedOnUsers = usersStrengths.filter(element =>
-      users.some(user => element.user_id === user.id)
-    );
-    const usersStrengthsGrouped = Object.entries(
-      usersStrengthsBasedOnUsers.reduce(
-        (acc, { strength_id, user_id }) => {
-          (acc[strength_id] ||= []).push(user_id);
+    const usersTalentsBasedOnUsers = usersTalents.filter(element => users.some(user => element.user_id === user.id));
+    const usersTalentsGrouped = Object.entries(
+      usersTalentsBasedOnUsers.reduce(
+        (acc, { talent_id, user_id }) => {
+          (acc[talent_id] ||= []).push(user_id);
           return acc;
         },
         {} as Record<number, string[]>
       )
     )
       .sort(([, a], [, b]) => b.length - a.length)
-      .map(([strength_id, user_ids]) => ({ strength_id: Number(strength_id), user_ids }));
+      .map(([talent_id, user_ids]) => ({ talent_id: Number(talent_id), user_ids }));
 
-    const midpoint = Math.ceil(usersStrengthsGrouped.length / 2);
-    const columns = [usersStrengthsGrouped.slice(0, midpoint), usersStrengthsGrouped.slice(midpoint)];
+    const midpoint = Math.ceil(usersTalentsGrouped.length / 2);
+    const columns = [usersTalentsGrouped.slice(0, midpoint), usersTalentsGrouped.slice(midpoint)];
     return columns;
-  }, [users, usersStrengths]);
+  }, [users, usersTalents]);
 
   return (
     <Stack gap={2.5}>
       <Stack gap={1.5}>
         <Typography level="title-lg" fontWeight={700}>
-          The Team’s Top 10 Strengths
+          The Team’s Top 10 Talents
         </Typography>
 
-        <Typography level="title-md">Discover how many people have each of these strengths in their top 10</Typography>
+        <Typography level="title-md">Discover how many people have each of these talents in their top 10</Typography>
       </Stack>
 
       <Stack direction={{ xs: "column", md: "row" }} gap={{ xs: 1.5, md: 4 }}>
@@ -147,10 +145,8 @@ export const TeamStrengths = ({ users, strengths, usersStrengths, isLoading }: T
                   </Skeleton>
                 ))
               : column.map(item => {
-                  const strengthInfo = strengths.find(s => s.id === item.strength_id) as StrengthModel;
-                  return (
-                    <AccordionItem key={item.strength_id} item={item} users={users} strength={strengthInfo || {}} />
-                  );
+                  const talentInfo = talents.find(s => s.id === item.talent_id) as TalentModel;
+                  return <AccordionItem key={item.talent_id} item={item} users={users} talent={talentInfo || {}} />;
                 })}
           </Stack>
         ))}

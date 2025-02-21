@@ -1,6 +1,6 @@
 import { Chip, Stack, Typography } from "@mui/joy";
 import { PlusSignOutlined } from "../../assets/icons/plus-sign";
-import { StrengthModel } from "../../models/strength.model";
+import { TalentModel } from "../../models/talent.model";
 import { UserModel } from "../../models/user.model";
 import { radarChartBgColors, radarChartBorderColors } from "../../utils/get-radar-chart-colors";
 import { TeamComparisonRadarChart } from "../analytics/team-comparison-radar-chart";
@@ -8,12 +8,12 @@ import { TeamComparisonTable } from "../analytics/team-comparison-table";
 import { ColoredCircle } from "../shared/colored-circle";
 
 type TeamCompareProps = {
-  strengths: StrengthModel[];
+  talents: TalentModel[];
   selectedUsersArray: UserModel[];
   setSelectedUsersArray: (users: UserModel[]) => void;
 };
 
-export const TeamComparison = ({ strengths, selectedUsersArray, setSelectedUsersArray }: TeamCompareProps) => {
+export const TeamComparison = ({ talents, selectedUsersArray, setSelectedUsersArray }: TeamCompareProps) => {
   const removeUser = (userId: string) => {
     setSelectedUsersArray(selectedUsersArray.filter(user => user.id !== userId));
   };
@@ -53,10 +53,10 @@ export const TeamComparison = ({ strengths, selectedUsersArray, setSelectedUsers
           </Stack>
         )}
 
-        <TeamComparisonRadarChart strengths={strengths} selectedUsersArray={selectedUsersArray} />
+        <TeamComparisonRadarChart talents={talents} selectedUsersArray={selectedUsersArray} />
 
         {selectedUsersArray.length > 0 && (
-          <TeamComparisonTable strengths={strengths} selectedUsersArray={selectedUsersArray} />
+          <TeamComparisonTable talents={talents} selectedUsersArray={selectedUsersArray} />
         )}
       </Stack>
     </Stack>
