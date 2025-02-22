@@ -17,7 +17,6 @@ import { Link as ReactLink } from "react-router-dom";
 import { ArrowDownOutlined } from "../../assets/icons/arrow-down";
 import { ArrowUpOutlined } from "../../assets/icons/arrow-up";
 import { NotificationsOutlined } from "../../assets/icons/notifications-icon";
-import { SubvisualLogo } from "../../assets/icons/subvisual-logo";
 import { AuthContext } from "../../contexts/auth.context";
 import { Sidebar } from "./sidebar";
 
@@ -47,7 +46,7 @@ export const Navbar = ({ hasSideBar }: NavbarProps) => {
         {!hasSideBar && (
           <Box display={{ xs: "none", lg: "flex" }} alignItems="center">
             <JoyLink component={ReactLink} to="/profile-results">
-              <SubvisualLogo sx={{ fontSize: 40 }} />
+              <img src="/favicon.png" style={{ height: 40 }} />
             </JoyLink>
           </Box>
         )}
@@ -64,7 +63,7 @@ export const Navbar = ({ hasSideBar }: NavbarProps) => {
               <Avatar
                 alt={user.name}
                 src={user.avatar || undefined}
-                sx={{ border: "2px solid", borderColor: "subvisual.primary" }}
+                sx={{ border: "2px solid", borderColor: "main.primary" }}
               />
               <Typography level="body-md" display={{ xs: "none", lg: "inline" }}>
                 {user?.name}

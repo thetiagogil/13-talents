@@ -1,5 +1,5 @@
 export const colors = {
-  subvisual: {
+  main: {
     primary: "#065BFB",
     primaryDark: "#2521AB",
     purple: "#FF7B9B",

@@ -2,12 +2,11 @@ import { IconButton, Link as JoyLink, Stack, Typography } from "@mui/joy";
 import { Link as ReactLink, useLocation } from "react-router-dom";
 import { LearnFilled, LearnOutlined } from "../../assets/icons/learn-icon";
 import { PersonalFilled, PersonalOutlined } from "../../assets/icons/personal-icon";
-import { SubvisualLogo } from "../../assets/icons/subvisual-logo";
 import { TeamFilled, TeamOutlined } from "../../assets/icons/team-icon";
 
 const sidebarItemStyle = { fontSize: 28 };
 const sidebarItemColor = (isSelected: boolean) =>
-  isSelected ? { color: "subvisual.primary" } : { color: "subvisual.grey" };
+  isSelected ? { color: "main.primary" } : { color: "neutral.baseLighter" };
 const sidebarItems = [
   {
     name: "Personal",
@@ -39,7 +38,7 @@ export const Sidebar = () => {
     <Stack alignItems="center" gap={{ xs: 0, lg: 8 }}>
       <Stack height={80} width="100%" justifyContent="center" alignItems="center">
         <JoyLink component={ReactLink} to="/profile-results">
-          <SubvisualLogo sx={{ fontSize: 40 }} />
+          <img src="/favicon.png" style={{ height: 40 }} />
         </JoyLink>
       </Stack>
 

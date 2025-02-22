@@ -85,12 +85,12 @@ const UserCard = ({
         cursor: "pointer",
         bgcolor: isSelected ? getColorTransparency(getColorHex("primary"), 10) : "neutral.white",
         border: "1px solid",
-        borderColor: isSelected ? "subvisual.primary" : "neutral.white",
+        borderColor: isSelected ? "main.primary" : "neutral.white",
         p: 1.5,
         "&:hover": {
           bgcolor: isSelected ? "neutral.lighter" : getColorTransparency(getColorHex("primary"), 10),
           border: "1px solid",
-          borderColor: isSelected ? "neutral.baseLighter" : "subvisual.primary"
+          borderColor: isSelected ? "neutral.baseLighter" : "main.primary"
         }
       }}
     >
@@ -121,7 +121,7 @@ export const TeamSearchContent = ({
     <Stack gap={2}>
       <Stack gap={1}>
         <Typography level="title-lg" fontWeight={700}>
-          Subvisual Team
+          Team
         </Typography>
         {isLoading ? <Skeleton variant="text" /> : <Typography level="body-md">{users.length} members</Typography>}
       </Stack>
@@ -134,7 +134,7 @@ export const TeamSearchContent = ({
             setIsComparing(!isComparing);
             setSelectedUsersArray([]);
           }}
-          sx={{ ...(isComparing && { bgcolor: "subvisual.primaryDark" }) }}
+          sx={{ ...(isComparing && { bgcolor: "main.primaryDark" }) }}
         >
           Compare
         </Button>

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Input, Link, Stack, Typography } from "@mui/joy";
+import { Button, Divider, Input, Link, Stack, Typography } from "@mui/joy";
 import { FormEvent, useContext, useState } from "react";
 import { useGetUserByEmail } from "../api/use-user.api";
 import { AuthContext } from "../contexts/auth.context";
@@ -49,16 +49,16 @@ export const LoginPage = () => {
       gap={{ xs: 4, lg: 8 }}
       sx={{
         background:
-          "linear-gradient(45deg, var(--joy-palette-subvisual-primaryDark), var(--joy-palette-subvisual-primary), var(--joy-palette-subvisual-primaryDark))"
+          "linear-gradient(45deg, var(--joy-palette-main-primaryDark), var(--joy-palette-main-primary), var(--joy-palette-main-primaryDark))"
       }}
     >
       <Stack width={{ xs: "100%", lg: "50%" }} justifyContent="center" alignItems={{ xs: "center", lg: "end" }}>
         <Stack alignItems={{ xs: "center", lg: "start" }} gap={{ xs: 2, lg: 1 }}>
           <Typography level="h1" textColor={"neutral.white"} textAlign="center">
-            Subvisual Talents
+            Talents
           </Typography>
           <Typography level="body-md" textColor="neutral.white" textAlign="center">
-            Explore your top talents and how they shape your role in the team.
+            Explore your top talents and how they shape your role in your team.
           </Typography>
         </Stack>
       </Stack>
@@ -75,8 +75,8 @@ export const LoginPage = () => {
         >
           <Stack gap={{ xs: 8, lg: 4 }}>
             <Stack gap={{ xs: 2, lg: 1 }}>
-              <Typography level="h3" textColor="neutral.dark" fontFamily="Acta-Book">
-                Welcome to Subvisual Talents!
+              <Typography level="h3" textColor="neutral.dark">
+                Welcome to Talents!
               </Typography>
 
               <Typography level="body-md" textColor="neutral.baseLighter">
@@ -104,11 +104,12 @@ export const LoginPage = () => {
             </Stack>
           </Stack>
 
-          <Typography level="body-md" textColor="neutral.baseLighter">
-            By signing up you're agreeing to our{" "}
-            <Box component="span" display={{ xs: "inline", lg: "block" }}>
-              <Link underline="always">Terms of service</Link> & <Link underline="always">Privacy Policy</Link>.
-            </Box>
+          <Typography level="body-md" fontStyle="italic">
+            Built as part of the{" "}
+            <Link href="https://subvisual.com/" target="_blank">
+              Subvisual
+            </Link>{" "}
+            Apprenticeship.
           </Typography>
         </Stack>
       </Stack>

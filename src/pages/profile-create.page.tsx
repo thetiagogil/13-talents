@@ -69,7 +69,7 @@ export const ProfileCreatePage = () => {
                     {index + 1}
                   </StepIndicator>
                 }
-                sx={[activeStep > index && index !== 1 && { "&::after": { bgcolor: "subvisual.primaryDark" } }]}
+                sx={[activeStep > index && index !== 1 && { "&::after": { bgcolor: "main.primaryDark" } }]}
               >
                 {step.label}
               </Step>
@@ -103,7 +103,7 @@ export const ProfileCreatePage = () => {
                       width: 160,
                       justifyContent: "center",
                       border: "1px solid",
-                      borderColor: profile.selectedRole === role ? "subvisual.primary" : "neutral.lighter",
+                      borderColor: profile.selectedRole === role ? "main.primary" : "neutral.lighter",
                       borderRadius: 8
                     }}
                   >
@@ -128,7 +128,7 @@ export const ProfileCreatePage = () => {
                           bgcolor: "neutral.lightest",
                           width: 120,
                           border: "2px solid",
-                          borderColor: profile.selectedAvatar === emojiSrc ? "subvisual.primary" : "neutral.lightest",
+                          borderColor: profile.selectedAvatar === emojiSrc ? "main.primary" : "neutral.lightest",
                           borderRadius: 8,
                           mr: 0.5
                         }}

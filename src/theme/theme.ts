@@ -3,7 +3,7 @@ import { colors } from "./colors";
 
 declare module "@mui/joy/styles" {
   interface Palette {
-    subvisual: typeof colors.subvisual;
+    main: typeof colors.main;
     talents: typeof colors.talents;
     goals: typeof colors.goals;
     neutral: typeof colors.neutral;
@@ -18,9 +18,9 @@ export const theme = extendTheme({
     light: {
       palette: {
         primary: {
-          500: colors.subvisual.primary
+          500: colors.main.primary
         },
-        subvisual: colors.subvisual,
+        main: colors.main,
         talents: colors.talents,
         goals: colors.goals,
         neutral: colors.neutral
@@ -61,19 +61,6 @@ export const theme = extendTheme({
         })
       }
     },
-    JoyLink: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.neutral.black,
-          textDecorationColor: theme.palette.neutral.black,
-          transition: "0.3s",
-          "&:hover": {
-            color: theme.palette.neutral.baseDarker,
-            textDecorationColor: theme.palette.neutral.baseDarker
-          }
-        })
-      }
-    },
     JoyInput: {
       styleOverrides: {
         root: () => ({
@@ -104,15 +91,15 @@ export const theme = extendTheme({
           transition: "0.3s",
           "&.Mui-selected": {
             backgroundColor: "transparent",
-            color: theme.palette.subvisual.primary
+            color: theme.palette.main.primary
           },
           "&::after": {
-            color: theme.palette.subvisual.primary
+            color: theme.palette.main.primary
           },
           "&.MuiTab-root": {
             "&:hover": {
               backgroundColor: "transparent",
-              color: theme.palette.subvisual.primary
+              color: theme.palette.main.primary
             }
           }
         })

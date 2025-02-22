@@ -97,14 +97,14 @@ export const KanbanSection = ({ userId, talents, progress, goals, isLoading }: K
             alignItems: "center",
             "&:hover": {
               border: "1px solid",
-              borderColor: "subvisual.primary"
+              borderColor: "main.primary"
             }
           }}
         >
           <Typography
             level="body-md"
-            textColor="subvisual.primary"
-            startDecorator={<PlusSignOutlined sx={{ color: "subvisual.primary", fontSize: 16 }} />}
+            textColor="main.primary"
+            startDecorator={<PlusSignOutlined sx={{ color: "main.primary", fontSize: 16 }} />}
           >
             Add New Task
           </Typography>
@@ -138,7 +138,7 @@ export const KanbanSection = ({ userId, talents, progress, goals, isLoading }: K
                     borderColor: "neutral.white",
                     "&:hover": {
                       border: "1px solid",
-                      borderColor: goal.approved ? "transparent" : "subvisual.primary"
+                      borderColor: goal.approved ? "transparent" : "main.primary"
                     }
                   }}
                 >
