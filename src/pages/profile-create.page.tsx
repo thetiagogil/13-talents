@@ -22,7 +22,7 @@ import { UserModel } from "../models/user.model";
 import { getColorHex } from "../utils/get-color-hex";
 import { getColorTransparency } from "../utils/get-color-transparency";
 
-const memojis = Array.from({ length: 35 }, (_, i) => `/src/assets/memojis/memo_${i + 1}.png`);
+const memojis = Array.from({ length: 35 }, (_, i) => `/public/memojis/memo_${i + 1}.png`);
 
 export const ProfileCreatePage = () => {
   const { user } = useContext(AuthContext);
